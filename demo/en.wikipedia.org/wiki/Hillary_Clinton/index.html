@@ -67,8 +67,12 @@
  
   <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
  
+  
   <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
-  <script src='https://www.citeit.net/assets/js/citeit/CiteIt-quote-context.js'></script>
+  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>  
+ 
+
+
  
   <!-- ############################### End: CiteIt.net Dependencies #######################################-->
  
@@ -4124,8 +4128,8 @@ additional terms may apply.  By using this site, you agree to the <a href="https
 <!-- ################ Begin: CiteIt.net Dependencies ############# -->
 <div id='citeit_container'><!-- CiteIt-quote-context.js injects data returned from lookup in this hidden div --></div>
 <script>
-  jQuery.noConflict();
   // Call CiteIt.net plugin on all q-tags and blockquotes:
+  jQuery.noConflict();
   jQuery( document ).ready(function() {
 	jQuery('q, blockquote').quoteContext2();
   });

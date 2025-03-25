@@ -547,20 +547,17 @@
   <!-- 4) Calculate JSON Hash values using sha256 library --->
   <script src='https://static.citeit.net/wp-content/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js' defer></script>
 
-
   <!-- 5) jsVideoUrlParser: Detect Domain: Determine if an Embed code can be use: YouTube, Vimeo, Soundcloud -->
-  <script src='https://static.citeit.net/wp-content/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
+  <script src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
 
   <!--CSS Styles: CiteIt & JQuery Popup Window -->
-  <link rel='stylesheet' href='https://static.citeit.net/wp-content/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
-  <link rel='stylesheet' href='https://static.citeit.net/wp-content/plugins/CiteIt.net/css/quote-context-style.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
 
   <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
 
   <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
-   <!--script src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/js/versions/0.4/CiteIt-quote-context.js'> </script-->
-   <!--script src='/assets/wordpress/plugins/Citeit.net/js/versions/0.4/CiteIt-quote-context.js'> </script-->
-   <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
+  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
 
 
 <!-- ############################### End: CiteIt.net Dependencies #######################################-->
@@ -669,7 +666,7 @@
   <script>
 	// Call CiteIt.net plugin on all q-tags and blockquotes:
 	$( document ).ready(function() {
-		jQuery('q, blockquote').quoteContext();
+		jQuery('q, blockquote').quoteContext2();
 	});
 
    $( document ).tooltip(

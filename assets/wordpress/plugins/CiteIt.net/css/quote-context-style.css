@@ -33,7 +33,6 @@ div.source_url {
 	float: right;
 }
 
-
 div.quote_arrows a, a.citeit_source_domain {
 	color: #0ebfe9;
 	border: 0px;
@@ -43,7 +42,6 @@ q, q a, span.q, {
 	color: #333;
 	background-color: #d6e8ec;	
 }
-
 
 q, q a, span.q {
 	color: #33333;
@@ -226,6 +224,58 @@ iframe.youtube {
   margin-top: 10px;
 }
 
+.start_video {
+	float: none;
+	font-size: 75% !important;
+	margin-bottom: 7px !important;
+}
+
+.start_playing {
+	clear: right;
+	float: none;
+}
+
+.transcript_contents {
+	clear: left;
+}
+
+.youtube-icon {
+	display: inline !important;
+	margin-bottom: -7px !important;
+  }
+  
+  .text-icon {
+	display: inline !important;
+	margin-bottom: -5px !important;
+  }
+  
+  a.citeit-q {
+	padding-right: 5px;
+  }
+  
+  .q-tooltip.highight {
+	margin-top: -24px !important;
+	padding-right: 5px;
+	background-color: #f8ff75;
+  }
+  
+  .note_num {
+	display: none;  /* hide for now */
+  }
+  
+  .citeit_tooltip {
+	background-color: #f8ff75;  /* rgb(14, 191, 233); */
+	font-weight: 400;
+	color: #333;
+	border: 3px solid #fcfee1 !important;
+  }
+  
+  .video-contatiner iframe.notooltip {
+	color: red;
+  }
+
+
+
 /******* Tooltip Credit: https://www.w3schools.com/howto/howto_css_tooltip.asp **********/
 
 
@@ -346,3 +396,8 @@ ul#footer > li {
 	}
 
 }
+
+
+
+
+

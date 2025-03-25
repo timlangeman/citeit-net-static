@@ -855,21 +855,17 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
   <!-- 4) Calculate JSON Hash values using sha256 library --->
   <script src='https://static.citeit.net/wp-content/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js' defer></script>
 
-
   <!-- 5) jsVideoUrlParser: Detect Domain: Determine if an Embed code can be use: YouTube, Vimeo, Soundcloud -->
   <script src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
 
   <!--CSS Styles: CiteIt & JQuery Popup Window -->
-  <link rel='stylesheet' href='https://pages.citeit.net/wp-content/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
-  <link rel='stylesheet' href='https://pages.citeit.net/wp-content/plugins/CiteIt.net/css/quote-context-style.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
 
   <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
 
   <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
-   <!--script src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/js/versions/0.4/CiteIt-quote-context.js'> </script-->
-   <!--script src='/assets/wordpress/plugins/Citeit.net/js/versions/0.4/CiteIt-quote-context.js'> </script-->
-   <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
-
+  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
 
 <!-- ############################### End: CiteIt.net Dependencies #######################################-->
 
@@ -1038,7 +1034,7 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
             <p>See a demonstration of the CiteIt WordPress plugin with a <a href="/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/" target="_blank">Ken Klippenstein article</a>:  &nbsp;
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-anchor-widget-icon"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></div></div></div></p>
                         
-            <iframe class="youtube-video" src="https://www.youtube.com/embed/eojuAKkFmGg?rel=0&amp;autoplay=0&amp;showinfo=0&amp;enablejsapi=0" frameborder="0" loading="lazy" gesture="media" allow="autoplay; fullscreen" allowautoplay="true" allowfullscreen="true" width="728" height="409"></iframe>
+            <iframe class="youtube-video" src="https://www.youtube.com/embed/8uiAfxV4My4?rel=0&amp;autoplay=0&amp;showinfo=0&amp;enablejsapi=0" frameborder="0" loading="lazy" gesture="media" allow="autoplay; fullscreen" allowautoplay="true" allowfullscreen="true" width="728" height="409"></iframe>
                 <div class="float-right"><a href="https://demo.citeit.net/" rel="nofollow ugc noopener">Written Instructions</a></div>
             
             <span>Documentation: how to use the WordPress plugin</span></p>
@@ -1164,7 +1160,7 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
   <script>
 	// Call CiteIt.net plugin on all q-tags and blockquotes:
 	$( document ).ready(function() {
-		jQuery('q, blockquote').quoteContext();
+		jQuery('q, blockquote').quoteContext2();
 	});
 
    $( document ).tooltip(
