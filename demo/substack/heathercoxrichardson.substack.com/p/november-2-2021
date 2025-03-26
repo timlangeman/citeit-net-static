@@ -237,8 +237,49 @@
     }
 </style>
 
-        
 
+
+  <!-- ############################### Begin: CiteIt Dependencies ##################################
+      - jQuery: manipulate Dom: 
+      - query api.CiteIt.net
+      - download JSON to hidden citeit_container div
+      - add arrows and popup links to q tags and blockquotes
+
+  ------ 1) jQuery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"   
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   
+	crossorigin="anonymous">
+  </script>
+
+  <!-- 2) jQuery Migrate: Used to migrate jQuery: https://github.com/jquery/jquery-migrate -->
+  <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" 
+	integrity="sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=" 
+	crossorigin="anonymous">
+  </script>
+
+  <!-- 3) Generate q-tag Popup -->
+  <script   
+	src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"   
+	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="   
+	crossorigin="anonymous">
+  </script>
+
+  <!-- 4) Calculate JSON Hash values using sha256 library --->
+  <script src='/assets/wordpress/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js' defer></script>
+
+  <!-- 5) jsVideoUrlParser: Detect Domain: Determine if an Embed code can be use: YouTube, Vimeo, Soundcloud -->
+  <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
+
+  <!--CSS Styles: CiteIt & JQuery Popup Window -->
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
+
+  <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
+
+  <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
+  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
+
+  <!-- ############################### End: CiteIt.net Dependencies #######################################-->
         
 
         <style>:root{--background_pop:#8AE1A2;--cover_bg_color:#FFFFFF;--print_on_pop:#1a1a1a;--border_subtle:#e7eee9;--background_subtle:rgba(208, 243, 218, 0.4);--print_pop:#8ae1a2;--cover_print_primary:#1a1a1a;--cover_print_secondary:#757575;--cover_border_color:#8ae1a2;--background_contrast_1:#f2f2f2;--background_contrast_2:#e6e6e6;--background_contrast_3:#d1d1d1;--background_contrast_4:#b4b4b4;--background_contrast_5:#979797;--input_background:#ffffff;--cover_input_background:#ffffff;}</style>
