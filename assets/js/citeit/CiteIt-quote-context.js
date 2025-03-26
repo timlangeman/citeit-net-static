@@ -621,7 +621,7 @@ function onPlayerReady(event) {
     "use strict";               
     var that = this;
 
-    var iframe_title = jQuery('#player_' + json.sha256).attr("title");
+    // var iframe_title = jQuery('#player_' + json.sha256).attr("title");
     iframe_title_time = "View Video Context @ " + seconds_to_minutes(embed_ui.start_time) + ' : ' + iframe_title;
 
     // Set Link & heading title:
@@ -976,30 +976,29 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
     // Scale Window Height based in Window Height
     var maxHeight = window.innerHeight * 0.97;
 
-    if ((window.innerHeight <= 500) && (window.innerHeight <= 700)) {
-        console.log("500-700");
-        window_height = maxHeight;
-    } else if ((window.innerHeight <= 600) && (window.innerHeight <= 700)) {
-        console.log("600-700");
-        window_height = maxHeight;
-    } else if ((window.innerHeight <= 700) && (window.innerHeight <= 800)) {
-        console.log("700-800");
-        window_height = maxHeight;
-    } else if ((window.innerHeight <= 800) && (window.innerHeight <= 1000)) {
-        console.log("800-1000");
-        window_height = maxHeight;
-    } else if ((window.innerHeight <= 1000) && (window.innerHeight <= 1200)) {
-        console.log("1000-1200");
-        window_height = (window.innerHeight * 0.9);
-    } else if ((window.innerHeight <= 1200) && (window.innerHeight <= 5200)) {
-        console.log("1200-1600");
-        window_height = (window.innerHeight * 0.85);
-    } else if ((window.innerHeight <= 1200) && (window.innerHeight <= 5200)) {
-        console.log("1600-5200");
-        window_height = (window.innerHeight * 0.8);
-    } else {
-        window_height = (window.innerHeight * 0.8);
-    }
+	if (maxHeight < 800){
+		window_height = maxHeight;
+	}
+	else if (maxHeight < 1000){
+		window_height = window.innerHeight * 0.92;
+	}
+	else if (maxHeight < 1200){
+		window_height = window.innerHeight * 0.89;
+	}
+	else if (maxHeight < 1600){
+		window_height = window.innerHeight * 0.75;
+	}
+	else if (maxHeight < 2000){
+		window_height = window.innerHeight * 0.7;
+	}
+	else if (maxHeight < 2500){
+		window_height = window.innerHeight * 0.65;
+	}
+	else {
+		window_height = window.innerHeight * 0.65;	
+	}
+
+    console.log('hHeight: ' + window_height);
 
     // Configure jQuery Popup Library
     jQuery.curCSS = jQuery.css;
