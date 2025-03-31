@@ -5,10 +5,12 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0",
+    "@playwright/test": "^1.51.1",
     "alpinejs": "^2.8.2",
     "autoprefixer": "^10.4.0",
     "clean-css-cli": "^4.3.0",
     "html-minifier": "^4.0.0",
+    "playwright": "^1.51.1",
     "postcss": "^8.4.4",
     "postcss-cli": "^8.3.1",
     "tailwindcss": "^2.2.19"

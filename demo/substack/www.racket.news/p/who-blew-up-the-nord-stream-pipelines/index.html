@@ -843,27 +843,51 @@
 </noscript>
 
 
-        
-
 <!-- ################ Begin: CiteIt.net Dependencies ############# -->
-  <div id='citeit_container'><!-- CiteIt-quote-context.js injects data returned from lookup in this hidden div --></div>
-  <script>
-	// Call CiteIt.net plugin on all q-tags and blockquotes:
-	$( document ).ready(function() {
-		jQuery('q, blockquote').quoteContext2();
-	});
+<div id='citeit_container'><!-- CiteIt-quote-context.js injects data returned from lookup in this hidden div --></div>
+<script>
 
-   $( document ).tooltip(
-     { tooltipClass: "citeit_tooltip", }
-  ); 
+$(document).ready(function() {
+    // Call CiteIt.net plugin on all q-tags and blockquotes:
+    $('q, blockquote').quoteContext2();
 
-    // Hide follow-up
-    $('#follow-up').toggle();
-
-  </script>
-<!-- ############### End: CiteIt.net Dependencies ############## -->
-
+    // Handle video loading on citation click 
+    $(document).on('click', 'q[cite], blockquote[cite]', function() {
+        const $citation = $(this);
         
+        // Debug citation element
+        console.log("Citation clicked:", {
+            element: $citation[0],
+            citeUrl: $citation.attr('cite'),
+            dataPopupId: $citation.attr('data-popup-id'),
+            dataSha256: $citation.data('sha256')
+        });
+
+        // Try both popup ID formats
+        const popupId = $citation.attr('data-popup-id') || 'hidden_' + $citation.data('sha256');
+        const $popup = $('#' + popupId);
+        
+        console.log("Looking for popup with ID:", popupId);
+        console.log("Popup found?", $popup.length > 0);
+        
+        if ($popup.length === 0) {
+            console.log("No popup found with ID:", popupId);
+            console.log("All available popups:", $('[id^="hidden_"]').length);
+            return;
+        }
+
+        // Found popup, now look for video placeholders
+        const $placeholders = $popup.find('.video-placeholder');
+        console.log("Video placeholders found:", $placeholders.length);
+
+        // Open the dialog after video is initialized  
+        $popup.dialog('open');
+    });
+});
+
+
+</script>
+<!-- ############### End: CiteIt.net Dependencies ############## -->
         
     </body>
 </html>

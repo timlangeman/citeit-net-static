@@ -56,6 +56,10 @@ jQuery.fn.quoteContext2 = function() {
             const cited_url = blockcite.attr("cite");
             const citing_quote = blockcite.text();
 
+            console.log("*****************  cited_url   ******************");
+            console.log(cited_url);
+
+
             // If Permalink isn't supplied, default to current page
             let citing_url = blockcite.attr("data-citeit-citing-url");
             if (!isValidUrl(citing_url)) {
@@ -91,14 +95,16 @@ jQuery.fn.quoteContext2 = function() {
                     dataType: "json",
                     success: function(json) {
                         addQuoteToDom(tag_type, json, cited_url, blockcite);
-
-                        console.log(`CiteIt Found: ${read_url}`);
-                        console.log(`       Quote: ${citing_quote}`);
-                    },
+                        console.log(`************ CiteIt Found: ************`);
+                        console.log(citing_quote);
+                        console.log("CITTED_URL: " + json.cited_url);
+                        console.log(json.sha256);
+                        console.log(` Quote: ${read_url}`);
+                   },
                     error: function() {
                         console.log(`CiteIt Missed: ${read_url}`);
                         console.log(`       Quote: ${citing_quote}`);
-                    }
+                     }
                 });
 
             } // if (cited_url.length > 3) {
@@ -113,6 +119,12 @@ jQuery.fn.quoteContext2 = function() {
 function addQuoteToDom(tag_type, json, cited_url, blockcite) {
     if (json.cited_url) {
 
+        const player_json = `player_${json.sha256}`;
+        const player_id = `player_${json.sha256}`;
+        const $player = jQuery(`#${player_id}`);
+        console.log("Player IDD: ", player_id);
+
+
         let is_video = '';
         const url_cited_domain = json.cited_url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
         let media_type = 'text';
@@ -124,6 +136,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
 
         // lookup html for video ui and icon
         let embed_ui = embedUi(cited_url, json, tag_type);
+        
 
         // Popup Window: Show Context
         if (tag_type === "q") {
@@ -137,7 +150,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             let tooltip = '';
 
             let title = '';
-            if (media_type === 'video') {
+            if (media_type === 'videox') {
                 title = `<div id='title_${json.sha256}' class='title'>Loading video ..</div>`;
             }
 
@@ -167,20 +180,18 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             if (media_type === 'text') {
                 heading = "<b>Text Citation</b>: <img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='Text icon' /> (no video)";
             }
-            console.log("MEDIA Type: ");
-            console.log(media_type);
-            const player_json = `player_${json.sha256}`;
+            
             const js_popup = `javascript:closePopup('${json.sha256}');`;
             console.log("Quote: ________________________________________");
 
             // Add content to a hidden div, so that the popup can later grab it
             const popup_container = jQuery(`#${hidden_container}`).append(
                 `<div id='${q_id}' class='highslide-maincontent'>${heading}
-                <div class='video-container${is_video}'><div id='${player_json}'></div></div>
+                ${media_type === 'video' ? `<div class='video-container${is_video}'><div id='${player_json}'></div></div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='pauseVideo(${embed_ui.json.sha256})'>Pause Video</div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='stopVideo()'>Stop Video</div><br />` : ''}
-                ${title}
-                ${description}
+                ${title} 
+                ${description} 
                 ${start_playing_at}
                 ${transcript_found}
                 ${context_found}
@@ -193,6 +204,16 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${url_cited_domain}</a> </p></div>`
             );
 
+            console.log(`Length: 
+                _______________________________________________________________
+                Before: ${json.cited_context_before}, 
+                _______________________________________________________________
+                Quote: ${json.citing_quote}, 
+                _______________________________________________________________
+                After: ${json.cited_context_after}
+                _______________________________________________________________
+            `);
+            
             console.log(`Length: 
                 _______________________________________________________________
                 Before: ${json.cited_context_before}, 
@@ -233,7 +254,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             embed_ui = embedUi(cited_url, json);
 
             let title = '';
-            if (media_type === 'video') {
+            if (media_type === 'videox') {
                 title = `<div id='title_${json.sha256}' class='title'>Loading video ..</div>`;
             }
 
@@ -244,16 +265,36 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 start_playing_at = `<div class='start_playing'>Video Starts at <i>${seconds_to_minutes(embed_ui.start_time)}</i></div>`;
             }
 
+            html = embed_ui.html ?? '';
+
+            
             // Fill 'before' and 'after' divs and then quickly hide them
             blockcite.before(`<div id='quote_before_${json.sha256}' class='quote_context'>
                 <blockquote class='quote_context'>
                     <span class='context_header'>Context Before:</span> 
-                    <div class='tooltip'><span class='tooltip_icon'>?</span><span class='tooltiptext'>CiteIt.net displays the 500 characters of Context immediately before and after the quote</span></div><br />
-                    ${embed_ui.html} 
-                    ${title} <br />
-                    ${start_playing_at}<div class='context_block'> .. ${json.cited_context_before}
-                </div></blockquote></div>`
-            );
+                    <div class='tooltip'><span class='tooltip_icon'>?</span>
+                        <span class='tooltiptext'>CiteIt.net displays the 500 characters of Context immediately before and after the quote</span>
+                    </div><br />
+                    ${media_type === 'video' ? 
+                        `<div class='video-container${is_video}'>
+                            <div id='${player_json}'>
+                                <iframe
+                                    src='${getYoutubeEmbedUrl(cited_url)}'
+                                    width='100%'
+                                    height='185px'
+                                    frameborder='0'
+                                    allowfullscreen
+                                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                                    title='YouTube video player'
+                                ></iframe>
+                            </div>
+                        </div>` : 
+                        ''
+                    }
+                    ${start_playing_at}
+                    <div class='context_block'> .. ${json.cited_context_before}</div>
+                </blockquote>
+            </div>`);
 
             blockcite.after(`<div id='quote_after_${json.sha256}' class='quote_context'>
                 <blockquote class='quote_context'>
@@ -642,42 +683,26 @@ console.log("** toggle video **");
 // **************** Begin: Calculate Video UI ******************
 function embedUi(url, json, tag_type) {
     "use strict";
+
     const media_providers = ["youtube", "vimeo", "soundcloud"];
     let url_provider = "";
     let media_type = "text";
-    let embed_icon = "";
-    let embed_html = "";
     let embed_ui = {};
     embed_ui.read_more_text = "Read More";
     embed_ui.start_time = "";
 
-    let iframe_id = "";
-    console.log(">> Start");
 
-    // Convert YouTube Livestream to Regular Watch Syntax
-    url = url.replace("live/", "watch?v=");
-    console.log("URL: " + url);
-
-    var url_parsed = urlParser.parse(url);
-    if (typeof(url_parsed) !== "undefined") {
-        if (url_parsed.hasOwnProperty("provider")) {
-            url_provider = url_parsed.provider;
-        }
+    // Parse the URL to determine the provider
+    const url_parsed = urlParser.parse(url);
+    if (url_parsed && url_parsed.provider) {
+        url_provider = url_parsed.provider;
     }
-    if (url_provider == "youtube") {
-        media_type = 'video';
 
-        var start_time = '';
-        if (typeof(url_parsed) !== "undefined") {
-            if (url_parsed.hasOwnProperty('params')){
-                if (url_parsed.params.hasOwnProperty('start')){
-                    start_time = url_parsed.params.start;
-                }
-            }
-        }
+    if (url_provider === "youtube") {
+        media_type = "video";
 
-        // Generate YouTube Embed URL
-        var embed_url = urlParser.create({
+        // Generate YouTube embed URL
+        const embed_url = urlParser.create({
             videoInfo: {
                 provider: url_provider,
                 id: url_parsed.id,
@@ -685,148 +710,38 @@ function embedUi(url, json, tag_type) {
             },
             format: "embed",
             params: {
-                start: start_time
+                start: url_parsed.params?.start || 0
             }
         });
-        console.log("Start 1: " + start_time);
 
-        // Create Embed iframe
-        embed_icon = "<span class='view_on_youtube'>" +
-            "<br /><a href=\"javascript:toggleBlockquote('quote_arrow_up', 'quote_before_" + json.sha256 + "');\">View Context: Video" +
-            "</a></span>";
+        // Add sha256 hash if not present
+        if (!json.sha256 && url) {
+            const citing_url = current_page_url;
+            const cited_url = url;
+            const citing_quote = json.citing_quote || '';
+            
+            // Generate SHA256 hash using the same method as in quoteHashKey
+            const hash_key = quoteHashKey(citing_quote, citing_url, cited_url);
+            json.sha256 = forge_sha256(encode_utf8(hash_key));
 
-        let video_class = ''; // Declare video_class outside of the if block
-
-        if (tag_type == 'blockquote'){
-            video_class = 'blockquote_video';
-
-            console.log("****************** VIDEO WIDTH: " + window.screen.availWidth + "*****************");
-
-            // Scale Video Width, based on Window Height
-            if ((window.innerWidth <= 0) && (window.innerWidth <= 500)) {
-                width = 320;
-                height = 180;
-            } else if ((window.innerWidth <= 500) && (window.innerWidth <= 600)) {
-                width = 320;
-                height = 180;
-            } else if ((window.innerWidth <= 600) && (window.innerWidth <= 854)) {
-                width = 420;
-                height = 180;
-            } else if ((window.innerWidth <= 854) && (window.innerWidth <= 1280)) {
-                width = 550;
-                height = 310;
-            } else if ((window.innerWidth <= 1280) && (window.innerWidth <= 1920)) {
-                width = 550;
-                height = 310;
-            } else if ((window.innerWidth <= 1920) && (window.innerWidth <= 2560)) {
-                width = 550;
-                height = 310;
-            } else if ((window.innerWidth <= 2560) && (window.innerWidth <= 3840)) {
-                width = 550;
-                height = 310;
-            } else {
-                width = 550;
-                height = 310;
-            } 
-
-        } else {
-            video_class = 'q_video';
-            // width = 320;
-            // height = 180;
-        }
-
-        // Setup YouTube Embed:
-        window.videoApiLoaded = [];
-        window.videoApiLoaded.youtube = false;
-
-        window.onYouTubeIframeAPIReady = function() { document.dispatchEvent(new CustomEvent('onYouTubeIframeAPIReady', {})); };
-
-        if (window.videoApiLoaded.youtube == false) {
-            // alert("iframe api");
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            window.videoApiLoaded.youtube = true;
-        }
-
-        var player_json = 'player_' + json.sha256;
-
-        console.log('player_' + json.sha256);
-        console.log("Start 2: " + start_time);
-
-        if (url_parsed.id.length > 4) {
-            // alert("URL_PARSED:: " + url_parsed.id);
-            document.addEventListener('onYouTubeIframeAPIReady', function (e) {
-                window[player_json] = new YT.Player('player_' + json.sha256, {
-                    class: video_class,
-                    loading: 'lazy',
-                    // endSeconds: 60,
-                    videoId: url_parsed.id,
-                    playerVars: {
-                        'origin': window.location.host,
-                        host: 'https://www.youtube.com',
-                        start: start_time
-                    },
-                    events: {
-                        'onReady': onPlayerReady,
-                        'onStateChange': onPlayerStateChange,
-                        'onError': onPlayerError,
-                    }
-                });
-            }, false);
-        }
-
-        embed_html = "<div class='video-container'><div class='blockquote_video' id='" + player_json + "'></div></div>";
-
-        // Set Embed URL with Start time
-        jQuery(window[player_json]).prop('src', embed_url);
-
-        console.log("Start 3 SRC: " + embed_url);
-
-    } else if (url_provider == "vimeo") {
-        media_type = 'video';
-
-        // Create Canonical Embed URL:
-        embed_url = "https://player.vimeo.com/video/" + url_parsed.id;
-        embed_icon = "<span class='view_on_youtube'>" +
-            "<br />Expand: Show Video Clip</span>";
-        embed_html = " <iframe class='youtube' src='" + embed_url +
-            "' width='640' height='360' " +
-            "frameborder='0' allowfullscreen='allowfullscreen'>" +
-            "</iframe>";
-    } else if (url_provider == "soundcloud") {
-        media_type = 'audio';
-
-        // Webservice Query: Get Embed Code
-        $.getJSON("http://soundcloud.com/oembed?callback=?", {
-                format: "js",
-                url: cited_url,
-                iframe: true
-            },
-            function(data) {
-                var embed_html = data.html;
+            console.log("Generated SHA256:", {
+                citing_quote: citing_quote,
+                citing_url: citing_url,
+                cited_url: cited_url,
+                hash_key: hash_key,
             });
+        }
 
-        embed_icon = "<span class='view_on_youtube'>" +
-            "<br ><a href=\" \">Expand: Show SoundCloud Clip</a></span>";
+        // Return a placeholder instead of the iframe
+        embed_ui.html = `zzzz<div class="video-placeholder" data-embed-url="${embed_url}" data-sha256="${json.sha256}">
+                            <img src="https://img.youtube.com/vi/${url_parsed.id}/hqdefault.jpg" alt="Video Thumbnail" />
+                            <!--button class="play-button">Play</button-->
+                         </div>`;
     }
 
-    embed_ui = {};
     embed_ui.url = url;
+    embed_ui.html = '<b>Strong</b>';
     embed_ui.json = json;
-    embed_ui.icon = embed_icon;
-    embed_ui.html = embed_html;
-    embed_ui.start_time = start_time;
-
-    const read_more_text = {
-        'youtube' :   "View Original YouTube",
-        'vimeo' :     "View Original Vimeo",
-        'soundcloud' : "View Original SoundCloud"
-    };
-
-    embed_ui.read_more_text = read_more_text[url_provider] || "Read more";
-
     return embed_ui;
 }
 
@@ -958,9 +873,21 @@ function expandPopup2(tag, hidden_popup_id, popup_width=340) {
 
 // *********** Expand Popup *************
 function expandPopup(tag, hidden_popup_id, popup_width=340) {
+
+    // Get cited URL and check if it's a video
+    let cited_url = jQuery(tag).attr('href');    
+    
+    // Exit early if not a video URL
+    if (!is_video(cited_url)) {
+        console.log("Not a video URL, exiting expandPopup");
+        // return false;
+    }
+
     // Highlight existing quote
-    sha256 = hidden_popup_id.replace('hidden_', '');
+    let sha256 = hidden_popup_id.replace('hidden_', '');
     jQuery('a#link_' + sha256).addClass('active');
+
+    console.log("cited_url: " + cited_url);
 
     // Configure jQuery Popup Library
     jQuery.curCSS = jQuery.css;
@@ -986,13 +913,13 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
 		window_height = window.innerHeight * 0.89;
 	}
 	else if (maxHeight < 1600){
-		window_height = window.innerHeight * 0.75;
+		window_height = 1000;
 	}
 	else if (maxHeight < 2000){
-		window_height = window.innerHeight * 0.7;
+		window_height = 1000;
 	}
 	else if (maxHeight < 2500){
-		window_height = window.innerHeight * 0.65;
+		window_height = 1000;
 	}
 	else {
 		window_height = window.innerHeight * 0.65;	
@@ -1029,17 +956,21 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
             effect: "scale",
             duration: 400
         },
-        open: function()
-        {
-            hidden_id = "#" + hidden_popup_id;
-            jQuery(hidden_id).scrollTop(0);
-
-            setTimeout(function() {
-                jQuery(hidden_id).scrollTop(0);
-            }, 3000);
-        },
+        // In the dialog open function, update the call:
+        open: function() {
+            const $popup = jQuery(this);
+            const player_id = `player_${hidden_popup_id.replace('hidden_', '')}`;
+            const $player = jQuery(`#${player_id}`);
+            console.log("Player ID: ", player_id);
+            
+            // Pass both required parameters
+            embed_videoxx($player, cited_url);
+            
+            // Scroll popup to top
+            $popup.scrollTop(0);
+        }
     });
-
+    
     // Add centering and other settings
     jQuery("#" + hidden_popup_id).dialog("option",
         "position", {
@@ -1076,6 +1007,115 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
     });
 
     return false; // Don't follow link
+}
+
+function getYoutubeEmbedUrl(cited_url) {
+    "use strict";
+    
+    try {
+        // Parse URL using existing urlParser
+        const url_parsed = urlParser.parse(cited_url);
+        
+        if (url_parsed && url_parsed.id) {
+            // Create embed URL with required parameters
+            return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&origin=${window.location.origin}`;
+        }
+    } catch (e) {
+        console.error("Error converting YouTube URL:", e);
+    }
+
+    return null;
+}
+
+function embed_videoxx($player, cited_url) {
+    console.log("******************** EMBED VIDEO *******************");
+    
+    // Validate parameters
+    if (!$player || !cited_url) {
+        console.error("Missing required parameters:", { player: $player, cited_url: cited_url });
+        return;
+    }
+
+    // Check if player element exists
+    if (!$player.length) {
+        console.error("Player element not found");
+        return;
+    }
+
+    // Check if already initialized
+    if ($player.hasClass('initialized')) {
+        console.log("Player already initialized");
+        return;
+    }
+
+    // Get embed URL
+    const embed_url = getYoutubeEmbedUrl(cited_url);
+    if (!embed_url) {
+        console.error("Could not generate embed URL");
+        return;
+    }
+
+    console.log('>> ' + embed_url);
+
+
+    // Create and add iframe
+    const $iframe = jQuery('<iframe>', {
+        src: embed_url,
+        width: '100%',
+        height: '185px',
+        frameborder: '0',
+        allowfullscreen: true,
+        allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+    });
+
+    //alert('>>> ' + embed_url);
+
+    console.log("IFRAME Populated.");
+    $player.html($iframe);
+    $player.addClass('initialized');
+    
+    // Initialize YouTube API
+    if (typeof YT !== 'undefined' && YT.Player) {
+        new YT.Player($player[0], {
+            events: {
+                onReady: onPlayerReady,
+                onStateChange: onPlayerStateChange
+            }
+        });
+    }
+
+    console.log("Embed video: end");
+}
+
+
+function embed_video(player, iframe){
+
+    // Embed Video
+    if ($player.length && !$player.hasClass('initialized')) {
+        const embed_url = $player.data('embed-url');
+        const $iframe = jQuery('<iframe>', {
+            src: getYoutubeEmbedUrl(cited_url),
+            width: '100%',
+            height: '185px',
+            frameborder: '0',
+            allowfullscreen: true
+        });
+
+        console.log("IFRAME Populated.");
+        $player.html($iframe);
+        $player.addClass('initialized');
+        
+        // Initialize YouTube API
+        if (typeof YT !== 'undefined' && YT.Player) {
+            new YT.Player($player[0], {
+                events: {
+                    onReady: onPlayerReady,
+                    onStateChange: onPlayerStateChange
+                }
+            });
+        }
+    }
+    console.log("Embed video: end");
 }
 
 function get_device_size(metric) {
@@ -1148,6 +1188,39 @@ function get_device_size(metric) {
 function onPlayerError(e) {
     "use strict";
     console.log('An error occurred: ' + e.data);
+}
+
+function is_video(url) {
+    "use strict";
+    
+    // Early return if no URL
+    if (!url) return false;
+
+    try {
+        // Parse URL using existing urlParser
+        const url_parsed = urlParser.parse(url);
+        
+        // Check if provider is YouTube and has valid video ID
+        if (url_parsed && 
+            url_parsed.provider && 
+            (url_parsed.provider === 'youtube' || url_parsed.provider === 'youtu.be') && 
+            url_parsed.id) {
+            return true;
+        }
+
+        // Alternative check: match YouTube URL patterns
+        const youtube_patterns = [
+            /^https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]{11}/,
+            /^https?:\/\/(www\.)?youtube\.com\/embed\/[\w-]{11}/,
+            /^https?:\/\/(www\.)?youtu\.be\/[\w-]{11}/
+        ];
+
+        return youtube_patterns.some(pattern => pattern.test(url));
+
+    } catch (e) {
+        console.error("Error checking video URL:", e);
+        return false;
+    }
 }
 
 jQuery.fn.quoteContext = jQuery.fn.quoteContext2;  // Alias

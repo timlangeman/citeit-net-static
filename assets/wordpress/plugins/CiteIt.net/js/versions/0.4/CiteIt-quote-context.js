@@ -89,6 +89,11 @@ jQuery.fn.quoteContext = function() {
                     success: function(json) {
                         addQuoteToDom(tag_type, json, cited_url);
 
+
+                        console.log("---------------SHA256:::::::::----------------------");
+                        console.log("SSHA256: " + json.sha256);
+                        console.log("CITTED_URL: " + json.cited_url);
+                        console.log("CITING_QUOTE:: " + json.citing_quote);
                         console.log("CiteIt Found: " + read_url);
                         console.log("       Quote: " + citing_quote);
                     },
