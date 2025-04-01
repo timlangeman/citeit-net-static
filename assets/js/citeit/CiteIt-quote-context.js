@@ -124,6 +124,10 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
         const $player = jQuery(`#${player_id}`);
         console.log("Player IDD: ", player_id);
 
+        let cited_context_before_full =  '| Begin  Context |';  // lookup full context before
+        let cited_context_after_full = '| End Context |';  // lookup full context after
+
+
 
         let is_video = '';
         const url_cited_domain = json.cited_url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
@@ -190,17 +194,24 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 ${media_type === 'video' ? `<div class='video-container${is_video}'><div id='${player_json}'></div></div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='pauseVideo(${embed_ui.json.sha256})'>Pause Video</div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='stopVideo()'>Stop Video</div><br />` : ''}
-                ${title} 
-                ${description} 
+                ${title}
+                ${description}
                 ${start_playing_at}
                 ${transcript_found}
                 ${context_found}
                 <div class='context'>.. 
                 ${context_not_found}
+                <!-- Before (Full) -->
+                <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full}</span>
                 <span class='quote_context'>${json.cited_context_before.slice(-get_device_size('context_length'))} </span>
-                <span class='q-tag-highlight quote_text'><strong>${json.citing_quote}</strong></span> 
+                <!-- Quote -->
+                <div id='transcript_${json.sha256}' class='transcript-main'></div>
+                <span class='q-tag-highlight quote_text'><strong>${json.citing_quote}</strong></span>
                 ${context_not_found}
-                <span class='quote_context'>${json.cited_context_after.substring(0, get_device_size('context_length'))} .. </span></p></div>
+                <span class='quote_context'>${json.cited_context_after.substring(0, get_device_size('context_length'))} .. 
+                <span id="after_full_${embed_ui.json.sha256})'>">${cited_context_after_full}</span>
+                </span></p></div>
+                <div id='transcript_after_${json.sha256}' class='transcript-section-container'></div>
                 <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${url_cited_domain}</a> </p></div>`
             );
 
@@ -1222,5 +1233,66 @@ function is_video(url) {
         return false;
     }
 }
+
+// Input validation and sanitization
+function sanitizeInput(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/[<>]/g, '');
+}
+
+// Quote context plugin with validation
+jQuery.fn.quoteContext = function(options) {
+    // Validate options
+    const settings = jQuery.extend({
+        maxLength: 1000,
+        timeout: 10000
+    }, options);
+
+    return this.each(function() {
+        const $quote = jQuery(this);
+        
+        // Validate quote element
+        if (!$quote.length || !$quote.attr('cite')) {
+            console.warn('Invalid quote:', $quote);
+            return;
+        }
+
+        try {
+            $quote.addClass('citeit-quote')
+                 .attr('role', 'button')
+                 .attr('tabindex', '0');
+
+            // Add keyboard accessibility
+            $quote.on('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showQuoteContext($quote, settings);
+                }
+            });
+
+            // Add click handler
+            $quote.on('click', function(e) {
+                e.preventDefault();
+                showQuoteContext($quote, settings);
+            });
+
+        } catch (err) {
+            console.error('Error initializing quote:', err);
+        }
+    });
+};
+
+
+// Global error handler
+window.addEventListener('error', function(e) {
+    console.error('Global error:', {
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        colno: e.colno,
+        error: e.error
+    });
+    return false;
+});
 
 jQuery.fn.quoteContext = jQuery.fn.quoteContext2;  // Alias
