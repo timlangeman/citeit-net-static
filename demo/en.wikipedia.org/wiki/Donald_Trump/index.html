@@ -32,48 +32,46 @@
 <link rel="dns-prefetch" href="https://meta.wikimedia.org/" />
 
 
-    <!-- ############################### Begin: CiteIt Dependencies ##################################
-      - jQuery: manipulate Dom: 
-      - query api.CiteIt.net
-      - download JSON to hidden citeit_container div
-      - add arrows and popup links to q tags and blockquotes
+<!-- ############################### Begin: CiteIt Dependencies ################################## -->
+      <!-- jQuery and supporting libraries -->
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"   
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   
+        crossorigin="anonymous">
+      </script>
 
-  ------ 1) jQuery -->
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"   
-	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   
-	crossorigin="anonymous">
-  </script>
+      <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" 
+        integrity="sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=" 
+        crossorigin="anonymous">
+      </script>
 
-  <!-- 2) jQuery Migrate: Used to migrate jQuery: https://github.com/jquery/jquery-migrate -->
-  <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" 
-	integrity="sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=" 
-	crossorigin="anonymous">
-  </script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"   
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="   
+        crossorigin="anonymous">
+      </script>
 
-  <!-- 3) Generate q-tag Popup -->
-  <script   
-	src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"   
-	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="   
-	crossorigin="anonymous">
-  </script>
+      <!-- Core CiteIt Libraries -->
+      <script src='/assets/wordpress/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js'></script>
+      <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js'></script>
 
-  <!-- 4) Calculate JSON Hash values using sha256 library --->
-  <script src='/assets/wordpress/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js' defer></script>
+      <!-- CiteIt Styles -->
+      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
+      <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
 
-  <!-- 5) jsVideoUrlParser: Detect Domain: Determine if an Embed code can be use: YouTube, Vimeo, Soundcloud -->
-  <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
+      <!-- CiteIt Main JavaScript -->
+      <script src='/assets/js/citeit/CiteIt-quote-context.js'></script>
 
-  <!--CSS Styles: CiteIt & JQuery Popup Window -->
-  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
-  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
+      <!-- Hidden container for CiteIt content -->
+      <div id="citeit_container" style="display:none"></div>
 
-  <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
-
-  <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
-  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
-
-  <!-- ############################### End: CiteIt.net Dependencies #######################################-->
-
+      <!-- Initialize CiteIt -->
+      <script>
+        jQuery(document).ready(function() {
+          // Initialize citations on page load
+          jQuery('q, blockquote').quoteContext();
+        });
+      </script>
+<!-- ############################### End: CiteIt.net Dependencies ################################## -->
 
 
 </head>
@@ -3570,15 +3568,4 @@ additional terms may apply.  By using this site, you agree to the <a href="https
 <script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","name":"Hillary Clinton","url":"https:\/\/en.wikipedia.org\/wiki\/Hillary_Clinton","sameAs":"http:\/\/www.wikidata.org\/entity\/Q6294","mainEntity":"http:\/\/www.wikidata.org\/entity\/Q6294","author":{"@type":"Organization","name":"Contributors to Wikimedia projects"},"publisher":{"@type":"Organization","name":"Wikimedia Foundation, Inc.","logo":{"@type":"ImageObject","url":"https:\/\/www.wikimedia.org\/static\/images\/wmf-hor-googpub.png"}},"datePublished":"2001-03-07T17:20:17Z","dateModified":"2020-09-29T21:34:47Z","image":"https:\/\/upload.wikimedia.org\/wikipedia\/commons\/e\/ec\/Hillary_Clinton_by_Gage_Skidmore_4_%28cropped%29.jpg","headline":"American politician"}</script>
 <script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":270,"wgHostname":"mw2234"});});</script>
 
-
-
-<!-- ################ Begin: CiteIt.net Dependencies ############# -->
-<div id='citeit_container'><!-- CiteIt-quote-context.js injects data returned from lookup in this hidden div --></div>
-<script>
-  jQuery.noConflict();
-  // Call CiteIt.net plugin on all q-tags and blockquotes:
-  jQuery( document ).ready(function() {
-	jQuery('q, blockquote').quoteContext2();
-  });
-</script>
-<!-- ############### End: CiteIt.net Dependencies ############## --></body></html>
+</body></html>

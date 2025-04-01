@@ -31,48 +31,46 @@
 <link rel="dns-prefetch" href="https://meta.wikimedia.org/" />
 
 
-  <!-- ############################### Begin: CiteIt Dependencies ##################################
-      - jQuery: manipulate Dom: 
-      - query api.CiteIt.net
-      - download JSON to hidden citeit_container div
-      - add arrows and popup links to q tags and blockquotes
+<!-- ############################### Begin: CiteIt Dependencies ################################## -->
+      <!-- jQuery and supporting libraries -->
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"   
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   
+        crossorigin="anonymous">
+      </script>
 
-  ------ 1) jQuery -->
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"   
-	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   
-	crossorigin="anonymous">
-  </script>
+      <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" 
+        integrity="sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=" 
+        crossorigin="anonymous">
+      </script>
 
-  <!-- 2) jQuery Migrate: Used to migrate jQuery: https://github.com/jquery/jquery-migrate -->
-  <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" 
-	integrity="sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=" 
-	crossorigin="anonymous">
-  </script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"   
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="   
+        crossorigin="anonymous">
+      </script>
 
-  <!-- 3) Generate q-tag Popup -->
-  <script   
-	src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"   
-	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="   
-	crossorigin="anonymous">
-  </script>
+      <!-- Core CiteIt Libraries -->
+      <script src='/assets/wordpress/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js'></script>
+      <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js'></script>
 
-  <!-- 4) Calculate JSON Hash values using sha256 library --->
-  <script src='/assets/wordpress/plugins/CiteIt.net/lib/forge-sha256/forge/forge-sha256.min.js' defer></script>
+      <!-- CiteIt Styles -->
+      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
+      <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
 
-  <!-- 5) jsVideoUrlParser: Detect Domain: Determine if an Embed code can be use: YouTube, Vimeo, Soundcloud -->
-  <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js' defer></script>
+      <!-- CiteIt Main JavaScript -->
+      <script src='/assets/js/citeit/CiteIt-quote-context.js'></script>
 
-  <!--CSS Styles: CiteIt & JQuery Popup Window -->
-  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
-  <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
+      <!-- Hidden container for CiteIt content -->
+      <div id="citeit_container" style="display:none"></div>
 
-  <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
-
-  <!-- 6) Main CiteIt Javascript Code: Download JSON & Create Popup windows and Expanding Arrows  -->
-  <script src='/assets/js/citeit/CiteIt-quote-context.js'> </script>
-
-  <!-- ############################### End: CiteIt.net Dependencies #######################################-->
-
+      <!-- Initialize CiteIt -->
+      <script>
+        jQuery(document).ready(function() {
+          // Initialize citations on page load
+          jQuery('q, blockquote').quoteContext();
+        });
+      </script>
+<!-- ############################### End: CiteIt.net Dependencies ################################## -->
  
 
 </head>
@@ -932,18 +930,4 @@ additional terms may apply.  By using this site, you agree to the <a href="https
 	<div style="clear: both;"></div>
 </footer>
 
-
-<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"1.084","walltime":"1.371","ppvisitednodes":{"value":8679,"limit":1000000},"postexpandincludesize":{"value":224119,"limit":2097152},"templateargumentsize":{"value":7702,"limit":2097152},"expansiondepth":{"value":21,"limit":40},"expensivefunctioncount":{"value":18,"limit":500},"unstrip-depth":{"value":1,"limit":20},"unstrip-size":{"value":304087,"limit":5000000},"entityaccesscount":{"value":1,"limit":400},"timingprofile":["100.00% 1190.158      1 -total"," 39.57%  470.988      1 Template:Reflist"," 12.33%  146.695     25 Template:Cite_web"," 10.32%  122.802     33 Template:Cite_book","  8.08%   96.139      1 Template:Infobox_book","  5.16%   61.372      3 Template:Citation_needed","  5.08%   60.467     28 Template:Tree_chart","  4.99%   59.406      1 Template:Infobox","  4.98%   59.300      1 Template:Authority_control","  4.34%   51.656      3 Template:Fix"]},"scribunto":{"limitreport-timeusage":{"value":"0.491","limit":"10.000"},"limitreport-memusage":{"value":8846982,"limit":52428800}},"cachereport":{"origin":"mw2312","timestamp":"20200918064353","ttl":86400,"transientcontent":true}}});});</script>
-<script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","name":"Pride and Prejudice","url":"https:\/\/en.wikipedia.org\/wiki\/Pride_and_Prejudice","sameAs":"http:\/\/www.wikidata.org\/entity\/Q170583","mainEntity":"http:\/\/www.wikidata.org\/entity\/Q170583","author":{"@type":"Organization","name":"Contributors to Wikimedia projects"},"publisher":{"@type":"Organization","name":"Wikimedia Foundation, Inc.","logo":{"@type":"ImageObject","url":"https:\/\/www.wikimedia.org\/static\/images\/wmf-hor-googpub.png"}},"datePublished":"2001-09-26T15:55:27Z","dateModified":"2020-09-15T17:46:14Z","image":"https:\/\/upload.wikimedia.org\/wikipedia\/commons\/1\/17\/PrideAndPrejudiceTitlePage.jpg","headline":"novel by Jane Austen"}</script>
-<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":157,"wgHostname":"mw2301"});});</script>
-
-<!-- ################ Begin: CiteIt.net Dependencies ############# -->
-<div id='citeit_container'><!-- CiteIt-quote-context.js injects data returned from lookup in this hidden div --></div>
-<script>
-  jQuery.noConflict();
-  // Call CiteIt.net plugin on all q-tags and blockquotes:
-  jQuery( document ).ready(function() {
-	jQuery('q, blockquote').quoteContext2();
-  });
-</script>
-<!-- ############### End: CiteIt.net Dependencies ############## --></body></html>
+</body></html>
