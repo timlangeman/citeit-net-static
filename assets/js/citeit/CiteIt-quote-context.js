@@ -205,13 +205,11 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full}</span>
                 <span class='quote_context'>${json.cited_context_before.slice(-get_device_size('context_length'))} </span>
                 <!-- Quote -->
-                <div id='transcript_${json.sha256}' class='transcript-main'></div>
                 <span class='q-tag-highlight quote_text'><strong>${json.citing_quote}</strong></span>
                 ${context_not_found}
-                <span class='quote_context'>${json.cited_context_after.substring(0, get_device_size('context_length'))} .. 
+                <span class='quote_context'>${json.cited_context_after.substring(0, get_device_size('context_length'))} ..
                 <span id="after_full_${embed_ui.json.sha256})'>">${cited_context_after_full}</span>
                 </span></p></div>
-                <div id='transcript_after_${json.sha256}' class='transcript-section-container'></div>
                 <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${url_cited_domain}</a> </p></div>`
             );
 
@@ -366,33 +364,37 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
 //************* Pause Video ****************
 
 function pauseVideo(sha256) {
-    "use strict";
-    var hidden_popup_id = 'hidden_' + sha256;
+
+    var hidden_popup_id = 'player_' + sha256;
     var player_popup_id = 'iframe#player_' + sha256;
 
-    console.log("player_popup_id:");
-    console.log(player_popup_id);
+    console.log("Pausing .. " + hidden_popup_id);
 
-    var div_id = hidden_popup_id;
-    var div = document.getElementById(div_id);
 
-    if (jQuery(player_popup_id).is("iframe")) {
-        jQuery(player_popup_id)[0].contentWindow.postMessage(
-            '{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*'
-        );
-    }
+    var div = document.getElementById(hidden_popup_id);
+    const firstIframe = jQuery(div).find('iframe').first();
+
+    jQuery(firstIframe)[0].contentWindow.postMessage(
+        '{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*'
+    );
+
+    console.log("Paused .. ");
 }
 
 //*********** Close Popup ************
 function closePopup(sha256) {
-    "use strict";
+
     var hidden_popup_id = 'hidden_' + sha256;
+    console.log("Closing Popup ..");
+
     pauseVideo(sha256);
+    console.log("Video paused .. ");
 
     // assumes jQuery library
     jQuery('#' + hidden_popup_id).fadeTo('slow', function () {
         jQuery('#' + hidden_popup_id).dialog("close");
     });
+    console.log("Dialog fade to close ..");
 
     /* Remove highlight: active */
     setTimeout(function() {
@@ -406,13 +408,14 @@ function closePopup(sha256) {
 
     jQuery('#' + hidden_popup_id).dialog("close");
 
+    console.log("Dialog closed.");
+
     /* Re-enable tooltip
     setTimeout(function() { 
         jQuery('a#link_' + sha256).tooltip({  
-        disabled: false
+          disabled: false
     }, 500);
-    */
-
+	*/
 }
 
 function load_popup_iframes() {
@@ -952,6 +955,7 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
         modal: false,
         height: window_height, /******** window_height, **********/ 
         scrollbars: true,
+        tooltip: false,
         position: [0,20],
         create: function (event) { jQuery(event.target).parent().css('position', 'fixed');},
         title: "Quote Context by CiteIt.net",
@@ -992,7 +996,6 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
         effect: "size",
         duration: 400
     }).dialog( "option", { resizable: true 
-    }).dialog( "option", { draggable: true
     }).dialog("option", "show", {
         effect: "scale",
         duration: 400
@@ -1050,20 +1053,20 @@ function embed_videoxx($player, cited_url) {
     // Check if player element exists
     if (!$player.length) {
         console.error("Player element not found");
-        return;
+        //return;
     }
 
     // Check if already initialized
     if ($player.hasClass('initialized')) {
         console.log("Player already initialized");
-        return;
+        //return;
     }
 
     // Get embed URL
     const embed_url = getYoutubeEmbedUrl(cited_url);
     if (!embed_url) {
         console.error("Could not generate embed URL");
-        return;
+        //return;
     }
 
     console.log('>> ' + embed_url);
@@ -1097,7 +1100,6 @@ function embed_videoxx($player, cited_url) {
 
     console.log("Embed video: end");
 }
-
 
 function embed_video(player, iframe){
 
@@ -1234,65 +1236,160 @@ function is_video(url) {
     }
 }
 
-// Input validation and sanitization
-function sanitizeInput(str) {
-    if (typeof str !== 'string') return '';
-    return str.replace(/[<>]/g, '');
-}
+jQuery.fn.quoteContext = jQuery.fn.quoteContext2;  // Alias
 
-// Quote context plugin with validation
-jQuery.fn.quoteContext = function(options) {
-    // Validate options
-    const settings = jQuery.extend({
-        maxLength: 1000,
-        timeout: 10000
-    }, options);
-
-    return this.each(function() {
-        const $quote = jQuery(this);
-        
-        // Validate quote element
-        if (!$quote.length || !$quote.attr('cite')) {
-            console.warn('Invalid quote:', $quote);
-            return;
-        }
-
-        try {
-            $quote.addClass('citeit-quote')
-                 .attr('role', 'button')
-                 .attr('tabindex', '0');
-
-            // Add keyboard accessibility
-            $quote.on('keypress', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    showQuoteContext($quote, settings);
-                }
+// Video provider configurations
+const VIDEO_PROVIDERS = {
+    youtube: {
+        patterns: [
+            /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i
+        ],
+        createEmbed: (id, timeParams) => {
+            const params = new URLSearchParams({
+                enablejsapi: 1,
+                origin: window.location.origin,
+                rel: 0,
+                showinfo: 0,
+                modestbranding: 1,
+                fs: 0,
+                playsinline: 1
             });
-
-            // Add click handler
-            $quote.on('click', function(e) {
-                e.preventDefault();
-                showQuoteContext($quote, settings);
-            });
-
-        } catch (err) {
-            console.error('Error initializing quote:', err);
+            if (timeParams?.start) params.append('start', timeParams.start);
+            if (timeParams?.end) params.append('end', timeParams.end);
+            return `https://www.youtube.com/embed/${id}?${params.toString()}`;
         }
-    });
+    },
+    vimeo: {
+        patterns: [
+            /vimeo\.com\/(?:video\/)?(\d+)/i
+        ],
+        createEmbed: (id, timeParams) => {
+            const params = new URLSearchParams({
+                api: 1,
+                background: 0,
+                title: 0,
+                byline: 0
+            });
+            const timeHash = timeParams?.vimeoTime ? `#t=${timeParams.vimeoTime}` : '';
+            return `https://player.vimeo.com/video/${id}?${params.toString()}${timeHash}`;
+        }
+    },
+    soundcloud: {
+        patterns: [
+            /soundcloud\.com\/([\w-]+\/[\w-]+)/i
+        ],
+        createEmbed: (url) => {
+            const params = new URLSearchParams({
+                url: `https://soundcloud.com/${url}`,
+                color: '%23ff5500',
+                auto_play: false,
+                hide_related: true,
+                show_comments: false
+            });
+            return `https://w.soundcloud.com/player/?${params.toString()}`;
+        }
+    },
+    instagram: {
+        patterns: [
+            /instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/i
+        ],
+        createEmbed: (id) => {
+            return `https://www.instagram.com/p/${id}/embed/`;
+        }
+    },
+    tiktok: {
+        patterns: [
+            /tiktok\.com\/@[\w.-]+\/video\/(\d+)/i,
+            /vm\.tiktok\.com\/([a-zA-Z0-9]+)/i
+        ],
+        createEmbed: (id) => {
+            return `https://www.tiktok.com/embed/v2/${id}`;
+        }
+    },
+    twitter: {
+        patterns: [
+            /twitter\.com\/\w+\/status\/(\d+)/i,
+            /x\.com\/\w+\/status\/(\d+)/i
+        ],
+        createEmbed: (id) => {
+            const params = new URLSearchParams({
+                id,
+                hideThread: true,
+                theme: 'light'
+            });
+            return `https://platform.twitter.com/embed/Tweet.html?${params.toString()}`;
+        }
+    }
 };
 
+/**
+ * Parse video URL to determine provider and ID
+ */
+function parseVideoUrl(url) {
+    for (const [provider, config] of Object.entries(VIDEO_PROVIDERS)) {
+        for (const pattern of config.patterns) {
+            const match = url.match(pattern);
+            if (match && match[1]) {
+                return { provider, id: match[1] };
+            }
+        }
+    }
+    return null;
+}
 
-// Global error handler
-window.addEventListener('error', function(e) {
-    console.error('Global error:', {
-        message: e.message,
-        filename: e.filename,
-        lineno: e.lineno,
-        colno: e.colno,
-        error: e.error
-    });
-    return false;
-});
+/**
+ * Create embed iframe for video
+ */
+function createVideoEmbed(videoInfo, cited_url) {
+    const provider = VIDEO_PROVIDERS[videoInfo.provider];
+    if (!provider) return null;
 
-jQuery.fn.quoteContext = jQuery.fn.quoteContext2;  // Alias
+    const timeParams = extractTimeParams(cited_url);
+    const embedUrl = provider.createEmbed(videoInfo.id, timeParams);
+    const playerId = `${videoInfo.provider}-player-${videoInfo.id}`;
+
+    return `
+        <iframe 
+            id="${playerId}"
+            src="${embedUrl}"
+            width="100%"
+            height="185"
+            frameborder="0"
+            allowfullscreen="false"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope">
+        </iframe>
+    `;
+}
+
+/**
+ * Update embed_video function to use new provider system
+ */
+function embed_video($player, cited_url) {
+    if (!$player || !cited_url) {
+        console.error("Missing required parameters");
+        return null;
+    }
+
+    try {
+        const videoInfo = parseVideoUrl(cited_url);
+        if (!videoInfo) {
+            console.error("Could not parse video URL:", cited_url);
+            return null;
+        }
+
+        const iframeHtml = createVideoEmbed(videoInfo, cited_url);
+        if (!iframeHtml) {
+            console.error("Could not create embed HTML");
+            return null;
+        }
+
+        $player.html(iframeHtml);
+        $player.addClass('initialized');
+
+        return true;
+
+    } catch (err) {
+        console.error("Error embedding video:", err);
+        return null;
+    }
+}
