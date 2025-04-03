@@ -374,10 +374,15 @@ function pauseVideo(sha256) {
     var div = document.getElementById(hidden_popup_id);
     const firstIframe = jQuery(div).find('iframe').first();
 
-    jQuery(firstIframe)[0].contentWindow.postMessage(
-        '{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*'
-    );
-
+    try {
+        jQuery(firstIframe)[0].contentWindow.postMessage(
+            '{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*'
+        );
+    }
+    catch (TypeError) {
+        console.log("No iFrame found to pause.");
+    }    
+    
     console.log("Paused .. ");
 }
 
