@@ -124,8 +124,8 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
         const $player = jQuery(`#${player_id}`);
         console.log("Player IDD: ", player_id);
 
-        let cited_context_before_full =  '| Begin  Context |';  // lookup full context before
-        let cited_context_after_full = '| End Context |';  // lookup full context after
+        let cited_context_before_full =  'BEGIN CONTEXT: ';  // lookup full context before
+        let cited_context_after_full = '';  // lookup full context after
 
 
 
@@ -199,10 +199,10 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 ${start_playing_at}
                 ${transcript_found}
                 ${context_found}
-                <div class='context'>.. 
+                <div class='context'> 
                 ${context_not_found}
                 <!-- Before (Full) -->
-                <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full}</span>
+                <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full}</span> .. 
                 <span class='quote_context'>${json.cited_context_before.slice(-get_device_size('context_length'))} </span>
                 <!-- Quote -->
                 <span class='q-tag-highlight quote_text'><strong>${json.citing_quote}</strong></span>
