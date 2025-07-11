@@ -751,7 +751,7 @@ function embedUi(url, json, tag_type) {
         }
 
         // Return a placeholder instead of the iframe
-        embed_ui.html = `zzzz<div class="video-placeholder" data-embed-url="${embed_url}" data-sha256="${json.sha256}">
+        embed_ui.html = `<div class="video-placeholder" data-embed-url="${embed_url}" data-sha256="${json.sha256}">
                             <img src="https://img.youtube.com/vi/${url_parsed.id}/hqdefault.jpg" alt="Video Thumbnail" />
                             <!--button class="play-button">Play</button-->
                          </div>`;
@@ -1035,9 +1035,15 @@ function getYoutubeEmbedUrl(cited_url) {
         const url_parsed = urlParser.parse(cited_url);
         
         if (url_parsed && url_parsed.id) {
+            var start = 0
+            if (url_parsed.params.start) {
+                var start = url_parsed.params.start || 0; // Default to 0 if no start time is provided
+            }
             // Create embed URL with required parameters
-            return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&start=${url_parsed.params.start}&origin=${window.location.origin}`;
         }
+        
+        return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&start=${start}&origin=${window.location.origin}`;
+
     } catch (e) {
         console.error("Error converting YouTube URL:", e);
     }
