@@ -729,7 +729,6 @@ function embedUi(url, json, tag_type) {
             },
             format: "embed",
             params: {
-                start: url_parsed.params?.start || 0
             }
         });
 
@@ -1037,7 +1036,7 @@ function getYoutubeEmbedUrl(cited_url) {
         
         if (url_parsed && url_parsed.id) {
             // Create embed URL with required parameters
-            return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&origin=${window.location.origin}`;
+            return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&start=${url_parsed.params.start}&origin=${window.location.origin}`;
         }
     } catch (e) {
         console.error("Error converting YouTube URL:", e);
@@ -1259,10 +1258,9 @@ const VIDEO_PROVIDERS = {
                 fs: 0,
                 playsinline: 1
             });
-            if (timeParams?.start) params.append('start', timeParams.start);
-            if (timeParams?.end) params.append('end', timeParams.end);
-            return `https://www.youtube.com/embed/${id}?${params.toString()}`;
-        }
+    if (timeParams?.youtubeTime) {
+        params.set('start', timeParams.youtubeTime);
+    };
     },
     vimeo: {
         patterns: [
@@ -1325,7 +1323,7 @@ const VIDEO_PROVIDERS = {
             return `https://platform.twitter.com/embed/Tweet.html?${params.toString()}`;
         }
     }
-};
+}};
 
 /**
  * Parse video URL to determine provider and ID
