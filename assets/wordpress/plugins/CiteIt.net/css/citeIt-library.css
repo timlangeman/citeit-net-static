@@ -73,7 +73,7 @@ q, q a, span.q {
 }
 
 q.tag.active {
-    background-color: orange;
+    background-color: rgb(255, 103, 25)
 }
 
 
@@ -287,13 +287,25 @@ blockquote::before {
 	padding-bottom: 50%;
 	width: 100%;
 	height: auto;
-    margin: 2% 0% 2% 1%;
+  margin: 5% 0% 2% 1%;
 }
 
 
 blockquote.quote_context div.video-container iframe {
   width: 93%;
+}
 
+div.subscribe {
+  float: right;  
+  clear: right;
+  color: rgb(255, 103, 25); 
+} 
+
+/* Buy | Comment | Free Trial | Buy | Share */
+div.actions-bar {
+  margin-top: -18px;
+  margin-bottom: 25px;
+  color: rgb(255, 103, 25);
 }
 
 div.title {
