@@ -191,6 +191,8 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             // Add content to a hidden div, so that the popup can later grab it
             const popup_container = jQuery(`#${hidden_container}`).append(
                 `<div id='${q_id}' class='highslide-maincontent'>${heading}
+                <div class='subscribe'>Buy/Subscribe</div>
+
                 ${media_type === 'video' ? `<div class='video-container${is_video}'><div id='${player_json}'></div></div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='pauseVideo(${embed_ui.json.sha256})'>Pause Video</div>` : ''}
                 ${media_type === 'videox' ? `<div class='button' onClick='stopVideo()'>Stop Video</div><br />` : ''}
@@ -210,6 +212,21 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 <span class='quote_context'>${json.cited_context_after.substring(0, get_device_size('context_length'))} ..
                 <span id="after_full_${embed_ui.json.sha256})'>">${cited_context_after_full}</span>
                 </span></p></div>
+
+            <div class="actions-bar">
+                <!--Like-->
+                <!--svg viewBox="0 0 20 20" width="18" height="18" class="heart-LkT9Ql"><path d="M5.00002 2.54822C8.00003 2.09722 9.58337 4.93428 10 5.87387C10.4167 4.93428 12 2.09722 15 2.54822C18 2.99923 18.75 5.66154 18.75 7.05826C18.75 9.28572 18.1249 10.9821 16.2499 13.244C14.3749 15.506 10 18.3333 10 18.3333C10 18.3333 5.62498 15.506 3.74999 13.244C1.875 10.9821 1.25 9.28572 1.25 7.05826C1.25 5.66154 2 2.99923 5.00002 2.54822Z"></path></svg--> 
+                    Like | 
+                <!--svg role="img" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke="var(--color-fg-primary)" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="height: 18px; width: 18px;"><g><title></title><path d="M18.7502 11V7.50097C18.7502 4.73917 16.5131 2.50033 13.7513 2.50042L6.25021 2.50044C3.48848 2.5004 1.25017 4.73875 1.2502 7.50048L1.25021 10.9971C1.2502 13.749 3.47395 15.9836 6.22586 15.9971L6.82888 16V19.0182L12.1067 16H13.7502C16.5116 16 18.7502 13.7614 18.7502 11Z"></path></g></svg-->
+                    Comment:14 | 
+                <!--svg role="img" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke="var(--color-fg-primary)" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="restackIcon-XKvm2P" style="height: 18px; width: 18px;"><g><title></title><path d="M2.53001 7.81595C3.49179 4.73911 6.43281 2.5 9.91173 2.5C13.1684 2.5 15.9537 4.46214 17.0852 7.23684L17.6179 8.67647M17.6179 8.67647L18.5002 4.26471M17.6179 8.67647L13.6473 6.91176M17.4995 12.1841C16.5378 15.2609 13.5967 17.5 10.1178 17.5C6.86118 17.5 4.07589 15.5379 2.94432 12.7632L2.41165 11.3235M2.41165 11.3235L1.5293 15.7353M2.41165 11.3235L6.38224 13.0882"></path></g></svg-->
+                    Save for Later |
+                <!--svg role="img" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke="var(--color-fg-primary)" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="height: 18px; width: 18px;"><g><title></title><path d="M10.2171 2.2793L10.2171 12.9745M10.2171 2.2793L13.333 4.99984M10.2171 2.2793L7.08301 4.99984M2.49967 10.9925L2.49967 14.1592C2.49967 16.011 4.00084 17.5121 5.85261 17.5121L14.9801 17.5121C16.8318 17.5121 18.333 16.011 18.333 14.1592L18.333 10.9925"></path></g></svg-->
+                    Share | 
+                    Buy/Subscribe 
+
+            </div>
+
                 <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${url_cited_domain}</a> </p></div>`
             );
 
