@@ -1,23 +1,20 @@
-/*global $, console, jQuery, urlParser, forge_sha256*/
-/*global Set, URL, URLSearchParams*/
-/*global unescape, escape*/
+/*jslint this*/
+/*global $, console, jQuery, urlParser, forge_sha256,
+  Set, URL, URLSearchParams, unescape, escape, window */
+
+"use strict";
 
 /**
  * Quote-Context JS Library
  * https://github.com/CiteIt/citeit-jquery
- *
- * Copyright 2015-2026, Tim Langeman
- * http://www.openpolitics.com/tim
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
  */
 
 const citeItDebug = false;
-const popupLibrary = "jQuery";
 const hiddenContainer = "citeit_container";
 const webserviceVersionNum = "0.4";
 const urlEscapeCodePoints = new Set([10, 20, 160]);
+
+// Unicode Code points to escape quote used in sha256 hash key
 const textEscapeCodePoints = new Set([
     2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
     14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
@@ -31,9 +28,7 @@ const textEscapeCodePoints = new Set([
     8194, 8195, 8196, 8197, 8198, 8199, 8200,
     8201, 8202, 8239, 8287, 8288, 12288
 ]);
-const currentPageUrl = (
-    window.location.href.split("#")[0]
-);
+const currentPageUrl = window.location.href.split("#")[0];
 
 function clog(msg) {
     if (citeItDebug) {
@@ -41,27 +36,14 @@ function clog(msg) {
     }
 }
 
-//*********** Trim Regex ************
-function trimRegex(str) {
-    return str.replace(/^[ ]+|[ ]+$/g, "");
-}
-
-//*********** URL without Protocol ************
 function urlWithoutProtocol(url) {
-    const urlWithoutTrailingSlash = (
-        url.replace(/\/$/, "")
-    );
-    const urlWithoutProtocolResult = (
-        urlWithoutTrailingSlash
-        .replace(/^https?:\/\//i, "")
-    );
-    return urlWithoutProtocolResult;
+    const urlNoSlash = url.replace(/\/$/, "");
+    return urlNoSlash.replace(/^https?:\/\//i, "");
 }
 
-//******* Normalize Text *********
 function normalizeText(str, escapeCodePoints) {
     const result = [];
-    Array.from(str).forEach(function(chr) {
+    Array.from(str).forEach(function (chr) {
         const code = chr.codePointAt(0);
         if (!escapeCodePoints.has(code)) {
             result.push(chr);
@@ -70,36 +52,25 @@ function normalizeText(str, escapeCodePoints) {
     return result.join("");
 }
 
-//******** Escape URL *************
 function escapeUrl(str) {
     return normalizeText(str, urlEscapeCodePoints);
 }
 
-//********* Escape Quote ************
 function escapeQuote(str) {
-    str = str.replaceAll("\"", "");
-    return normalizeText(str, textEscapeCodePoints);
+    const noQuotes = str.replaceAll("\"", "");
+    return normalizeText(noQuotes, textEscapeCodePoints);
 }
 
-//******** Quote Hash Key **********
 function quoteHashKey(citingQuote, citingUrl, citedUrl) {
-    const quoteHashResult = (
-        escapeQuote(citingQuote) + "|" +
+    return (
+        escapeQuote(citingQuote) +
+        "|" +
         urlWithoutProtocol(escapeUrl(citingUrl)) +
         "|" +
         urlWithoutProtocol(escapeUrl(citedUrl))
     );
-    return quoteHashResult;
 }
 
-//******** Quote Hash **************
-function quoteHash(citingQuote, citingUrl, citedUrl) {
-    const urlQuoteText = quoteHashKey(citingQuote, citingUrl, citedUrl);
-    const quoteHashResult = forge_sha256(urlQuoteText);
-    return quoteHashResult;
-}
-
-//****** Extract Domain from URL ******
 function extractDomain(url) {
     var domain;
     if (url.indexOf("://") > -1) {
@@ -107,47 +78,22 @@ function extractDomain(url) {
     } else {
         domain = url.split("/")[0];
     }
-    domain = domain.split(":")[0];
-    return domain;
+    return domain.split(":")[0];
 }
 
-//******** Test if Integer *********
 function isInt(data) {
     return Number.isInteger(parseInt(data, 10));
 }
 
-//****** Test if Hexadecimal *******
 function isHexadecimal(str) {
     const regexp = /^[0-9a-fA-F]+$/;
     return regexp.test(str);
 }
 
-//****** String to Array ***********
-function stringToArray(s) {
-    return Array.from(s);
-}
-
-//****** Get Nth index position ****
-function nthIndex(str, pat, n) {
-    const length = str.length;
-    var i = -1;
-    var count = n;
-    while (count > 0 && i < length) {
-        count -= 1;
-        i += 1;
-        i = str.indexOf(pat, i);
-        if (i < 0) {
-            break;
-        }
-    }
-    return i;
-}
-
 function trimDefault(str) {
-    return str ? str : "";
+    return str || "";
 }
 
-//******** Toggle Quote ************
 function toggleQuote(section, id) {
     const sha = id.split("_")[2];
     const parentDivId = section + "_" + sha;
@@ -155,17 +101,10 @@ function toggleQuote(section, id) {
     jQuery("#" + id).fadeToggle();
 }
 
-// Set jQuery.curCSS shim once at load time
-jQuery(function() {
-    jQuery.curCSS = jQuery.css;
-});
-
-//******** Expand Popup ************
-function expandPopup(tag, hiddenPopupId, popupWidth = 375) {
+function expandPopup(tag, hiddenPopupId, popupWidth) {
     var $popup;
     var windowOrTag;
-
-    clog("Popup width: " + popupWidth);
+    var dialogWidth = popupWidth || 375;
 
     if (window.screen.availWidth < 700) {
         windowOrTag = window;
@@ -174,7 +113,6 @@ function expandPopup(tag, hiddenPopupId, popupWidth = 375) {
     }
 
     $popup = jQuery("#" + hiddenPopupId);
-
     $popup.dialog({
         autoOpen: false,
         closeOnEscape: true,
@@ -196,47 +134,49 @@ function expandPopup(tag, hiddenPopupId, popupWidth = 375) {
             effect: "scale"
         },
         title: "Quote Context by CiteIt.net",
-        width: 380
-    }).addClass("dialogue_box")
-    .dialog("open").blur();
+        width: dialogWidth
+    }).addClass("dialogue_box").dialog("open").blur();
 
     return false;
 }
 
-//******** Close Popup *************
 function closePopup(hiddenPopupId) {
     jQuery(hiddenPopupId).dialog("close");
 }
 
-//****** Calculate Video UI ********
 function embedUi(sourceUrl, jsonData, tagType = "blockquote") {
     var embedIcon = "";
     var embedHtml = "";
-    var embedUrl;
-    var height;
-    var startTime;
-    var urlParsed;
-    var urlProvider = "";
-    var width;
-
-    urlParsed = urlParser.parse(sourceUrl);
-    if (urlParsed !== undefined) {
-        if (Object.prototype.hasOwnProperty.call(urlParsed, "provider")) {
-            urlProvider = urlParsed.provider;
-        }
-    }
+    var startTime = "";
+    var urlParsed = urlParser.parse(sourceUrl);
+    var hasProvider = (
+        urlParsed !== undefined &&
+        Object.prototype.hasOwnProperty.call(urlParsed, "provider")
+    );
+    var urlProvider = (
+        hasProvider
+        ? urlParsed.provider
+        : ""
+    );
 
     if (urlProvider === "youtube") {
-        startTime = "";
-        if (urlParsed !== undefined && Object.prototype.hasOwnProperty.call(urlParsed, "params")) {
-            if (Object.prototype.hasOwnProperty.call(urlParsed.params, "start")) {
+        const hasParams = (
+            urlParsed !== undefined &&
+            Object.prototype.hasOwnProperty.call(urlParsed, "params")
+        );
+        if (hasParams) {
+            const hasStart = Object.prototype.hasOwnProperty.call(
+                urlParsed.params,
+                "start"
+            );
+            if (hasStart) {
                 startTime = urlParsed.params.start;
             }
         }
 
-        embedUrl = urlParser.create({
+        const embedUrl = urlParser.create({
             format: "embed",
-            params: { start: startTime },
+            params: {start: startTime},
             videoInfo: {
                 id: urlParsed.id,
                 mediaType: "video",
@@ -245,66 +185,26 @@ function embedUi(sourceUrl, jsonData, tagType = "blockquote") {
         });
 
         embedIcon = (
-            "<span class='view_on_youtube'>" +
-            "<br /><a href=\"" +
-            "javascript:toggleQuote(" +
-            "'quote_arrow_up', " +
-            "'quote_before_" +
-            jsonData.sha256 + "'); \">" +
-            "Expand: Show Video Clip" +
-            "</a></span>"
+            "<span class='view_on_youtube'><br /><a href=\"javascript:" +
+            "toggleQuote('quote_arrow_up', 'quote_before_" +
+            jsonData.sha256 + "'); \">Expand: Show Video Clip</a></span>"
         );
 
-        if (tagType === "q") {
-            width = "426";
-            height = "240";
-        } else {
-            width = "560";
-            height = "315";
-        }
+        const width = (
+            tagType === "q"
+            ? "426"
+            : "560"
+        );
+        const height = (
+            tagType === "q"
+            ? "240"
+            : "315"
+        );
 
         embedHtml = (
-            "<iframe class='youtube'" +
-            " src='" + embedUrl + "'" +
-            " width='" + width + "'" +
-            " height='" + height + "'" +
-            " frameborder='0'" +
-            " allowfullscreen=" +
-            "'allowfullscreen'></iframe>"
-        );
-
-    } else if (urlProvider === "vimeo") {
-        embedUrl = "https://player.vimeo.com/video/" + urlParsed.id;
-        embedIcon = (
-            "<span class='view_on_youtube'>" +
-            "<br />Expand: " +
-            "Show Video Clip</span>"
-        );
-        embedHtml = (
-            "<iframe class='youtube'" +
-            " src='" + embedUrl + "'" +
-            " width='640' height='360'" +
-            " frameborder='0'" +
-            " allowfullscreen=" +
-            "'allowfullscreen'></iframe>"
-        );
-    } else if (urlProvider === "soundcloud") {
-        $.getJSON(
-            "http://soundcloud.com/oembed?callback=?", {
-                format: "js",
-                iframe: true,
-                url: sourceUrl
-            },
-            function(data) {
-                embedHtml = data.html;
-            }
-        );
-
-        embedIcon = (
-            "<span class='view_on_youtube'>" +
-            "<br ><a href=\" \">" +
-            "Expand: Show SoundCloud Clip" +
-            "</a></span>"
+            "<iframe class='youtube' src='" + embedUrl + "' width='" +
+            width + "' height='" + height + "' frameborder='0' " +
+            "allowfullscreen='allowfullscreen'></iframe>"
         );
     }
 
@@ -316,71 +216,43 @@ function embedUi(sourceUrl, jsonData, tagType = "blockquote") {
     };
 }
 
-//****** Is Wordpress Preview ******
 function isWordpressPreview(citingUrl) {
-    var isWordpressPreviewResult = false;
-    var queryString;
-    var urlParams;
-    var previewId;
-    var previewNonce;
-    var isPreview;
-
-    if (citingUrl.split("?")[1]) {
-        queryString = citingUrl.split("?")[1];
-        urlParams = new URLSearchParams(queryString);
-        previewId = urlParams.get("preview_id");
-        previewNonce = urlParams.get("preview_nonce");
-        isPreview = urlParams.get("preview");
-
-        if (isPreview && isInt(previewId) && isHexadecimal(previewNonce)) {
-            isWordpressPreviewResult = true;
-        }
+    if (!citingUrl.split("?")[1]) {
+        return false;
     }
-    return isWordpressPreviewResult;
+    const urlParams = new URLSearchParams(citingUrl.split("?")[1]);
+    const pId = urlParams.get("preview_id");
+    const pNonce = urlParams.get("preview_nonce");
+    const isP = urlParams.get("preview");
+
+    return (isP && isInt(pId) && isHexadecimal(pNonce));
 }
 
-//****** Convert string to UTF-8 ***
-function encodeUtf8(s) {
-    return unescape(encodeURIComponent(s));
-}
-
-function decodeUtf8(s) {
-    return decodeURIComponent(escape(s));
-}
-
-//****** Is Valid URL ***************
 function isValidUrl(string) {
-    var url;
     try {
-        url = new URL(string);
+        const url = new URL(string);
+        return (url.protocol === "http:" || url.protocol === "https:");
     } catch (ignore) {
         return false;
     }
-    return (
-        url.protocol === "http:" ||
-        url.protocol === "https:"
-    );
 }
 
-//************ MAIN ****************
+//****************** MAIN *******************
 
-jQuery.fn.quoteContext = function() {
-
-    jQuery(this).each(function() {
-        var addQuoteToDom;
+jQuery.fn.quoteContext = function () {
+    return this.each(function (ignore, element) {
         var blockcite;
         var citedUrl;
         var citingQuote;
         var citingUrl;
         var hashKey;
         var hashValue;
-        var readBase;
         var readUrl;
         var shard;
         var tagType;
 
-        if (jQuery(this).attr("cite")) {
-            blockcite = jQuery(this);
+        if (jQuery(element).attr("cite")) {
+            blockcite = jQuery(element);
             citedUrl = blockcite.attr("cite");
             citingQuote = blockcite.text();
 
@@ -394,133 +266,62 @@ jQuery.fn.quoteContext = function() {
             }
 
             if (citedUrl.length > 3) {
-                tagType = jQuery(this)[0].tagName.toLowerCase();
+                tagType = element.tagName.toLowerCase();
                 hashKey = quoteHashKey(citingQuote, citingUrl, citedUrl);
-                hashKey = encodeUtf8(hashKey);
-                
+                hashKey = unescape(encodeURIComponent(hashKey));
+
                 hashValue = forge_sha256(hashKey);
                 shard = hashValue.substring(0, 2);
-                readBase = "https://read.citeit.net/quote/";
-                readUrl = readBase.concat(
-                    "sha256/",
-                    webserviceVersionNum,
-                    "/", shard,
-                    "/", hashValue, ".json"
+                readUrl = (
+                    "https://read.citeit.net/quote/sha256/" +
+                    webserviceVersionNum +
+                    "/" +
+                    shard +
+                    "/" +
+                    hashValue +
+                    ".json"
                 );
-
-                addQuoteToDom = function(atTagType, json, atCitedUrl) {
-                    var contextAfter;
-                    var contextBefore;
-                    var curEmbedUi;
-                    var html;
-                    var popupWidth;
-                    var qId;
-                    var urlCitedDomain;
-                    const w = window.screen.availWidth;
-
-                    if (w <= 320) {
-                        popupWidth = 300;
-                    } else if (w <= 480) {
-                        popupWidth = 340;
-                    } else if (w <= 640) {
-                        popupWidth = 640;
-                    } else if (w <= 768) {
-                        popupWidth = 755;
-                    } else {
-                        popupWidth = 375;
-                    }
-
-                    curEmbedUi = embedUi(atCitedUrl, json, atTagType);
-
-                    if (atTagType === "q") {
-                        qId = "hidden_" + json.sha256;
-                        urlCitedDomain = (
-                            json.cited_url
-                            .replace("http:\/\/", "")
-                            .replace("https:\/\/", "")
-                            .replace("www.", "")
-                            .split(/[\/?#]/)[0]
-                        );
-
-                        html = `<div id='${qId}' class='highslide-maincontent width_${popupWidth}'>` +
-                            curEmbedUi.html +
-                            `<br />.. ` +
-                            json.cited_context_before +
-                            `  <span class='q-tag-highlight'><strong>` +
-                            json.citing_quote +
-                            `</strong></span> ` +
-                            json.cited_context_after +
-                            `.. </p><p><a href='${json.cited_url}' target='_blank'>Read more</a> | ` +
-                            `<a href='javascript:closePopup(${qId});'>Close</a> ` +
-                            `<div class='source_url'>source: <a href='${json.cited_url}'>` +
-                            urlCitedDomain +
-                            `</a> </p></div>`;
-                        jQuery("#" + hiddenContainer).append(html);
-
-                        blockcite.wrapInner(
-                            `<a class='popup_quote' href='${blockcite.attr("cite")}' onclick='return expandPopup(this ,"${qId}", ${popupWidth})' />`
-                        );
-                    } else if (atTagType === "blockquote") {
-                        html = `<div id='quote_before_${json.sha256}' class='quote_context'>` +
-                            `<blockquote class='quote_context'>` +
-                            `<span class='context_header'>Context Before:</span>` +
-                            `<div class='tooltip'>` +
-                            `<span class='tooltip_icon'>?</span>` +
-                            `<span class='tooltiptext'>CiteIt.net displays the 500 characters of Context immediately before and after the quote</span></div>` +
-                            `<br />` +
-                            curEmbedUi.html +
-                            ` .. ` +
-                            json.cited_context_before +
-                            `</blockquote></div>`;
-                        blockcite.before(html);
-
-                        html = `<div id='quote_after_${json.sha256}' class='quote_context'>` +
-                            `<blockquote class='quote_context'>.. ` +
-                            json.cited_context_after +
-                            ` ..<br />` +
-                            `<span class='context_header'>Context After:</span>` +
-                            `<div class='tooltip'>` +
-                            `<span class='tooltip_icon'>?</span>` +
-                            `<span class='tooltiptext'>CiteIt.net displays the 500 characters immediately before and after the quote</span></div>` +
-                            `</blockquote></div>`;
-                        blockcite.after(html);
-
-                        contextBefore = jQuery("#quote_before_" + json.sha256);
-                        contextAfter = jQuery("#quote_after_" + json.sha256);
-
-                        blockcite.addClass("quote_text");
-                        contextBefore.hide();
-                        contextAfter.hide();
-
-                        if (json.cited_context_before.length > 0) {
-                            html = `<div class='quote_arrows up-arrow' id='context_up_${json.sha256}'>` +
-                                ` <a id='quote_arrow_up_${json.sha256}' href="javascript:toggleQuote('quote_arrow_up', 'quote_before_${json.sha256}');">&#9650;</a> ` +
-                                trimDefault(curEmbedUi.icon) +
-                                `</div>`;
-                            contextBefore.before(html);
-                        }
-                        if (json.cited_context_after.length > 0) {
-                            html = `<div class='quote_arrows down-arrow' id='context_down_${json.sha256}'>` +
-                                ` <div class='citeit_source'><span class='source'>source: </span>` +
-                                ` <a class='citeit_source_domain' href='${json.cited_url}'>` +
-                                extractDomain(json.cited_url) +
-                                `</a></div>` +
-                                ` <a class='down_arrow' id='quote_arrow_down_${json.sha256}' ` +
-                                `href="javascript:toggleQuote('quote_arrow_down', 'quote_after_${json.sha256}');">&#9660;</a>` +
-                                `</div>`;
-                            contextAfter.after(html);
-                        }
-                    }
-                };
 
                 jQuery.ajax({
                     dataType: "json",
-                    error: function() {
+                    error: function () {
                         clog("CiteIt Missed: " + readUrl);
                     },
-                    success: function(json) {
-                        addQuoteToDom(tagType, json, citedUrl);
-                        clog("CiteIt Found: " + readUrl);
+                    success: function (json) {
+                        const w = window.screen.availWidth;
+                        const popupWidth = (
+                            w <= 480
+                            ? 340
+                            : 375
+                        );
+                        const curUi = embedUi(citedUrl, json, tagType);
+
+                        if (tagType === "q") {
+                            const qId = "hidden_" + json.sha256;
+                            const domain = extractDomain(json.cited_url);
+                            const html = (
+                                "<div id='" + qId + "' " +
+                                "class='highslide-maincontent width_" +
+                                popupWidth + "'>" + curUi.html +
+                                "<br />.. " + json.cited_context_before +
+                                " <strong>" + json.citing_quote +
+                                "</strong> " + json.cited_context_after +
+                                " .. <p><a href='" + json.cited_url +
+                                "' target='_blank'>Read more</a>" +
+                                " | <a href='javascript:closePopup(" +
+                                qId + ");'>Close</a> " +
+                                "<div class='source_url'>source: " +
+                                domain + "</div></p></div>"
+                            );
+
+                            jQuery("#" + hiddenContainer).append(html);
+                            blockcite.wrapInner(
+                                "<a class='popup_quote' href='" +
+                                citedUrl +
+                                "' onclick='return expandPopup(this, \"" +
+                                qId + "\", " + popupWidth + ")' />"
+                            );
+                        }
                     },
                     type: "GET",
                     url: readUrl
