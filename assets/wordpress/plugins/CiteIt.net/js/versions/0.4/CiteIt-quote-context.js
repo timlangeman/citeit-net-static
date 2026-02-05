@@ -1,5 +1,5 @@
 /*jslint browser:true*/
-/*global $, jQuery, console, alert*/
+/*global $, jQuery, console, alert, urlParser, forge_sha256, Set, URL, URLSearchParams*/
 /*
  * Quote-Context JS Library
  * https://github.com/CiteIt/citeit-jquery
@@ -39,12 +39,12 @@ var embed_html = "";
 // Remove anchor from URL
 var current_page_url = window.location.href.split("#")[0];
 
-jQuery.fn.quoteContext = function() {
+jQuery.fn.quoteContext = function () {
     // Add "before" and "after" sections to quote excerpts
     // Designed to work for "blockquote" and "q" tags
 
     //Setup hidden div to store all quote metadata
-    jQuery(this).each(function() {
+    jQuery(this).each(function () {
         // Loop through all the submitted tags (blockquote or q tags) to
         // see if any have a "cite" attribute
         if (jQuery(this).attr("cite")) {
@@ -52,11 +52,11 @@ jQuery.fn.quoteContext = function() {
             var cited_url = blockcite.attr("cite");
             var citing_quote = blockcite.text();
 
-		    // If Permalink isn't supplied, default to current page
+            // If Permalink isn't supplied, default to current page
             var citing_url = blockcite.attr("data-citeit-citing-url");
-		    if (!isValidUrl(citing_url)){
-			  citing_url = current_page_url;
-			}
+            if (!isValidUrl(citing_url)) {
+                citing_url = current_page_url;
+            }
 
             // Remove Querystring if WordPress Preview
             if (isWordpressPreview(citing_url)) {
@@ -78,7 +78,6 @@ jQuery.fn.quoteContext = function() {
                 var read_base = "https://read.citeit.net/quote/";
                 var read_url = read_base.concat("sha256/", webservice_version_num, "/",
                     shard, "/", hash_value, ".json");
-                var json = null;
 
                 //See if a json summary of this quote was already created
                 // and uploaded to the content delivery network: read.citeit.net
@@ -86,9 +85,8 @@ jQuery.fn.quoteContext = function() {
                     type: "GET",
                     url: read_url,
                     dataType: "json",
-                    success: function(json) {
+                    success: function (json) {
                         addQuoteToDom(tag_type, json, cited_url);
-
 
                         console.log("---------------SHA256:::::::::----------------------");
                         console.log("SSHA256: " + json.sha256);
@@ -97,7 +95,7 @@ jQuery.fn.quoteContext = function() {
                         console.log("CiteIt Found: " + read_url);
                         console.log("       Quote: " + citing_quote);
                     },
-                    error: function() {
+                    error: function () {
                         console.log("CiteIt Missed: " + read_url);
                         console.log("       Quote: " + citing_quote);
                     }
@@ -105,27 +103,22 @@ jQuery.fn.quoteContext = function() {
 
                 // Add Hidden div with context to DOM
                 function addQuoteToDom(tag_type, json, cited_url) {
+                    var popup_width;
 
                     // Set a different popup width for Phones vs Desktop
-                    if (window.screen.availWidth <= 320){
+                    if (window.screen.availWidth <= 320) {
                         popup_width = 300;
-                    }
-                    else if (window.screen.availWidth <= 480) {
+                    } else if (window.screen.availWidth <= 480) {
                         popup_width = 340;
-                    }
-                    else if (window.screen.availWidth <= 640) {
+                    } else if (window.screen.availWidth <= 640) {
                         popup_width = 640;
-                    }
-                    else if (window.screen.availWidth <= 768) {
+                    } else if (window.screen.availWidth <= 768) {
                         popup_width = 755;
-                    }
-                    else if (window.screen.availWidth <= 1024) {
+                    } else if (window.screen.availWidth <= 1024) {
                         popup_width = 375;
-                    }
-                    else if (window.screen.availWidth <= 1280) {
+                    } else if (window.screen.availWidth <= 1280) {
                         popup_width = 375;
-                    }
-                    else {
+                    } else {
                         popup_width = 375;
                     }
 
@@ -134,12 +127,12 @@ jQuery.fn.quoteContext = function() {
 
                     if (tag_type === "q") {
                         var q_id = "hidden_" + json.sha256;
-                        var url_cited_domain = json.cited_url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+                        var url_cited_domain = json.cited_url.replace("http://", "").replace("https://", "").replace("www.", "").split(/[/?#]/)[0];
 
                         //Add content to a hidden div, so that the popup can later grab it
                         jQuery("#" + hidden_container).append(
-                            "<div id='" + q_id + "' class='highslide-maincontent width_" + popup_width + "'>" + 
-                            embed_ui.html + "<br />.. " + 
+                            "<div id='" + q_id + "' class='highslide-maincontent width_" + popup_width + "'>" +
+                            embed_ui.html + "<br />.. " +
                             json.cited_context_before + " " + " <span class='q-tag-highlight'><strong>" +
                             json.citing_quote + "</strong></span> " +
                             json.cited_context_after + ".. </p>" +
@@ -156,44 +149,41 @@ jQuery.fn.quoteContext = function() {
                     } else if (tag_type === "blockquote") {
 
                         //Fill 'before' and 'after' divs and then quickly hide them
-                        blockcite.before("<div id='quote_before_" + json.sha256 + "' class='quote_context'>"
-                          + "<blockquote class='quote_context'>"
-                              + "<span class='context_header'>Context Before:</span>"
-                              + "<div class='tooltip'><span class='tooltip_icon'>?</span><span class='tooltiptext'>CiteIt.net displays the 500 characters of Context immediately before and after the quote</span></div><br />" 
-                              + embed_ui.html + " .. " + json.cited_context_before  
-                          + "</blockquote></div>"
-					   );
+                        blockcite.before("<div id='quote_before_" + json.sha256 + "' class='quote_context'>" +
+                            "<blockquote class='quote_context'>" +
+                            "<span class='context_header'>Context Before:</span>" +
+                            "<div class='tooltip'><span class='tooltip_icon'>?</span><span class='tooltiptext'>CiteIt.net displays the 500 characters of Context immediately before and after the quote</span></div><br />" +
+                            embed_ui.html + " .. " + json.cited_context_before +
+                            "</blockquote></div>");
 
-                        blockcite.after("<div id='quote_after_" + json.sha256 + "' class='quote_context'>"
-                           + "<blockquote class='quote_context'>"
-                              + ".. " + json.cited_context_after + " .."
-                              + "<br /><span class='context_header'>Context After:</span>" 
-	                          + "<div class='tooltip'><span class='tooltip_icon'>?</span><span class='tooltiptext'>CiteIt.net displays the 500 characters immediately before and after the quote</span></div>" 
-                          + "</blockquote></div>" 
-                        );
+                        blockcite.after("<div id='quote_after_" + json.sha256 + "' class='quote_context'>" +
+                            "<blockquote class='quote_context'>" +
+                            ".. " + json.cited_context_after + " .." +
+                            "<br /><span class='context_header'>Context After:</span>" +
+                            "<div class='tooltip'><span class='tooltip_icon'>?</span><span class='tooltiptext'>CiteIt.net displays the 500 characters immediately before and after the quote</span></div>" +
+                            "</blockquote></div>");
 
                         var context_before = jQuery("#quote_before_" + json.sha256);
                         var context_after = jQuery("#quote_after_" + json.sha256);
 
-					   /* Main Class */
-					   blockcite.addClass('quote_text');
+                        /* Main Class */
+                        blockcite.addClass("quote_text");
 
                         context_before.hide();
                         context_after.hide();
 
                         if (json.cited_context_before.length > 0) {
-                            context_before.before("<div class='quote_arrows up-arrow' id='context_up_" + json.sha256 + "'> \
-                            <a id='quote_arrow_up_" + json.sha256 + "' \
-                                href=\"javascript:toggleQuote('quote_arrow_up', 'quote_before_" + json.sha256 + "');\">&#9650;</a> " + trimDefault(embed_ui.icon) +
-                                "</div>"
-                            );
+                            context_before.before("<div class='quote_arrows up-arrow' id='context_up_" + json.sha256 + "'>" +
+                                " <a id='quote_arrow_up_" + json.sha256 + "'" +
+                                " href=\"javascript:toggleQuote('quote_arrow_up', 'quote_before_" + json.sha256 + "');\">&#9650;</a> " + trimDefault(embed_ui.icon) +
+                                "</div>");
                         }
                         if (json.cited_context_after.length > 0) {
-                            context_after.after("<div class='quote_arrows down-arrow' id='context_down_" + json.sha256 + "'> \
-                            <div class='citeit_source'><span class='source'>source: </span> \
-                            <a class='citeit_source_domain' href='" + json.cited_url + "'>" + extractDomain(json.cited_url) + "</a></div> \
-                            <a class='down_arrow' id='quote_arrow_down_" + json.sha256 + "' \
-                            href=\"javascript:toggleQuote('quote_arrow_down', 'quote_after_" + json.sha256 + "');\">&#9660;</a></div>");
+                            context_after.after("<div class='quote_arrows down-arrow' id='context_down_" + json.sha256 + "'>" +
+                                " <div class='citeit_source'><span class='source'>source: </span>" +
+                                " <a class='citeit_source_domain' href='" + json.cited_url + "'>" + extractDomain(json.cited_url) + "</a></div>" +
+                                " <a class='down_arrow' id='quote_arrow_down_" + json.sha256 + "'" +
+                                " href=\"javascript:toggleQuote('quote_arrow_down', 'quote_after_" + json.sha256 + "');\">&#9660;</a></div>");
                         }
 
                     } // elseif (tag_type === 'blockquote')
@@ -215,7 +205,9 @@ function nthIndex(str, pat, n) {
         i = -1;
     while (n-- && i++ < L) {
         i = str.indexOf(pat, i);
-        if (i < 0) break;
+        if (i < 0) {
+            break;
+        }
     }
     return i;
 }
@@ -224,7 +216,7 @@ function trimDefault(str) {
     if (str) {
         return str;
     } else {
-        return '';
+        return "";
     }
 }
 
@@ -238,8 +230,8 @@ function toggleQuote(section, id) {
     */
 
     //rotate arrow icons on click
-    let sha = id.split("_")[2]; // 655df86dfb52b7471d842575e72f5223c8d38898ddbf064a22932a5d3f6f23f8
-    let parent_div_id = section + "_" + sha; // context_down_655df86dfb52b7471d842575e72f5223c8d38898ddbf064a22932a5d3f6f23f8
+    var sha = id.split("_")[2]; // 655df86dfb52b7471d842575e72f5223c8d38898ddbf064a22932a5d3f6f23f8
+    var parent_div_id = section + "_" + sha; // context_down_655df86dfb52b7471d842575e72f5223c8d38898ddbf064a22932a5d3f6f23f8
 
     jQuery("#" + parent_div_id).toggleClass("rotated180"); // rotate arrows: flip up or down
     jQuery("#" + id).fadeToggle();
@@ -247,13 +239,17 @@ function toggleQuote(section, id) {
 
 // *********** Expand Popup *************
 
-function expandPopup(tag, hidden_popup_id, popup_width=375) {
+function expandPopup(tag, hidden_popup_id, popup_width) {
 
     // Configure jQuery Popup Library
     jQuery.curCSS = jQuery.css;
 
-	console.log("Popup width:");
-	console.log(popup_width);
+    if (popup_width === undefined) {
+        popup_width = 375;
+    }
+
+    console.log("Popup width:");
+    console.log(popup_width);
 
     // Setup Initial Dialog box
     jQuery("#" + hidden_popup_id).dialog({
@@ -272,15 +268,15 @@ function expandPopup(tag, hidden_popup_id, popup_width=375) {
         show: {
             effect: "scale",
             duration: 400
-        },
+        }
     }).addClass("dialogue_box");
 
     // Set Popup Window Relative to Tag or Window
+    var window_or_tag;
     if (window.screen.availWidth < 700) {
-        var window_or_tag = window;
-    }
-    else {
-        var window_or_tag = tag;
+        window_or_tag = window;
+    } else {
+        window_or_tag = tag;
     }
 
     // Add centering and other settings
@@ -301,11 +297,11 @@ function expandPopup(tag, hidden_popup_id, popup_width=375) {
     }).dialog("open").blur();
 
     // Close popup when you click outside of it
-    jQuery(document).mouseup(function(e) {
+    jQuery(document).mouseup(function (e) {
         var popupbox = jQuery(".ui-widget-overlay");
         if (popupbox.has(e.target).length === 0) {
             // Uncomment line below to close popup when user clicks outside it
-            //$("#" + hidden_popup_id).dialog("close");
+            //jQuery("#" + hidden_popup_id).dialog("close");
         }
     });
 
@@ -335,7 +331,7 @@ function urlWithoutProtocol(url) {
     // After:  www.example.com/blog/first-post
 
     var url_without_trailing_slash = url.replace(/\/$/, "");
-    var url_without_protocol = url_without_trailing_slash.replace(/^https?\:\/\//i, "");
+    var url_without_protocol = url_without_trailing_slash.replace(/^https?:\/\//i, "");
 
     return url_without_protocol;
 }
@@ -362,10 +358,10 @@ function escapeQuote(str) {
     // * https://github.com/CiteIt/citeit-webservice/blob/master/app/settings-default.py
     //   - TEXT_ESCAPE_CODE_POINTS
 
-    str = str.replaceAll(`"`, ``);  // Fix: double quotes are not caught by the following unicode replace_char code points
+    str = str.replaceAll('"', "");  // Fix: double quotes are not caught by the following unicode replace_char code points
 
     var replace_chars = new Set([
-        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 39, 96, 160, 173, 699, 700, 701, 702, 703, 712, 713, 714, 715, 716, 717, 718, 719, 732, 733, 750, 757, 8211, 8212, 8213, 8216, 8217, 8219, 8220, 8221, 8222, 8223, 8226, 8229, 8203, 8204, 8205, 65279, 8232, 8233, 133 , 5760, 6158, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8239, 8287, 8288, 12288
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 39, 96, 160, 173, 699, 700, 701, 702, 703, 712, 713, 714, 715, 716, 717, 718, 719, 732, 733, 750, 757, 8211, 8212, 8213, 8216, 8217, 8219, 8220, 8221, 8222, 8223, 8226, 8229, 8203, 8204, 8205, 65279, 8232, 8233, 133, 5760, 6158, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8239, 8287, 8288, 12288
     ]);
 
     return normalizeText(str, replace_chars);
@@ -380,16 +376,17 @@ function normalizeText(str, escape_code_points) {
        It removes an array of symbols from the input str
     */
 
-    var str_return = ''; //default: empty string
-    var input_code_point = -1;
+    var str_return = ""; //default: empty string
     var str_array = stringToArray(str); // convert string to array
+    var idx;
+    var chr;
+    var input_code_point;
 
-    str_return = str_return.replaceAll(`"`, ``);      // fix: missed double quotation mark
+    str_return = str_return.replaceAll('"', "");      // fix: missed double quotation mark
 
-    for (idx in str_array) {
+    for (idx = 0; idx < str_array.length; idx += 1) {
         // Get Unicode Code Point of Current Character
         chr = str_array[idx];
-        chr_code = chr.codePointAt(0);
         input_code_point = chr.codePointAt(0);
 
         // Only Include this character if it is not in the
@@ -398,7 +395,7 @@ function normalizeText(str, escape_code_points) {
             str_return += chr; // Add this character
         }
     }
-    
+
     return str_return;
 }
 
@@ -445,7 +442,7 @@ function isInt(data) {
 //****************** Text if Hexadecimal format *************
 function isHexadecimal(str) {
     // Credit: https://www.w3resource.com/javascript-exercises/javascript-regexp-exercise-16.php
-    regexp = /^[0-9a-fA-F]+$/;
+    var regexp = /^[0-9a-fA-F]+$/;
 
     if (regexp.test(str)) {
         return true;
@@ -459,40 +456,49 @@ function stringToArray(s) {
     // Credit: https://medium.com/@giltayar/iterating-over-emoji-characters-the-es6-way-f06e4589516
     // convert string to Array
 
-    const retVal = [];
+    var retVal = [];
+    var i;
+    var arr = Array.from(s);
 
-    for (const ch of s) {
-        retVal.push(ch);
+    for (i = 0; i < arr.length; i += 1) {
+        retVal.push(arr[i]);
     }
     return retVal;
 }
 
 // **************** Begin: Calculate Video UI ******************
-function embedUi(url, json, tag_type = 'blockquote') {
+function embedUi(url, json, tag_type) {
 
     var media_providers = ["youtube", "vimeo", "soundcloud"];
     var url_provider = "";
     var embed_icon = "";
     var embed_html = "";
+    var embed_url;
+    var width;
+    var height;
+
+    if (tag_type === undefined) {
+        tag_type = "blockquote";
+    }
 
     var url_parsed = urlParser.parse(url);
-    if (typeof(url_parsed) !== "undefined") {
+    if (typeof url_parsed !== "undefined") {
         if (url_parsed.hasOwnProperty("provider")) {
             url_provider = url_parsed.provider;
         }
     }
-    if (url_provider == "youtube") {
-		
-        var start_time = '';
-        if (typeof(url_parsed) !== "undefined") {
-          if (url_parsed.hasOwnProperty('params')){
-            if (url_parsed.params.hasOwnProperty('start')){
-              start_time = url_parsed.params.start;
+    if (url_provider === "youtube") {
+
+        var start_time = "";
+        if (typeof url_parsed !== "undefined") {
+            if (url_parsed.hasOwnProperty("params")) {
+                if (url_parsed.params.hasOwnProperty("start")) {
+                    start_time = url_parsed.params.start;
+                }
             }
-		  }
-        }			
+        }
         // Generate YouTube Embed URL
-        var embed_url = urlParser.create({
+        embed_url = urlParser.create({
             videoInfo: {
                 provider: url_provider,
                 id: url_parsed.id,
@@ -508,21 +514,20 @@ function embedUi(url, json, tag_type = 'blockquote') {
         embed_icon = "<span class='view_on_youtube'>" +
             "<br /><a href=\"javascript:toggleQuote('quote_arrow_up', 'quote_before_" + json.sha256 + "'); \">Expand: Show Video Clip</a></span>";
 
-		if (tag_type == 'q'){
-			width = '426';
-			height = '240';
-		}
-		else {
-			width = '560';
-			height = '315';
-		}
+        if (tag_type === "q") {
+            width = "426";
+            height = "240";
+        } else {
+            width = "560";
+            height = "315";
+        }
 
         embed_html = "<iframe class='youtube' src='" + embed_url +
             "' width='" + width + "' height='" + height + "' " +
             "frameborder='0' allowfullscreen='allowfullscreen'>" +
             "</iframe>";
 
-    } else if (url_provider == "vimeo") {
+    } else if (url_provider === "vimeo") {
         // Create Canonical Embed URL:
         embed_url = "https://player.vimeo.com/video/" + url_parsed.id;
         embed_icon = "<span class='view_on_youtube'>" +
@@ -531,16 +536,16 @@ function embedUi(url, json, tag_type = 'blockquote') {
             "' width='640' height='360' " +
             "frameborder='0' allowfullscreen='allowfullscreen'>" +
             "</iframe>";
-    } else if (url_provider == "soundcloud") {
+    } else if (url_provider === "soundcloud") {
         // Webservice Query: Get Embed Code
         $.getJSON("http://soundcloud.com/oembed?callback=?", {
-                format: "js",
-                url: cited_url,
-                iframe: true
-            },
-            function(data) {
-                var embed_html = data.html;
-            });
+            format: "js",
+            url: url,
+            iframe: true
+        },
+        function (data) {
+            embed_html = data.html;
+        });
 
         embed_icon = "<span class='view_on_youtube'>" +
             "<br ><a href=\" \">Expand: Show SoundCloud Clip</a></span>";
@@ -560,14 +565,14 @@ function isWordpressPreview(citing_url) {
     var is_wordpress_preview = false;
 
     // Remove Querystring if it exists and matches 3 criteria
-    if (citing_url.split('?')[1]) {
+    if (citing_url.split("?")[1]) {
 
-        var querystring = citing_url.split('?')[1]; // text after the "?"
+        var querystring = citing_url.split("?")[1]; // text after the "?"
         var url_params = new URLSearchParams(querystring);
 
-        var preview_id = url_params.get('preview_id'); // integer: 209
-        var preview_nonce = url_params.get('preview_nonce'); // hex: d73deaada1
-        var is_preview = url_params.get('preview'); // boolean: true
+        var preview_id = url_params.get("preview_id"); // integer: 209
+        var preview_nonce = url_params.get("preview_nonce"); // hex: d73deaada1
+        var is_preview = url_params.get("preview"); // boolean: true
 
         // Only Assume is_wordpress_preview if url matches all three parameters
         if (is_preview && isInt(preview_id) && isHexadecimal(preview_nonce)) {
@@ -593,13 +598,13 @@ function decode_utf8(s) {
 // Pavlo: https://stackoverflow.com/users/1092711/pavlo
 
 function isValidUrl(string) {
-  let url;
+    var url;
 
-  try {
-    url = new URL(string);
-  } catch (_) {
-    return false;  
-  }
+    try {
+        url = new URL(string);
+    } catch (ignore) {
+        return false;
+    }
 
-  return url.protocol === "http:" || url.protocol === "https:";
+    return url.protocol === "http:" || url.protocol === "https:";
 }
