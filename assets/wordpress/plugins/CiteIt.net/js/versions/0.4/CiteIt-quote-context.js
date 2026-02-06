@@ -1,5 +1,5 @@
 /*jslint this*/
-/*global $, console, document, jQuery, urlParser, forge_sha256,
+/*global console, document, jQuery, Map, urlParser, forge_sha256,
   Set, URL, URLSearchParams, unescape, window */
 
 /* Quote-Context JS Library
@@ -86,10 +86,12 @@ function escapeHtml(str) {
 }
 
 function isValidSha256(hash) {
+// 64-digit hexadecimal string
     return typeof hash === "string" && REGEX.sha256.test(hash);
 }
 
 function isValidHttpUrl(string) {
+    // Basic check for valid HTTP/HTTPS URL format
     if (!string || typeof string !== "string") {
         return false;
     }
@@ -102,6 +104,7 @@ function isValidHttpUrl(string) {
 }
 
 function sanitizeId(id) {
+    // Remove any characters that are not allowed in HTML element IDs
     if (typeof id !== "string") {
         return "";
     }
@@ -109,6 +112,7 @@ function sanitizeId(id) {
 }
 
 function sanitizeUrl(url) {
+    // Ensure URL is valid and escape it for safe HTML usage
     if (!isValidHttpUrl(url)) {
         return "#";
     }
@@ -118,12 +122,16 @@ function sanitizeUrl(url) {
 // ============ Utility Functions ============
 
 function clog(msg) {
+    // console.log wrapper, toggle with citeItDebug variable
     if (citeItDebug) {
+        // eslint-disable-next-line no-console
         console.log(msg);
     }
 }
 
 function getPopupWidth() {
+    // Different popup widths for different screen sizes,
+    // optimized for mobile devices
     if (cachedPopupWidth !== null) {
         return cachedPopupWidth;
     }
@@ -143,6 +151,7 @@ function getPopupWidth() {
 }
 
 function getHiddenContainer() {
+    // Cache jQuery object for hidden container div
     if ($hiddenContainer === null) {
         $hiddenContainer = jQuery("#" + hiddenContainer);
     }
@@ -150,10 +159,13 @@ function getHiddenContainer() {
 }
 
 function urlWithoutProtocol(url) {
+    // Remove protocol and trailing slash for consistent caching and comparison
     return url.replace(REGEX.trailingSlash, "").replace(REGEX.protocol, "");
 }
 
 function normalizeText(str, escapeCodePoints) {
+    // Remove characters with specified Unicode code points
+    // for safer URLs and text
     var i = 0;
     var chr;
     var result = "";
@@ -169,14 +181,18 @@ function normalizeText(str, escapeCodePoints) {
 }
 
 function escapeUrl(str) {
+    // Escape characters that could cause issues in URLs or caching
     return normalizeText(str, urlEscapeCodePoints);
 }
 
 function escapeQuote(str) {
+    // Escape characters that could cause issues in quotes
     return normalizeText(str.replaceAll("\"", ""), textEscapeCodePoints);
 }
 
 function quoteHashKey(citingQuote, citingUrl, citedUrl) {
+    // Create a hash key by escaping and normalizing quote/URLs
+    // and concatenating them with a delimiter
     const escapedQuote = escapeQuote(citingQuote);
     const escapedCitingUrl = urlWithoutProtocol(escapeUrl(citingUrl));
     const escapedCitedUrl = urlWithoutProtocol(escapeUrl(citedUrl));
@@ -184,6 +200,7 @@ function quoteHashKey(citingQuote, citingUrl, citedUrl) {
 }
 
 function extractDomain(url) {
+    // Extract domain from URL for display purposes
     if (!isValidHttpUrl(url)) {
         return "";
     }
@@ -196,73 +213,25 @@ function extractDomain(url) {
 }
 
 function isInt(data) {
+    // Check if data is an integer, used for WordPress preview
     return Number.isInteger(parseInt(data, 10));
 }
 
 function isHexadecimal(str) {
+    // Check if string is hexadecimal (for WP preview nonce)
     return REGEX.hexadecimal.test(str);
 }
 
 function trimDefault(str) {
+    // Trim null or undefined strings to empty string
     return str || "";
-}
-
-// ============ Event Delegation (CSP Compliant) ============
-
-function initEventDelegation() {
-    if (eventDelegationInitialized) {
-        return;
-    }
-    eventDelegationInitialized = true;
-
-    // Handle toggle quote clicks (up/down arrows)
-    jQuery(document).on("click", "[data-citeit-toggle]", function (e) {
-        e.preventDefault();
-        const $el = jQuery(this);
-        const section = $el.attr("data-citeit-section");
-        const targetId = $el.attr("data-citeit-target");
-
-        if (!section || !targetId) {
-            return;
-        }
-
-        const sha = sanitizeId(targetId.split("_")[2]);
-        if (!sha) {
-            return;
-        }
-
-        const parentDivId = sanitizeId(section + "_" + sha);
-        jQuery("#" + parentDivId).toggleClass("rotated180");
-        jQuery("#" + sanitizeId(targetId)).fadeToggle();
-    });
-
-    // Handle popup open clicks (q tag quotes)
-    jQuery(document).on("click", "[data-citeit-popup]", function (e) {
-        e.preventDefault();
-        const $el = jQuery(this);
-        const popupId = $el.attr("data-citeit-popup");
-        const popupWidth = parseInt($el.attr("data-citeit-width"), 10) || 375;
-
-        if (!popupId) {
-            return;
-        }
-
-        expandPopup($el[0], sanitizeId(popupId), popupWidth);
-    });
-
-    // Handle popup close clicks
-    jQuery(document).on("click", "[data-citeit-close]", function (e) {
-        e.preventDefault();
-        const popupId = jQuery(this).attr("data-citeit-close");
-        if (popupId) {
-            closePopup("#" + sanitizeId(popupId));
-        }
-    });
 }
 
 // ============ UI Functions ============
 
 function expandPopup(tag, hiddenPopupId, popupWidth) {
+    // Expand a hidden popup dialog using jQuery UI
+
     const safeId = sanitizeId(hiddenPopupId);
     const $popup = jQuery("#" + safeId);
     const dialogWidth = popupWidth || 375;
@@ -272,6 +241,7 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
         : tag
     );
 
+    // CSP-compliant: use data attributes instead of inline event handlers
     $popup.dialog({
         autoOpen: false,
         closeOnEscape: true,
@@ -300,10 +270,84 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
 }
 
 function closePopup(hiddenPopupId) {
+    // Close a popup dialog using jQuery UI
     jQuery(hiddenPopupId).dialog("close");
 }
 
+// ============ Event Delegation (CSP Compliant) ============
+
+function initEventDelegation() {
+    // Use event delegation to handle clicks on dynamic elements,
+    // ensuring CSP compatibility via data attributes
+
+    if (eventDelegationInitialized) {
+        return;
+    }
+    eventDelegationInitialized = true;
+
+    // Handle toggle quote clicks (up/down arrows)
+    jQuery(document).on(
+        "click",
+        "[data-citeit-toggle]",
+        function handleToggle(e) {
+            e.preventDefault();
+            const $el = jQuery(this);
+            const section = $el.attr("data-citeit-section");
+            const targetId = $el.attr("data-citeit-target");
+
+            if (!section || !targetId) {
+                return;
+            }
+
+            const sha = sanitizeId(targetId.split("_")[2]);
+            if (!sha) {
+                return;
+            }
+
+            const parentDivId = sanitizeId(section + "_" + sha);
+            jQuery("#" + parentDivId).toggleClass("rotated180");
+            jQuery("#" + sanitizeId(targetId)).fadeToggle();
+        }
+    );
+
+    // Handle popup open clicks (q tag quotes)
+    jQuery(document).on(
+        "click",
+        "[data-citeit-popup]",
+        function handlePopupOpen(e) {
+            e.preventDefault();
+            const $el = jQuery(this);
+            const popupId = $el.attr("data-citeit-popup");
+            const popupWidth = (
+                parseInt($el.attr("data-citeit-width"), 10) || 375
+            );
+
+            if (!popupId) {
+                return;
+            }
+
+            expandPopup($el[0], sanitizeId(popupId), popupWidth);
+        }
+    );
+
+    // Handle popup close clicks
+    jQuery(document).on(
+        "click",
+        "[data-citeit-close]",
+        function handlePopupClose(e) {
+            e.preventDefault();
+            const popupId = jQuery(this).attr("data-citeit-close");
+            if (popupId) {
+                closePopup("#" + sanitizeId(popupId));
+            }
+        }
+    );
+}
+
+// ============ Video Embed Functions ============
+
 function embedUi(sourceUrl, jsonData, tagType) {
+    // Currently only supports YouTube, can be extended
     var embedIcon = "";
     var embedHtml = "";
     var startTime = "";
@@ -392,6 +436,8 @@ function embedUi(sourceUrl, jsonData, tagType) {
 }
 
 function isWordpressPreview(citingUrl) {
+    // Check if citing URL is a WordPress preview URL
+
     const queryIndex = citingUrl.indexOf("?");
     if (queryIndex === -1) {
         return false;
@@ -412,6 +458,8 @@ function isValidUrl(string) {
 // ============ DOM Manipulation ============
 
 function buildQTagHtml(qId, popupWidth, curUi, json, domain) {
+    // Build HTML for q tag quote context popup (XSS-safe)
+
     const safeQId = sanitizeId(qId);
     const safeCitedUrl = sanitizeUrl(json.cited_url);
 
@@ -443,6 +491,8 @@ function buildQTagHtml(qId, popupWidth, curUi, json, domain) {
 }
 
 function buildBeforeHtml(sha256, curUi, contextBefore) {
+    // Build HTML for context before a blockquote (XSS-safe)
+
     const safeSha = sanitizeId(sha256);
     return [
         "<div id='quote_before_",
@@ -460,6 +510,8 @@ function buildBeforeHtml(sha256, curUi, contextBefore) {
 }
 
 function buildAfterHtml(sha256, contextAfter) {
+    // Build HTML for context after a blockquote (XSS-safe)
+
     const safeSha = sanitizeId(sha256);
     return [
         "<div id='quote_after_",
@@ -477,6 +529,8 @@ function buildAfterHtml(sha256, contextAfter) {
 }
 
 function buildArrowUpHtml(sha256, embedIcon) {
+    // Build HTML for up arrow to toggle context (XSS-safe)
+
     const safeSha = sanitizeId(sha256);
     return [
         "<div class='quote_arrows up-arrow' ",
@@ -495,6 +549,8 @@ function buildArrowUpHtml(sha256, embedIcon) {
 }
 
 function buildArrowDownHtml(sha256, citedUrl, domain) {
+    // Build HTML for down arrow to toggle context (XSS-safe)
+
     const safeSha = sanitizeId(sha256);
     const safeCitedUrl = sanitizeUrl(citedUrl);
     return [
@@ -518,7 +574,7 @@ function buildArrowDownHtml(sha256, citedUrl, domain) {
     ].join("");
 }
 
-const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
+function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
     // Validate SHA256 hash from API response
     if (!isValidSha256(json.sha256)) {
         clog("Invalid SHA256 hash in API response");
@@ -531,12 +587,14 @@ const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
         return;
     }
 
+    // Validate that the cited_url matches the one in the blockquote/q tag
     const popupWidth = getPopupWidth();
     const curUi = embedUi(atCitedUrl, json, atTagType);
     const sha256 = sanitizeId(json.sha256);
     const citedUrl = json.cited_url;
     const domain = extractDomain(citedUrl);
 
+    // Process based on tag type
     if (atTagType === "q") {
         const qId = "hidden_" + sha256;
         const qDomain = extractDomain(citedUrl);
@@ -555,7 +613,10 @@ const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
             popupWidth,
             "' />"
         ].join(""));
+
+    // For blockquotes, insert context and add toggle arrows
     } else if (atTagType === "blockquote") {
+        // Build context before and after HTML
         const beforeHtml = buildBeforeHtml(
             sha256,
             curUi,
@@ -563,6 +624,7 @@ const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
         );
         const afterHtml = buildAfterHtml(sha256, json.cited_context_after);
 
+        // Insert context and add toggle arrows
         blockcite.before(beforeHtml);
         blockcite.after(afterHtml);
         blockcite.addClass("quote_text");
@@ -570,6 +632,7 @@ const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
         const $before = jQuery("#quote_before_" + sha256);
         const $after = jQuery("#quote_after_" + sha256);
 
+        // Initially hide the context sections and only show the toggle arrows
         $before.hide();
         $after.hide();
 
@@ -582,15 +645,17 @@ const addQuoteToDom = function (atTagType, json, atCitedUrl, blockcite) {
             $after.after(arrowDown);
         }
     }
-};
+}
 
 // ============ Main Plugin ============
 
-const quoteContextPlugin = function (collection) {
+function quoteContextPlugin(collection) {
+    // Main plugin function to process blockquote and q tags
+
     // Initialize event delegation once
     initEventDelegation();
 
-    collection.each(function (ignore, element) {
+    collection.each(function processQuote(ignore, element) {
         const blockcite = jQuery(element);
         const citedUrl = blockcite.attr("cite");
 
@@ -652,12 +717,12 @@ const quoteContextPlugin = function (collection) {
 
         jQuery.ajax({
             dataType: "json",
-            error: function () {
+            error: function handleError() {
                 clog("CiteIt Missed: " + readUrl);
                 pendingRequests.delete(hashValue);
                 completedRequests.set(hashValue, null);
             },
-            success: function (json) {
+            success: function handleSuccess(json) {
                 // Validate API response before processing
                 if (json && isValidSha256(json.sha256)) {
                     addQuoteToDom(tagType, json, citedUrl, blockcite);
@@ -672,9 +737,10 @@ const quoteContextPlugin = function (collection) {
             url: readUrl
         });
     });
-};
+}
 
-jQuery.fn.quoteContext = function () {
+jQuery.fn.quoteContext = function quoteContext() {
+    // jQuery plugin entry point, processes each element in the collection
     quoteContextPlugin(this);
     return this;
 };
