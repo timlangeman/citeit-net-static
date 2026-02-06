@@ -2,12 +2,11 @@ const { combineParams, getTime } = require('../util');
 
 function Vimeo() {
   this.provider = 'vimeo';
-  this.alternatives = ['vimeopro', 'vimeocdn'];
+  this.alternatives = ['vimeopro'];
   this.defaultFormat = 'long';
   this.formats = {
     long: this.createLongUrl,
     embed: this.createEmbedUrl,
-    image: this.createImageUrl,
   };
   this.mediaTypes = {
     VIDEO: 'video',
@@ -16,34 +15,26 @@ function Vimeo() {
 
 module.exports = Vimeo;
 
-Vimeo.prototype.parseUrl = function(url, result) {
+Vimeo.prototype.parseUrl = function(url) {
   var match = url.match(
-    /(vimeo(?:cdn|pro)?)\.com\/(?:(?:channels\/[\w]+|(?:(?:album\/\d+|groups\/[\w]+|staff\/frame)\/)?videos?)\/)?(\d+)(?:_(\d+)(?:x(\d+))?)?(\.\w+)?/i
+    /(?:\/showcase\/\d+)?(?:\/(?:channels\/[\w]+|(?:(?:album\/\d+|groups\/[\w]+)\/)?videos?))?\/(\d+)/i
   );
-  if (!match) {
-    return result;
-  }
-  result.id = match[2];
-  if (match[1] === 'vimeocdn') {
-    if (match[3]) {
-      result.imageWidth = parseInt(match[3]);
-      if (match[4]) { //height can only be set when width is also set
-        result.imageHeight = parseInt(match[4]);
-      }
-    }
-    result.imageExtension = match[5];
-  }
-  return result;
+  return match ? match[1] : undefined;
+};
+
+Vimeo.prototype.parseHash = function(url) {
+  var match = url.match(/\/\d+\/(\w+)$/i);
+  return match ? match[1] : undefined;
 };
 
 Vimeo.prototype.parseParameters = function(params) {
-  return this.parseTime(params);
-};
-
-Vimeo.prototype.parseTime = function(params) {
   if (params.t) {
     params.start = getTime(params.t);
     delete params.t;
+  }
+  if (params.h) {
+    params.hash = params.h;
+    delete params.h;
   }
   return params;
 };
@@ -52,12 +43,16 @@ Vimeo.prototype.parse = function(url, params) {
   var result = {
     mediaType: this.mediaTypes.VIDEO,
     params: this.parseParameters(params),
+    id: this.parseUrl(url),
   };
-  result = this.parseUrl(url, result);
+  var hash = this.parseHash(url, params);
+  if (hash) {
+    result.params.hash = hash;
+  }
   return result.id ? result : undefined;
 };
 
-Vimeo.prototype.createUrl = function(baseUrl, vi, params) {
+Vimeo.prototype.createUrl = function(baseUrl, vi, params, type) {
   if (!vi.id || vi.mediaType !== this.mediaTypes.VIDEO) {
     return undefined;
   }
@@ -65,6 +60,15 @@ Vimeo.prototype.createUrl = function(baseUrl, vi, params) {
   var url = baseUrl + vi.id;
   var startTime = params.start;
   delete params.start;
+
+  if (params.hash) {
+    if (type === 'embed') {
+      params.h = params.hash;
+    } else if (type === 'long') {
+      url += '/' + params.hash;
+    }
+    delete params.hash;
+  }
 
   url += combineParams(params);
 
@@ -75,34 +79,11 @@ Vimeo.prototype.createUrl = function(baseUrl, vi, params) {
 };
 
 Vimeo.prototype.createLongUrl = function(vi, params) {
-  return this.createUrl('https://vimeo.com/', vi, params);
+  return this.createUrl('https://vimeo.com/', vi, params, 'long');
 };
 
 Vimeo.prototype.createEmbedUrl = function(vi, params) {
-  return this.createUrl('//player.vimeo.com/video/', vi, params);
-};
-
-Vimeo.prototype.createImageUrl = function(vi, params) {
-  if (!vi.id || vi.mediaType !== this.mediaTypes.VIDEO) {
-    return undefined;
-  }
-
-  var url = 'https://i.vimeocdn.com/video/' + vi.id;
-
-  if (vi.imageWidth && vi.imageHeight) {
-    url += '_' + vi.imageWidth + 'x' + vi.imageHeight;
-  } else if (vi.imageWidth) {
-    url += '_' + vi.imageWidth;
-  }
-
-  if (vi.imageExtension === undefined) {
-    vi.imageExtension = '.webp';
-  }
-  url += vi.imageExtension;
-  delete vi.imageExtension;
-
-  url += combineParams(params);
-  return url;
+  return this.createUrl('//player.vimeo.com/video/', vi, params, 'embed');
 };
 
 require('../base').bind(new Vimeo());
