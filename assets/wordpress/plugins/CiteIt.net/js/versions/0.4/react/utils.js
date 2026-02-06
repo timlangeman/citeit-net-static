@@ -1,13 +1,19 @@
 /**
  * CiteIt Quote Context - Utility Functions
- * https://github.com/CiteIt/citeit-jquery
+ * @file Utility functions for CiteIt React components
+ * @see https://github.com/CiteIt/citeit-jquery
  */
 
+/** @const {boolean} Enable debug logging */
 const CITEIT_DEBUG = false;
+
+/** @const {string} CiteIt.net API version */
 const WEBSERVICE_VERSION = "0.4";
 
+/** @const {Set<number>} Unicode code points to escape from URLs */
 const URL_ESCAPE_CODE_POINTS = new Set([10, 20, 160]);
 
+/** @const {Set<number>} Unicode code points to escape from quote text */
 const TEXT_ESCAPE_CODE_POINTS = new Set([
     2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
     14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
@@ -22,20 +28,37 @@ const TEXT_ESCAPE_CODE_POINTS = new Set([
     8201, 8202, 8239, 8287, 8288, 12288
 ]);
 
+/**
+ * Logs a message to the console if debug mode is enabled.
+ * @param {string} msg - The message to log
+ * @returns {void}
+ */
 export function clog(msg) {
     if (CITEIT_DEBUG) {
+        // eslint-disable-next-line no-console
         console.log(msg);
     }
 }
 
+/**
+ * Removes the protocol and trailing slash from a URL.
+ * @param {string} url - The URL to process
+ * @returns {string} URL without protocol or trailing slash
+ */
 export function urlWithoutProtocol(url) {
     const urlNoSlash = url.replace(/\/$/, "");
     return urlNoSlash.replace(/^https?:\/\//i, "");
 }
 
+/**
+ * Removes characters with specified Unicode code points from a string.
+ * @param {string} str - The string to normalize
+ * @param {Set<number>} escapeCodePoints - Code points to remove
+ * @returns {string} The normalized string
+ */
 export function normalizeText(str, escapeCodePoints) {
     const result = [];
-    Array.from(str).forEach((chr) => {
+    Array.from(str).forEach(function processChar(chr) {
         const code = chr.codePointAt(0);
         if (!escapeCodePoints.has(code)) {
             result.push(chr);
@@ -44,15 +67,32 @@ export function normalizeText(str, escapeCodePoints) {
     return result.join("");
 }
 
+/**
+ * Escapes problematic characters from a URL string.
+ * @param {string} str - The URL string to escape
+ * @returns {string} The escaped URL string
+ */
 export function escapeUrl(str) {
     return normalizeText(str, URL_ESCAPE_CODE_POINTS);
 }
 
+/**
+ * Escapes problematic characters from a quote string.
+ * @param {string} str - The quote string to escape
+ * @returns {string} The escaped quote string
+ */
 export function escapeQuote(str) {
     const noQuotes = str.replaceAll('"', "");
     return normalizeText(noQuotes, TEXT_ESCAPE_CODE_POINTS);
 }
 
+/**
+ * Creates a consistent hash key from quote and URL components.
+ * @param {string} citingQuote - The quote text
+ * @param {string} citingUrl - The URL of the page containing the quote
+ * @param {string} citedUrl - The URL being cited
+ * @returns {string} A pipe-delimited hash key string
+ */
 export function quoteHashKey(citingQuote, citingUrl, citedUrl) {
     return (
         escapeQuote(citingQuote) +
@@ -63,6 +103,11 @@ export function quoteHashKey(citingQuote, citingUrl, citedUrl) {
     );
 }
 
+/**
+ * Extracts the domain/hostname from a URL.
+ * @param {string} url - The URL to extract domain from
+ * @returns {string} The domain name
+ */
 export function extractDomain(url) {
     let domain;
     if (url.indexOf("://") > -1) {
@@ -73,15 +118,30 @@ export function extractDomain(url) {
     return domain.split(":")[0];
 }
 
+/**
+ * Checks if a value can be parsed as an integer.
+ * @param {*} data - The value to check
+ * @returns {boolean} True if the value is a valid integer
+ */
 export function isInt(data) {
     return Number.isInteger(parseInt(data, 10));
 }
 
+/**
+ * Checks if a string contains only hexadecimal characters.
+ * @param {string} str - The string to check
+ * @returns {boolean} True if string is hexadecimal
+ */
 export function isHexadecimal(str) {
     const regexp = /^[0-9a-fA-F]+$/;
     return regexp.test(str);
 }
 
+/**
+ * Checks if a URL is a WordPress preview URL.
+ * @param {string} citingUrl - The URL to check
+ * @returns {boolean} True if the URL is a WordPress preview
+ */
 export function isWordpressPreview(citingUrl) {
     if (!citingUrl.split("?")[1]) {
         return false;
@@ -94,24 +154,39 @@ export function isWordpressPreview(citingUrl) {
     return isP && isInt(pId) && isHexadecimal(pNonce);
 }
 
+/**
+ * Validates that a string is a valid HTTP or HTTPS URL.
+ * @param {string} string - The URL string to validate
+ * @returns {boolean} True if valid HTTP/HTTPS URL
+ */
 export function isValidUrl(string) {
     try {
         const url = new URL(string);
         return url.protocol === "http:" || url.protocol === "https:";
-    } catch {
+    } catch (ignore) {
         return false;
     }
 }
 
+/**
+ * Gets the appropriate popup width based on screen size.
+ * @returns {number} The popup width in pixels
+ */
 export function getPopupWidth() {
     const w = window.screen.availWidth;
     return w <= 480 ? 340 : 375;
 }
 
+/**
+ * Builds the API URL for fetching quote context.
+ * @param {string} hashValue - The SHA256 hash of the quote
+ * @returns {string} The complete API URL
+ */
 export function buildReadUrl(hashValue) {
     const shard = hashValue.substring(0, 2);
+    const baseUrl = "https://read.citeit.net/quote/sha256/";
     return (
-        "https://read.citeit.net/quote/sha256/" +
+        baseUrl +
         WEBSERVICE_VERSION +
         "/" +
         shard +
@@ -121,6 +196,10 @@ export function buildReadUrl(hashValue) {
     );
 }
 
+/**
+ * Gets the current page URL without the hash fragment.
+ * @returns {string} The current page URL
+ */
 export function getCurrentPageUrl() {
     return window.location.href.split("#")[0];
 }
