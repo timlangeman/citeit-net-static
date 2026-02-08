@@ -520,6 +520,11 @@ span.source {
   color: #999;
   margin-right: 5px;
 }
+#feature_box {
+  max-width: 1040px;
+}
+
+
 div.feature {
   float: left;
   padding-bottom: 20px;

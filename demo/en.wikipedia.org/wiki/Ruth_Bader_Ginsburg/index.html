@@ -51,21 +51,27 @@
       <script src='/assets/wordpress/plugins/CiteIt.net/lib/jsVideoUrlParser/dist/jsVideoUrlParser.min.js'></script>
 
       <!-- CiteIt Styles -->
-      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui-1.12.1/jquery-ui.min.css' type='text/css' media='all' />
+      <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/lib/jquery-ui/jquery-ui.min.css' type='text/css' media='all' />
       <link rel='stylesheet' href='/assets/wordpress/plugins/CiteIt.net/css/CiteIt-library.css' type='text/css' media='all' />
       <link rel='stylesheet' href='/assets/css/citeit-wikipedia.css' type='text/css' media='all' />
 
       <!-- CiteIt Main JavaScript -->
       <script src='/assets/js/citeit/CiteIt-quote-context.js'></script>
 
-      <!-- Hidden container for CiteIt content -->
-      <div id="citeit_container" style="display:none"></div>
 
       <!-- Initialize CiteIt -->
       <script>
         jQuery(document).ready(function() {
-          // Initialize citations on page load
-          jQuery('q, blockquote').quoteContext();
+          // Check if jQuery UI dialog is available
+          if (typeof jQuery.fn.dialog === 'undefined') {
+            console.log('jQuery UI not found, loading dynamically...');
+            jQuery.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js', function() {
+              console.log('jQuery UI loaded dynamically');
+              jQuery('q, blockquote').quoteContext();
+            });
+          } else {
+            jQuery('q, blockquote').quoteContext();
+          }
         });
       </script>
 <!-- ############################### End: CiteIt.net Dependencies ################################## -->
@@ -74,6 +80,8 @@
 
 </head>
 <body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Ruth_Bader_Ginsburg rootpage-Ruth_Bader_Ginsburg skin-vector action-view skin-vector-legacy"><div id="mw-page-base" class="noprint"></div>
+<!-- Hidden container for CiteIt popup content -->
+<div id="citeit_container" style="display:none"></div>
 <div id="mw-head-base" class="noprint"></div>
 <div id="content" class="mw-body" role="main">
 	<a id="top"></a>

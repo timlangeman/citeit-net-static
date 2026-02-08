@@ -51,6 +51,11 @@ jQuery.fn.quoteContext2 = function() {
         // see if any have a "cite" attribute
         let blockcite = jQuery(this);
 
+        // Skip if already processed to prevent duplicate icons
+        if (blockcite.data('citeit-processed')) {
+            return;
+        }
+
         if (jQuery(this).attr("cite")) {
 
             const cited_url = blockcite.attr("cite");
@@ -89,6 +94,9 @@ jQuery.fn.quoteContext2 = function() {
 
                 // See if a json summary of this quote was already created
                 // and uploaded to the content delivery network: read.citeit.net
+                // Mark as processed before making the request to prevent duplicates
+                blockcite.data('citeit-processed', true);
+
                 jQuery.ajax({
                     type: "GET",
                     url: read_url,
@@ -259,14 +267,17 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             // Style quote as a link that calls the popup expander:
             blockcite.wrapInner(`<a id='link_${json.sha256}' class='q-tag' href='${blockcite.attr("cite")}' ${tooltip} onclick='return expandPopup(this, "${q_id}")' />`);
 
+            // Get the link we just created within this specific blockcite element
+            const linkElement = blockcite.find('a.q-tag');
+
             if (media_type === 'video') {
-                const youtube_icon = `<a title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}'><img class='youtube-icon' onclick='return expandPopup(this, "${q_id}")' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' /></a>`;
-                jQuery(`a#link_${json.sha256}`).append(youtube_icon);
+                const youtube_icon = `<img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}' />`;
+                linkElement.append(youtube_icon);
             }
 
             if (media_type === 'text') {
-                const text_icon = `<a title='View Context: Text (no video)' onclick='return expandPopup(this, "${q_id}")'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='text context' title='View Context: Text (no video)' /></a>`;
-                jQuery(`a#link_${json.sha256}`).append(text_icon);
+                const text_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='text context' title='View Context: Text (no video)' />`;
+                linkElement.append(text_icon);
             }
 
             // Prevent Video from Scrolling out of Sight
@@ -908,21 +919,54 @@ function expandPopup2(tag, hidden_popup_id, popup_width=340) {
 
 // *********** Expand Popup *************
 function expandPopup(tag, hidden_popup_id, popup_width=340) {
+    console.log("expandPopup called:", hidden_popup_id);
+    try {
+        // Check if jQuery UI dialog is available
+        console.log("jQuery.fn.dialog check:", typeof jQuery.fn.dialog);
+        if (typeof jQuery.fn.dialog === 'undefined') {
+            console.log("jQuery UI not available, loading dynamically...");
+            jQuery.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js')
+                .done(function() {
+                    console.log("jQuery UI loaded successfully, retrying popup...");
+                    console.log("jQuery.fn.dialog after load:", typeof jQuery.fn.dialog);
+                    showPopupDialog(tag, hidden_popup_id, popup_width);
+                })
+                .fail(function(jqxhr, settings, exception) {
+                    console.error("Failed to load jQuery UI:", exception);
+                });
+            return false;
+        }
 
-    // Get cited URL and check if it's a video
-    let cited_url = jQuery(tag).attr('href');    
-    
-    // Exit early if not a video URL
-    if (!is_video(cited_url)) {
-        console.log("Not a video URL, exiting expandPopup");
-        // return false;
+        console.log("jQuery UI already available, calling showPopupDialog");
+        return showPopupDialog(tag, hidden_popup_id, popup_width);
+    } catch (err) {
+        console.error("Error in expandPopup:", err);
     }
+    return false; // Don't follow link - always prevent navigation
+}
 
-    // Highlight existing quote
-    let sha256 = hidden_popup_id.replace('hidden_', '');
-    jQuery('a#link_' + sha256).addClass('active');
+// Internal function to show the popup dialog
+function showPopupDialog(tag, hidden_popup_id, popup_width=340) {
+    console.log("showPopupDialog called with:", hidden_popup_id);
+    console.log("jQuery.fn.dialog available:", typeof jQuery.fn.dialog !== 'undefined');
 
-    console.log("cited_url: " + cited_url);
+    try {
+        // Check if the popup element exists (it's only created when API returns data)
+        const popupElement = jQuery("#" + hidden_popup_id);
+        console.log("Looking for element:", hidden_popup_id, "Found:", popupElement.length);
+
+        if (popupElement.length === 0) {
+            console.log("Popup element not found: " + hidden_popup_id);
+            return false; // Prevent link navigation
+        }
+
+        // Get cited URL and check if it's a video
+        let cited_url = jQuery(tag).attr('href');
+        console.log("cited_url:", cited_url);
+
+        // Highlight existing quote
+        let sha256 = hidden_popup_id.replace('hidden_', '');
+        jQuery('a#link_' + sha256).addClass('active');
 
     // Configure jQuery Popup Library
     jQuery.curCSS = jQuery.css;
@@ -959,8 +1003,6 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
 	else {
 		window_height = window.innerHeight * 0.65;	
 	}
-
-    console.log('hHeight: ' + window_height);
 
     // Configure jQuery Popup Library
     jQuery.curCSS = jQuery.css;
@@ -1025,6 +1067,8 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
         "title": "Quote Context by CiteIt.net"
     }).dialog("open").blur();
 
+    console.log("Dialog opened successfully for:", hidden_popup_id);
+
     // Pause Popup Video on Close event
     jQuery("#" + hidden_popup_id).on('dialogclose', function(event, hidden_popup_id) {
         // sha256 = hidden_popup_id.replace('hidden_', '');
@@ -1041,7 +1085,10 @@ function expandPopup(tag, hidden_popup_id, popup_width=340) {
         }
     });
 
-    return false; // Don't follow link
+    } catch (err) {
+        console.error("Error in expandPopup:", err);
+    }
+    return false; // Don't follow link - always prevent navigation
 }
 
 function getYoutubeEmbedUrl(cited_url) {
