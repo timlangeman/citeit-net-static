@@ -351,6 +351,47 @@ ul#footer > li {
  }
 
 
+/* ============ v0.5: Ellipsis Gap Expansion Styles ============ */
+
+/* Clickable ellipsis indicator -- bright blue, bold on hover */
+span.citeit-gap {
+    color: #0066ff;
+    cursor: pointer;
+    font-weight: normal;
+    padding: 0 2px;
+    font-size: 120%;
+    letter-spacing: 2px;
+}
+
+span.citeit-gap:hover {
+    color: #0044cc;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Expanded gap content */
+span.citeit-gap-content {
+    color: #555;
+    background-color: #f0f8ff;
+    padding: 2px 4px;
+    border-left: 3px solid #0066ff;
+    margin: 0 2px;
+}
+
+/* Truncated section within a large gap (>1000 chars) */
+span.citeit-truncated {
+    color: #999;
+    font-style: italic;
+    font-size: 90%;
+}
+
+span.citeit-truncated a {
+    color: #0066ff;
+    text-decoration: underline;
+}
+
+/* ============ End v0.5 Styles ============ */
+
 /*********** Tablet & Low Res-specific Styles *************/
 @media only screen and (max-width: 768px) {
 

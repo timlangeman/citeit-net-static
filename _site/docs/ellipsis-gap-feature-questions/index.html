@@ -32,7 +32,7 @@ where <code>shard</code> is the first 2 characters of the hash.</p>
 <li><strong>Option C</strong>: Something else?</li>
 </ul>
 <p>This matters because the webservice needs to detect where the gaps are.</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> Option A — the author literally types &quot;...&quot; in the blockquote text.</p>
 <hr>
 <h3>2. Hash Key Stability</h3>
 <p>The SHA256 hash is currently computed from the full quote text + citing URL + cited URL. If the quote now contains <code>...</code> gaps, should the hash be computed from:</p>
@@ -41,19 +41,19 @@ where <code>shard</code> is the first 2 characters of the hash.</p>
 <li><strong>Option B</strong>: The reconstructed full quote (gaps filled in)?</li>
 </ul>
 <p>This affects backward compatibility and lookup behavior.</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> Option A — the hash is computed from the quote text as-written, including the &quot;...&quot;.</p>
 <hr>
 <h3>3. Multiple Gaps</h3>
 <p>A single quote could have multiple ellipses (e.g., <code>&quot;First part ... middle part ... last part&quot;</code>). Should the data structure support an arbitrary number of gaps, or is there a practical limit you want to impose?</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> The data structure should support an arbitrary number of gaps.</p>
 <hr>
 <h3>4. Recursive Gap Limit</h3>
 <p>You described that gaps &gt; 1000 chars get a new ellipsis in the middle (500 before + 500 after). Can that secondary gap also be expandable? Or is it just a hard truncation with a &quot;read more&quot; link? How many levels of nesting should be supported?</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> The secondary gap does not need to be expandable. It should be a hard truncation with a &quot;read more&quot; link. One level of nesting only.</p>
 <hr>
 <h3>5. Gap Context Source</h3>
 <p>The hidden text in each gap comes from the cited source (the original document being quoted). Is that correct, or could it ever come from the citing page?</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> The gap text always comes from the cited source.</p>
 <hr>
 <h3>6. JSON Structure Direction</h3>
 <p>Here is a proposed direction. The current flat fields (<code>cited_context_before</code>, <code>citing_quote</code>, <code>cited_context_after</code>) would be augmented with a <code>quote_segments</code> array:</p>
@@ -71,11 +71,11 @@ where <code>shard</code> is the first 2 characters of the hash.</p>
 </code></pre>
 <p>For gaps &gt; 1000 chars, the <code>hidden_text</code> would contain the first 500 + <code>...</code> + last 500 chars, and optionally a nested structure or a separate <code>gap_segments</code> array.</p>
 <p>Does this direction feel right? What would you change?</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> Yes, this structure looks right. Would like the option of a nested structure for large gaps.</p>
 <hr>
 <h3>7. Backward Compatibility</h3>
 <p>Should quotes without ellipses continue to work unchanged (i.e., <code>quote_segments</code> is simply absent or empty)? Assumption: yes.</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> Backward compatibility is not important because the system is not yet in production.</p>
 <hr>
 <h3>8. UI Indicator</h3>
 <p>You mentioned clicking <code>&quot;..&quot;</code> to expand. Should the clickable indicator be:</p>
@@ -86,12 +86,12 @@ where <code>shard</code> is the first 2 characters of the hash.</p>
 <li>Something else?</li>
 </ul>
 <p>And should there be a visual affordance (color, underline, icon) to signal it's clickable?</p>
-<p><strong>Your answer:</strong></p>
+<p><strong>Your answer:</strong> The clickable indicator should be three dots &quot;...&quot;. The visual affordance: bright blue color, becoming bold when hovered over.</p>
 <hr>
 <h2>Next Steps</h2>
-<p>Once these questions are answered, we will:</p>
+<p>All questions answered. Ready to:</p>
 <ol>
-<li>Propose a concrete JSON schema</li>
+<li>Propose a unified JSON schema (combined with duplicate quote disambiguation feature)</li>
 <li>Modify the citeit-webservice to look up quotes and save JSON files in the new format</li>
 <li>Modify the front-end JavaScript to parse and render the new structure</li>
 </ol>

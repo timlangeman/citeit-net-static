@@ -46,7 +46,7 @@ Currently `citing_quote` stores the full continuous quote text. With ellipses, t
 
 This matters because the webservice needs to detect where the gaps are.
 
-**Your answer:**
+**Your answer:** Option A — the author literally types "..." in the blockquote text.
 
 ---
 
@@ -59,7 +59,7 @@ The SHA256 hash is currently computed from the full quote text + citing URL + ci
 
 This affects backward compatibility and lookup behavior.
 
-**Your answer:**
+**Your answer:** Option A — the hash is computed from the quote text as-written, including the "...".
 
 ---
 
@@ -67,7 +67,7 @@ This affects backward compatibility and lookup behavior.
 
 A single quote could have multiple ellipses (e.g., `"First part ... middle part ... last part"`). Should the data structure support an arbitrary number of gaps, or is there a practical limit you want to impose?
 
-**Your answer:**
+**Your answer:** The data structure should support an arbitrary number of gaps.
 
 ---
 
@@ -75,7 +75,7 @@ A single quote could have multiple ellipses (e.g., `"First part ... middle part 
 
 You described that gaps > 1000 chars get a new ellipsis in the middle (500 before + 500 after). Can that secondary gap also be expandable? Or is it just a hard truncation with a "read more" link? How many levels of nesting should be supported?
 
-**Your answer:**
+**Your answer:** The secondary gap does not need to be expandable. It should be a hard truncation with a "read more" link. One level of nesting only.
 
 ---
 
@@ -83,7 +83,7 @@ You described that gaps > 1000 chars get a new ellipsis in the middle (500 befor
 
 The hidden text in each gap comes from the cited source (the original document being quoted). Is that correct, or could it ever come from the citing page?
 
-**Your answer:**
+**Your answer:** The gap text always comes from the cited source.
 
 ---
 
@@ -109,7 +109,7 @@ For gaps > 1000 chars, the `hidden_text` would contain the first 500 + `...` + l
 
 Does this direction feel right? What would you change?
 
-**Your answer:**
+**Your answer:** Yes, this structure looks right. Would like the option of a nested structure for large gaps.
 
 ---
 
@@ -117,7 +117,7 @@ Does this direction feel right? What would you change?
 
 Should quotes without ellipses continue to work unchanged (i.e., `quote_segments` is simply absent or empty)? Assumption: yes.
 
-**Your answer:**
+**Your answer:** Backward compatibility is not important because the system is not yet in production.
 
 ---
 
@@ -132,13 +132,13 @@ You mentioned clicking `".."` to expand. Should the clickable indicator be:
 
 And should there be a visual affordance (color, underline, icon) to signal it's clickable?
 
-**Your answer:**
+**Your answer:** The clickable indicator should be three dots "...". The visual affordance: bright blue color, becoming bold when hovered over.
 
 ---
 
 ## Next Steps
 
-Once these questions are answered, we will:
-1. Propose a concrete JSON schema
+All questions answered. Ready to:
+1. Propose a unified JSON schema (combined with duplicate quote disambiguation feature)
 2. Modify the citeit-webservice to look up quotes and save JSON files in the new format
 3. Modify the front-end JavaScript to parse and render the new structure
