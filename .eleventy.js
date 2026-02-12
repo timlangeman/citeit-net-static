@@ -12,6 +12,7 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPassthroughCopy("demo");
 
   eleventyConfig.addShortcode("version", function () {
     return String(Date.now());
