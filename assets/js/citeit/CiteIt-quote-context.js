@@ -27,18 +27,18 @@
  *
  */
 
-const popup_library = "jQuery";
+var popup_library = "jQuery";
 
 // div in footer than holds injected json data, requires css class to hide
-const hidden_container = "citeit_container";
-const webservice_version_num = "0.4";
-let embed_ui = "";
-let embed_url = "";
-let embed_icon = "";
-let embed_html = "";
+var hidden_container = "citeit_container";
+var webservice_version_num = "0.4";
+var embed_ui = "";
+var embed_url = "";
+var embed_icon = "";
+var embed_html = "";
 
 // Remove anchor from URL
-const current_page_url = window.location.href.split("#")[0];
+var current_page_url = window.location.href.split("#")[0];
 
 jQuery.fn.quoteContext2 = function() {
     "use strict";
@@ -1313,7 +1313,7 @@ function is_video(url) {
 jQuery.fn.quoteContext = jQuery.fn.quoteContext2;  // Alias
 
 // Video provider configurations
-const VIDEO_PROVIDERS = {
+var VIDEO_PROVIDERS = {
     youtube: {
         patterns: [
             /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i
