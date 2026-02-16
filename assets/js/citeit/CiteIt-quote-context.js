@@ -64,7 +64,6 @@ jQuery.fn.quoteContext2 = function() {
             console.log("*****************  cited_url   ******************");
             console.log(cited_url);
 
-
             // If Permalink isn't supplied, default to current page
             let citing_url = blockcite.attr("data-citeit-citing-url");
             if (!isValidUrl(citing_url)) {
@@ -136,9 +135,8 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
         let cited_context_after_full = '';  // lookup full context after
 
 
-
         let is_video = '';
-        const url_cited_domain = json.cited_url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+        const url_cited_domain = filterBadCharacters(json.cited_url.replace('http://','').replace('https://','').replace('www.','').replace('mirror','').split(/[/?#]/)[0]);
         let media_type = 'text';
         if (url_cited_domain !== 'youtube.com' && url_cited_domain !== 'youtu.be') {
             is_video = "not_video";
@@ -175,7 +173,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 transcript_found = "<h3 class='no-context-found'>&uarr; You can view the Video .. &uarr; </h3><h4 class='without_transcript'>(but there is no transcript)</h4>";
             }
 
-            if (embed_ui.start_time) {
+            if (embed_ui.start_time) {0
                 start_playing_at = `${play_buttons}<div class='start_video'>Video starts at <i>${seconds_to_minutes(embed_ui.start_time)}</i></div>`;
             }
 
@@ -196,6 +194,11 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             const js_popup = `javascript:closePopup('${json.sha256}');`;
             console.log("Quote: ________________________________________");
 
+            const display_domain = cited_url
+            .replace("mirror.citeit.net/", "")
+            .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "") // Remove protocol and www.
+            .split('/')[0];
+
             // Add content to a hidden div, so that the popup can later grab it
             const popup_container = jQuery(`#${hidden_container}`).append(
                 `<div id='${q_id}' class='highslide-maincontent'>${heading}
@@ -212,8 +215,8 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 <div class='context'> 
                 ${context_not_found}
                 <!-- Before (Full) -->
-                <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full}</span> .. 
-                <span class='quote_context'>${json.cited_context_before.slice(-get_device_size('context_length'))} </span>
+                <span id="before_full_${embed_ui.json.sha256})'>">${cited_context_before_full.replace('â','').replace(' ','').replace('â','')}</span> .. 
+                <span class='quote_context'>${(json.cited_context_before.slice(-get_device_size('context_length')))} </span>
                 <!-- Quote -->
                 <span class='q-tag-highlight quote_text'><strong>${json.citing_quote}</strong></span>
                 ${context_not_found}
@@ -234,8 +237,8 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                     Buy/Subscribe 
 
             </div>
-
-                <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${url_cited_domain}</a> </p></div>`
+            
+            <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${display_domain}</a></p></div>`
             );
 
             console.log(`Length: 
@@ -488,6 +491,17 @@ function urlWithoutProtocol(url) {
 
     return url_without_protocol;
 }
+
+//************* FILTER BAD CHACTERS ************** */
+function filterBadCharacters(str) {
+    "use strict";
+    // Remove characters that are found in archived files.
+        str = str.replace(/[\u0000-\u00E2\u0041\u001F\u007F\u0080-\uFFFF]/g, '');
+        str = str.replace(/[\u0000-\u001F\u007F\u0080-\uFFFF]/g, '');
+        str = str.replace(' ','');
+        return str;
+}   
+
 
 //****************** String to Array ********************
 function stringToArray(s) {
@@ -1099,9 +1113,14 @@ function getYoutubeEmbedUrl(cited_url) {
         const url_parsed = urlParser.parse(cited_url);
         
         if (url_parsed && url_parsed.id) {
-            var start = (url_parsed.params && url_parsed.params.start) ? url_parsed.params.start : 0;
-            return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&start=${start}&origin=${window.location.origin}`;
+            var start = 0
+            if (url_parsed.params.start) {
+                var start = url_parsed.params.start || 0; // Default to 0 if no start time is provided
+            }
+            // Create embed URL with required parameters
         }
+        
+        return `https://www.youtube.com/embed/${url_parsed.id}?enablejsapi=1&start=${start}&origin=${window.location.origin}`;
 
     } catch (e) {
         console.error("Error converting YouTube URL:", e);

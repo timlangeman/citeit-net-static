@@ -1,0 +1,198 @@
+wget -p -k -E -H -np --adjust-extension http://example.com
+
+Please create a python script named "apply_cite_urls.py" that links quotes using the "cite" attribute of <q> and <blockquote> tags.
+
+CiteIt annotates quotes with <q cite="URL"> and <blockquote cite="URL"> tags, such as:
+	  <q cite="https://archive.is/Z87Vj">According to a former de Blasio aide ...  was out of earshot of plainclothes officers.</q>
+	  
+	  
+	  
+	  <blockquote cite="https://archive.md/20230216051043/https://www.washingtonpost.com/business/2023/02/09/socialsecurity-cuts-biden-republicans/">Thelife expectancy increased from 61 years in 1935, when Social Security was enacted, to 70 years in 1965, to 77 in 2020, according to the World Bank and Centers for Disease Control and Prevention. That means people are spending more time retiring, and they’re spending more money on health care.</blockuote>
+
+	 Please find the <q> and <blockquote> tags in the original page and wrap the quotes in the new page with the <q cite> and <blockquote cite> URLs.
+
+The Original page containing "cite" URLs:
+	https://www.citeit.net/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/	 
+
+The New page that needs to be linked with "cite" URLs:
+	http://localhost:8080/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/
+
+
+
+localize_page 
+copy_citeit_scripts.py
+apply_cite_urls.py
+
+
+
+
+python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/ \
+http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
+
+
+
+
+
+
+
+python3 localize_page.py http://localhost:8080/demo/substack/www.columnblog.com/p/chicago-tribune-has-published-10x/
+    http://localhost:8080/demo/substack/www.racket.news/p/who-blew-up-the-nord-stream-pipelines/ \
+    http://localhost:8080/demo/substack/www.columnblog.com/p/chicago-tribune-has-published-10x/
+
+
+python3 copy_citeit_scripts.py /demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
+
+python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/ \
+http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
+
+
+
+
+
+
+python3 apply_cite_urls.py https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+
+
+export FLASK_APP=app.py
+set FLASK_RUN_PORT=80
+python3 -m flask run --host=0.0.0.0 --port=80
+
+
+
+
+
+
+
+
+Missing tags:
+
+
+
+
+
+
+
+Please modify  to accept input from the internet, such as "https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/" http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+
+
+python3 localize_page.py http://localhost:8080/demo/substack/www.kenklippenstein.com/p/jd-vance-on-war-and-peace/ 
+
+
+python3 apply_cite_urls.py \
+https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ \
+http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+
+
+
+No right without remedies.
+
+
+
+
+
+
+The <q> and <blockquote> tags are not being applied by apply_cite_urls.py.
+
+Here are a number of <q cite> tags that do not get recognized and applied to:
+http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
+
+
+
+Please fix the apply_cite_urls.py script to recognize and apply the following missing tags:
+
+<q cite="https://www.silive.com/news/2020/02/nypd-sergeants-union-threatens-to-expose-mayor-after-declaring-war-in-wake-of-officer-shootings.html">we’re going to start to expose what really goes on in the NYPD -- what really goes on inside City Hall,” he said. “(The mayor is) either going to get in front of this, or this is going to get to a point that it’s not gonna be good</q>.
+
+
+
+<q cite="https://archive.is/Z87Vj">According to a former de Blasio aide, during the general election campaign in 2013 de Blasio’s team was even convinced that members of his police detail were eavesdropping on his private conversations in his city-assigned car. Things got so bad that de Blasio, according to the staffer, would step into the street to make sure he was out of earshot of plainclothes officers.</q>
+
+<q cite="https://www.silive.com/news/2020/02/nypd-sergeants-union-threatens-to-expose-mayor-after-declaring-war-in-wake-of-officer-shootings.html">we’re going to start to expose what really goes on in the NYPD -- what really goes on inside City Hall,” he said. “(The mayor is) either going to get in front of this, or this is going to get to a point that it’s not gonna be good</q>
+
+<q cite="https://www.chicagotribune.com/news/criminal-justice/ct-chicago-violent-gathering-police-investigation-20230420-li5tlrt7wbduxfczh2jr3w66c4-story.html">drove to the 1st District police station on the Near South Side</q>
+		
+<q cite="https://archive.is/JXt8O">Throughout the 1960s, ’70s and ’80s, the blue flu was a ubiquitous and highly effective tactic in Baltimore, Memphis, New Orleans, Chicago, Newark, New York</q>
+	
+<q cite="https://mirror.citeit.net/theappeal.org/a-lack-of-evidence-doesnt-keep-the-new-york-times-from-declaring-a-spike-in-crime.html">as of March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was actually down 12 percent year-to-date. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.</q>
+		
+
+
+
+
+
+
+
+
+as of March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was </span><a href="https://theappeal.org/distorted-picture-crime-spikes-new-york-city/"><span style="font-weight: 400;">actually down 12 percent year-to-date</span></a><span style="font-weight: 400;">. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.  
+
+
+
+“as of March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was </span><a href="https://theappeal.org/distorted-picture-crime-spikes-new-york-city/"><span style="font-weight: 400;">actually down 12 percent year-to-date</span></a><span style="font-weight: 400;">. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.
+
+
+  </span></p>
+<p><span style="font-weight: 400;">The “crime spike” narrative comes in the context of a broader, nonstop media campaign by anti-reform forces. Each week, New York media––</span><a href="https://theappeal.org/the-medias-misguided-backlash-against-criminal-justice-reforms-in-d-c-and-new-york/"><span style="font-weight: 400;">city</span></a><span style="font-weight: 400;"> and </span><a href="https://theappeal.org/upstate-police-and-sheriff-departments-join-media-campaign-against-bail-reform-in-new-york-state/"><span style="font-weight: 400;">state</span></a><span style="font-weight: 400;"> alike––sees dozens of </span><a href="https://www.vox.com/2018/12/1/18121221/george-hw-bush-willie-horton-dog-whistle-politics"><span style="font-weight: 400;">Willie Horton-type</span></a><span style="font-weight: 400;"> stories of Bad Guys “let go” who go on to commit crime. These decontextualized tales, much like the decontextualized one month of data the New York Times and other outlets are making hay over, are designed to sow fear and put pressure on Albany. Even putatively liberal politicians like New York City Mayor Bill de Blasio are fueling the narrative. De Blasio </span><a href="https://twitter.com/GloriaPazmino/status/1225803117733859329"><span style="font-weight: 400;">went on</span></a><span style="font-weight: 400;"> WNYC’s “Brian Lehrer Show” </span><a href="https://www.wnyc.org/story/askthemayor-02072020"><span style="font-weight: 400;">on Friday morning</span></a><span style="font-weight: 400;"> to play amatuer statistician, insisting that the January crime figures stand out “like a sore thumb.” But they’re only standing out because media outlets and politicians are insisting that they prove their pre-existing agenda of repealing said reforms––not due to any empirical, sober concern with crime. </span></p>
+<p><span style="font-weight: 400;">Crime rates spike and dip. Criminologists know what’s useful is measuring these metrics over longer time tables. Absent that, all these articles serve to do in this era of bail reform is frighten readers into supporting a repeal of the changes––which is most likely why those in favor of overturning recent reforms are quick to jump on any movement in numbers that works in the
+
+
+
+“as of March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was </span><a href="https://theappeal.org/distorted-picture-crime-spikes-new-york-city/"><span style="font-weight: 400;">actually down 12 percent year-to-date</span></a><span style="font-weight: 400;">. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.
+
+
+
+  </span></p>
+<p><span style="font-weight: 400;">The “crime spike” narrative comes in the context of a broader, nonstop media campaign by anti-reform forces. Each week, New York media––</span><a href="https://theappeal.org/the-medias-misguided-backlash-against-criminal-justice-reforms-in-d-c-and-new-york/"><span style="font-weight: 400;">city</span></a><span style="font-weight: 400;"> and </span><a href="https://theappeal.org/upstate-police-and-sheriff-departments-join-media-campaign-against-bail-reform-in-new-york-state/"><span style="font-weight: 400;">state</span></a><span style="font-weight: 400;"> alike––sees dozens of </span><a href="https://www.vox.com/2018/12/1/18121221/george-hw-bush-willie-horton-dog-whistle-politics"><span style="font-weight: 400;">Willie Horton-type</span></a><span style="font-weight: 400;"> stories of Bad Guys “let go” who go on to commit crime. These decontextualized tales, much like the decontextualized one month of data the New York Times and other outlets are making hay over, are designed to sow fear and put pressure on Albany. Even putatively liberal politicians like New York City Mayor Bill de Blasio are fueling the narrative. De Blasio </span><a href="https://twitter.com/GloriaPazmino/status/1225803117733859329"><span style="font-weight: 400;">went on</span></a><span style="font-weight: 400;"> WNYC’s “Brian Lehrer Show” </span><a href="https://www.wnyc.org/story/askthemayor-02072020"><span style="font-weight: 400;">on Friday morning</span></a><span style="font-weight: 400;"> to play amatuer statistician, insisting that the January crime figures stand out “like a sore thumb.” But they’re only standing out because media outlets and politicians are insisting that they prove their pre-existing agenda of repealing said reforms––not due to any empirical, sober concern with crime. </span></p>
+<p><span style="font-weight: 400;">Crime rates spike and dip. Criminologists know what’s useful is measuring these metrics over longer time tables. Absent that, all these articles serve to do in this era of bail reform is frighten readers into supporting a repeal of the changes––which is most likely why those in favor of overturning recent reforms are quick to jump on any movement in numbers that works in their favor. </span></p>
+<p><span style="font-weight: 400;">To the extent to which “spikes” are presented by the Times, they should be framed as assertions from conflicted parties such as police or anti-reform lawmakers, not an objective fact. The articles themselves make it clear that conclusions cannot be drawn from small sample sizes so, why, one is compelled to ask, do the headlines and first paragraphs leave the publi
+
+
+
+===========================================================================================
+
+http://localhost:8080/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/
+
+
+A plausible plan would involve these elements: broadening the base upon which the 12.4 percent payroll tax is levied — currently 84 percent of all earnings — to the 90 percent that prevailed in 1982, at the time of the Reagan reforms; gradually indexing up the age, currently 67, at which people may retire at full benefits, to take account of longer retirements due to rising life expectancy
+https://archive.md/wip/uNC02
+
+
+board proposes is a broadening of the amount of income the Social Security tax is levied on; a gradual increase of the full retirement age to keep up with rising life expectancytext context;
+https://archive.md/f6h8R
+
+
+“life expectancy increased from 61 years in 1935, when Social Security was enacted, to 70 years in 1965, to 77 in 2020, according to the World Bank and Centers for Disease Control and Prevention. That means people are spending more time retiring, and they’re spending more money on health care.”
+https://archive.md/20230216051043/https://www.washingtonpost.com/business/2023/02/09/socialsecurity-cuts-biden-republicans/
+
+
+The argument has been that if people are living longer, they should be working longer. That sounds reasonable on its face, until you remember your middle school algebra and recognize that averages can be easily skewed. The fact is that the increases in longevity have not been shared equally in the population. The highest-income individuals in our society have experienced longevity gains, while the longevity of the middle and lower earners has remained stagnant or even declined. For example, the National Academies of Sciences, Engineering, and Medicine estimates that for women born from 1930 to 1960, life expectancy for those at the bottom of the earnings distribution has declined by four years, while for those at the top of the earnings distribution, it has increased by five years
+https://archive.md/7m2vS
+
+
+
+In 2019, white population life expectancy at age 65 was 19.5 years, while life expectancy for both the Black and American Indian or Alaska Native populations at age 65 was 18.2.
+https://archive.is/S0X1L
+
+
+has a negative effect on health outcomes as the prevalence of several diagnoses
+https://archive.is/LdA8J
+
+
+
+“mental health, musculoskeletal diseases, and obesity, increasestext context”.
+https://archive.is/LdA8J
+
+===========================================================================================
+
+
+JD Vance on War and Peace
+http://localhost:8080/demo/substack/www.kenklippenstein.com/p/jd-vance-on-war-and-peace/
+
+There is no way that we can long term fight a missile defense battle against people if they're paying 1/10th or 1/100th for offensive weapons that we are paying for defensive weapons. And the Israelis are doing the most important work to actually give us missile defense parity. That's a very important national security objective for the United States of America. And that's something we're working with one of the most innovative economies in the world to accomplish.”
+https://youtu.be/VVzoZwoU_RY?t=868
+
+And if you look at what Israel is doing just with the iron beam system for example this is a system that would allow America and our allies to actually achieve some parity with the people who are sending drones and Rocket attacks and so forth
+https://youtu.be/VVzoZwoU_RY?t=1372
+
+
+
+
+
