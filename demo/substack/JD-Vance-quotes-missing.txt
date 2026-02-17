@@ -112,7 +112,7 @@ Please fix the apply_cite_urls.py script to recognize and apply the following mi
 		
 <q cite="https://archive.is/JXt8O">Throughout the 1960s, ’70s and ’80s, the blue flu was a ubiquitous and highly effective tactic in Baltimore, Memphis, New Orleans, Chicago, Newark, New York</q>
 	
-<q cite="https://mirror.citeit.net/theappeal.org/a-lack-of-evidence-doesnt-keep-the-new-york-times-from-declaring-a-spike-in-crime.html">as of March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was actually down 12 percent year-to-date. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.</q>
+<q cite="https://mirror.citeit.net/theappeal.org/a-lack-of-evidence-doesnt-keep-the-new-york-times-from-declaring-a-spike-in-crime.html">as of  March 24, the borough had recorded 28 homicides so far this year, compared with 17 in the same period last year, a 64 percent increase.” The upward trend no doubt shocked thousands of Times readers. But, by August, murder in Brooklyn was actually down 12 percent year-to-date. Once 2019 was over, the total Brooklyn murder rate was up by a total of two, 100 from 98––hardly the “64 percent increase” readers were warned about in the spring.</q>
 		
 
 

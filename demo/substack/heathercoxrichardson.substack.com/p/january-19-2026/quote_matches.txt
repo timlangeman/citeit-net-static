@@ -1,0 +1,132 @@
+QUOTE[0]: "Dear Jonas: Considering your Country decided not to give me the Nobel Peace P..."
+FULL_QUOTE: Dear Jonas: Considering your Country decided not to give me the Nobel Peace Prize for having stopped 8 Wars PLUS, I no longer feel an obligation to think purely of Peace, although it will always be predominant, but can now think about what is good and proper for the United States of America. Denmark cannot protect that land from Russia or China, and why do they have a 'right of ownership' anyway? There are no written documents, it's only that a boat landed there hundreds of years ago, but we had boats landing there, also. I have done more for NATO than any other person since its founding, and now, NATO should do something for the United States. The World is not secure unless we have Complete and Total Control of Greenland. Thank you! President DJT
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: word_overlap
+
+QUOTE[1]: "Even by the standards of the past week, like others, I struggle to comprehend..."
+FULL_QUOTE: Even by the standards of the past week, like others, I struggle to comprehend how the below letter on Greenland/Nobel might be real, although it appears to come from the account of a respected PBS journalist… this is what I meant by beyond precedent, parody and reality….
+SOURCE: https://www.nato.int/en/about-us/nato-history/a-short-history-of-nato
+MATCH_SCORE: 0.70
+MATCH_METHOD: word_overlap
+
+QUOTE[2]: "Incredible… the story is actually not a parody."
+FULL_QUOTE: Incredible… the story is actually not a parody.
+SOURCE: https://bsky.app/profile/joycewhitevance.bsky.social/post/3mcs5zlstp224
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[3]: "should be the last straw."
+FULL_QUOTE: should be the last straw.
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[4]: "Donald Trump now genuinely lives in a different reality, one in which neither..."
+FULL_QUOTE: Donald Trump now genuinely lives in a different reality, one in which neither grammar nor history nor the normal rules of human interaction now affect him. Also, he really is maniacally, unhealthily obsessive about the Nobel Prize.
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[5]: "to stop Trump from acting out his fantasy in Greenland and doing permanent da..."
+FULL_QUOTE: to stop Trump from acting out his fantasy in Greenland and doing permanent damage to American interests.
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[6]: "They owe it to the American people,"
+FULL_QUOTE: They owe it to the American people,
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[7]: "and to the world."
+FULL_QUOTE: and to the world.
+SOURCE: https://www.theatlantic.com/ideas/2026/01/trump-letter-to-norway/685676/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[8]: "This letter, and the fact that the president directed that it be distributed ..."
+FULL_QUOTE: This letter, and the fact that the president directed that it be distributed to other European countries, should trigger a bipartisan congressional inquiry into presidential fitness.
+SOURCE: https://bsky.app/profile/joycewhitevance.bsky.social/post/3mcs5zlstp224
+MATCH_SCORE: 0.73
+MATCH_METHOD: word_overlap
+
+QUOTE[9]: "'might makes right' - that's a troublesome development"
+FULL_QUOTE: 'might makes right' - that's a troublesome development
+SOURCE: https://abc7ny.com/post/us-catholic-cardinals-urge-trump-administration-embrace-moral-compass-foreign-policy/18435102/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[10]: "We are watching one of the wildest things a nation-state has ever done,"
+FULL_QUOTE: We are watching one of the wildest things a nation-state has ever done,
+SOURCE: https://bsky.app/profile/vermontgmg.bsky.social/post/3mcsqlpp6ls2g
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[11]: "A superpower is [dying by] suicide because the [Republican] Congress is too c..."
+FULL_QUOTE: A superpower is [dying by] suicide because the [Republican] Congress is too cowardly to stand up to the Mad King. This is one of the wildest moments in all of geopolitics ever.
+SOURCE: https://bsky.app/profile/vermontgmg.bsky.social/post/3mcsqlpp6ls2g
+MATCH_SCORE: 0.97
+MATCH_METHOD: word_overlap
+
+QUOTE[12]: "their desire to live in peace with all peoples and all governments"
+FULL_QUOTE: their desire to live in peace with all peoples and all governments
+SOURCE: https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/1941/08/14/the-atlantic-charter
+MATCH_SCORE: 1.00
+MATCH_METHOD: word_overlap
+
+QUOTE[13]: "to safeguard the freedom, common heritage and civilisation of their peoples, ..."
+FULL_QUOTE: to safeguard the freedom, common heritage and civilisation of their peoples, founded on the principles of democracy, individual liberty and the rule of law.
+SOURCE: https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/1949/04/04/the-north-atlantic-treaty
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[14]: "gravely undermined global security."
+FULL_QUOTE: gravely undermined global security.
+SOURCE: https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2024/07/10/washington-summit-declaration
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[15]: "the most impressive and consequential Board ever assembled,"
+FULL_QUOTE: the most impressive and consequential Board ever assembled,
+SOURCE: https://eng.belta.by/president/view/trumps-letter-to-lukashenko-full-text-and-what-it-means-175942-2026/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[16]: "there has never been anything like it!"
+FULL_QUOTE: there has never been anything like it!
+SOURCE: https://eng.belta.by/president/view/trumps-letter-to-lukashenko-full-text-and-what-it-means-175942-2026/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[17]: "lead by example, and brilliantly invest in a secure and prosperous future for..."
+FULL_QUOTE: lead by example, and brilliantly invest in a secure and prosperous future for generations to come.
+SOURCE: https://eng.belta.by/president/view/trumps-letter-to-lukashenko-full-text-and-what-it-means-175942-2026/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[18]: "with an abiding faith in America and an audacious faith in the future of mank..."
+FULL_QUOTE: with an abiding faith in America and an audacious faith in the future of mankind,
+SOURCE: https://www.nobelprize.org/prizes/peace/1964/king/acceptance-speech/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[19]: "what self-centered men have torn down men other-centered can build up."
+FULL_QUOTE: what self-centered men have torn down men other-centered can build up.
+SOURCE: https://www.nobelprize.org/prizes/peace/1964/king/acceptance-speech/
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[20]: "American dollars, American treasure, American blood, American ingenuity is wh..."
+FULL_QUOTE: American dollars, American treasure, American blood, American ingenuity is what keeps Europe safe and the free world safe,
+SOURCE: https://bsky.app/profile/antongerashchenko.bsky.social/post/3mcse2pf5js2v
+MATCH_SCORE: 1.00
+MATCH_METHOD: word_overlap
+
+QUOTE[21]: "What's it gonna take?"
+FULL_QUOTE: What's it gonna take?
+SOURCE: https://eng.belta.by/president/view/trumps-letter-to-lukashenko-full-text-and-what-it-means-175942-2026/
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
