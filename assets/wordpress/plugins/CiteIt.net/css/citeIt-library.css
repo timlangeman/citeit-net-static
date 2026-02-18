@@ -146,9 +146,8 @@ span.highlight_light {
 	background-color: #e6ec72;
 }
 
-
 .source_domain {
- 	display: block;
+ 	display: inline;
 	clear: left;
 }
 

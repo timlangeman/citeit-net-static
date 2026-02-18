@@ -238,7 +238,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
 
             </div>
             
-            <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>View Original Source:</b><a target='_blank' class='source_domain' href='${json.cited_url}'>${display_domain}</a></p></div>`
+            <p><a class='close' href=${js_popup}>Close</a> <div class='source_url'><a target='_blank' class='source_label' href='${json.cited_url}'><b>Original Source:</b> <a target='_blank' class='source_domain' href='${json.cited_url}'>${display_domain}</a> &nbsp; (<a href='#'>Archive</a>)</p></div>`
             );
 
             console.log(`Length: 
