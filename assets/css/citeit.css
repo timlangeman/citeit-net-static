@@ -189,6 +189,10 @@
       list-style-type: disc;
     }
 
+    .sample-articles ul.disc li.active strong{
+      color: #000;
+    }
+
     .sample-articles .active{
       background-color: rgb(214, 232, 236); // rgb(14, 191, 233);
       padding: 10px;
