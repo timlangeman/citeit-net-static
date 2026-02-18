@@ -185,8 +185,10 @@
       font-size: 125%;
       color: orange;
       font-weight: 800;
-      padding: 15px 0px 0pm 15px !important
+      padding: 15px 0px 0pm 15px !important;
+      list-style-type: disc;
     }
+
     .sample-articles .active{
       background-color: rgb(214, 232, 236); // rgb(14, 191, 233);
       padding: 10px;
@@ -195,10 +197,26 @@
     div.sample-articles ul.disc li.active ul li.active {
         font-size: 95%;
         color: orange;
-        margin-left: 33px;
+        list-style-type: "\00BB";
+        margin-left: 25px;
         font-weight: 800;
-        padding: 15px 0px 7px 15px !important;
+        position: relative;
+        padding-left: 12px !important;
     }
+
+    div.sample-articles ul.disc li.active ul li.before {
+        content: "\00BB";
+        margin-right: 8px; /* Space between arrow and text */
+        position: absolute;
+        left: 0;
+        top: 50%; /* Vertical centering trick */
+        /* transform: translateY(-50%); */
+        font-size: 150%;
+          
+        /* This ensures the arrow itself doesn't have extra invisible width */
+        width: auto;
+    }
+
     div.sample-articles ul.disc li.active span.title{
         color: #555;
         font-size: 90%;
