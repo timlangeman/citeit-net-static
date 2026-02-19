@@ -187,11 +187,11 @@ x    /*** Non-Matched Examples
         color: #000;
 	}
 
-	/*** Wikipedia Image Legend ***/
-		Example: "Fact-checkers from The Washington Post,[839] the Toronto Star,[840] and CNN[841] compiled data on "false or misleading claims" (orange background), and "false claims" (violet foreground), respectively."
-	
+	/* Wikipedia Image Legend
+		Example: "Fact-checkers from The Washington Post,[839] the Toronto Star,[840] and CNN[841] compiled data on 'false or misleading claims' (orange background), and 'false claims' (violet foreground), respectively."
+
 		Wikipedia article: Donald Trump
-	***/
+	*/
 	.wiki-legend, .wiki-legend a, .wiki-legend a:visited{
         background-color: #fff; 
         color: #000;
