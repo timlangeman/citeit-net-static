@@ -212,7 +212,12 @@ div.sample-articles ul.disc li.active ul li.active::before {
         font-size: 150%;
     }
 
-
+    div.sample-articles ul.disc li ul li.active a {
+        color: orange;
+        text-decoration: none;
+        pointer-events: none;
+        cursor: default;
+    }
 
     div.sample-articles ul.disc li.active span.title{
         color: #555;
