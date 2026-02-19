@@ -50,7 +50,7 @@ http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-rig
 
 
 
-python3 apply_cite_urls.py https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
 
 
 export FLASK_APP=app.py
@@ -72,14 +72,14 @@ Missing tags:
 
 
 
-Please modify  to accept input from the internet, such as "https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/" http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+Please modify  to accept input from the internet, such as "https://www.citeit.net/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/" http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
 
 
 python3 localize_page.py http://localhost:8080/demo/substack/www.kenklippenstein.com/p/jd-vance-on-war-and-peace/ 
 
 
 python3 apply_cite_urls.py \
-https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ \
+https://www.citeit.net/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ \
 http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
 
 

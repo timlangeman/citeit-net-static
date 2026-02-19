@@ -332,44 +332,55 @@
                                             <span class="button-text ">Subscribe</span></button></div><div id="error-container"></div></form></div></div></div></div></div></div></div>
 
 </div>
-<!--*************** Begin: CiteIt Footer Notice *****************-->
+<!--*************** Begin: CiteIt Samples *****************-->
 <div class="sample-articles">
-<h3 class="mt-7 mb-3 text-2xl leading-8 font-extrabold font-header tracking-tight text-green-bright sm:text-2xl"><a class="underline"  href="/demo/substack/">More Substack articles</a>:</h3>
+<h3 class="mt-7 mb-3 text-2xl leading-8 font-extrabold font-header tracking-tight text-green-bright sm:text-2xl"><a class="underline" href="/demo/substack/">More Substack articles</a>:</h3>
 <p>I manually <b>mocked-up sample articles</b> from selected Substack authors to demonstrate how Substack would look like if it used CiteIt's contextual contacts:</p>
 
-	<ul class="disc">
-
+    <ul class="disc">
     <li><strong>Ken Klippenstein</strong> (Journalist)
         <ul>
-            <li><a href="/demo/substack/kenklippenstein.com/p/jd-vance-on-war-and-peace/">JD Vance on War and Peace</a></li>
-            <li><a href="/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/">Biden Takes Swipe at Campus Protesters, Snubbing Youth Support</a></li>
-        </ul>    
+            <li><a href="/demo/substack/www.kenklippenstein.com/p/jd-vance-on-war-and-peace/">JD Vance on War and Peace</a></li>
+            <li><a href="/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/">Biden Takes Swipe at Campus Protesters, Snubbing Youth Support</a></li>
+        </ul>
     </li>
-    <li><strong>Matt Taibbi</strong> (Journalist)  
+    <li><strong>Matt Taibbi</strong> (Journalist)
         <ul>
             <li><a href="/demo/substack/www.racket.news/p/who-blew-up-the-nord-stream-pipelines/">Who Blew Up the Nord Stream Pipelines? "Russia, Russia, Russia!"</a></li>
-        </ul>    
+        </ul>
     </li>
-    <li><strong>Doomberg</strong>: Substack’s #1 Paid Finance Newsletter.
+    <li><strong>Doomberg</strong>: Substack's #1 Paid Finance Newsletter.
         <ul>
-            <li><a href="/demo/substack/newsletter.doomberg.com/p/a-brief-history-of-times/">A Brief History of Times"</a></li>
-            <li><a href="/demo.citeit.net/2025/11/13/alices-adventures-in-wonderland/">Classics Read Aloud</a>: Alice &amp; Wonderlad (Demo)</li>
-        </ul>    
+            <li><a href="/demo/substack/newsletter.doomberg.com/p/a-brief-history-of-times/">A Brief History of Times</a></li>
+            <li><a href="/demo.citeit.net/2025/11/13/alices-adventures-in-wonderland/">Classics Read Aloud</a>: Alice &amp; Wonderland (Demo)</li>
+        </ul>
     </li>
-    <li class="active"><strong>Adam Johnson</strong> &nbsp; <span class="title">(Citations Needed, The Column)</span>
+    <li><strong>Adam Johnson</strong> &nbsp; <span class="title">(Citations Needed, The Column)</span>
         <ul>
-            <li class="active">Post Continues to Lie About Social Security and Life Expectancy</li>
+            <li><a href="/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/">Post Continues to Lie About Social Security and Life Expectancy</a></li>
             <li><a href="/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/">3 Media Tactics the Right Will Use to Undermine Brandon Johnson</a></li>
         </ul>
     </li>
     <li><strong>Heather Cox Richardson</strong>: Boston College (History Professor)
-            <ul>
-                <li><a href="/demo/substack/heathercoxrichardson.substack.com/p/january-19-2026/">January 19, 2026"</a></li>
-            </ul>    
-        </li>
+        <ul>
+            <li><a href="/demo/substack/heathercoxrichardson.substack.com/p/january-19-2026/">January 19, 2026</a></li>
+        </ul>
+    </li>
     </ul>
 </div>
-<!--*************** End: CiteIt Footer Notice *****************-->
+<script>
+(function() {
+    var path = window.location.pathname.replace(/\/$/, '');
+    document.querySelectorAll('.sample-articles ul.disc li ul li').forEach(function(li) {
+        var a = li.querySelector('a');
+        if (a && a.getAttribute('href').replace(/\/$/, '') === path) {
+            li.classList.add('active');
+            li.parentElement.closest('li').classList.add('active');
+        }
+    });
+})();
+</script>
+<!--*************** End: CiteIt Samples *****************-->
 
 
 

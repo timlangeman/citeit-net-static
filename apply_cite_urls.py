@@ -17,7 +17,7 @@ Usage:
 
 Examples:
   python3 apply_cite_urls.py \
-    https://www.citeit.net/demo/substack/kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ \
+    https://www.citeit.net/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ \
     http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
 
   python3 apply_cite_urls.py \
