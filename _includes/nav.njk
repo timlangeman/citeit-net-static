@@ -1,9 +1,9 @@
-    <nav class="bg-white"  x-data="{ open: false }">
+    <nav class="bg-white">
       <div id="building_trust" class="max-w-7xl m-auto flex justify-between items-center">
         <div class="py-4">
           <div class="ml-2 sm:ml-4 md:ml-8">
               <a class="" href="/">
-                
+
                 <div class="flex">
                   <picture>
                       <source srcset="/assets/images/CiteIt-logo-C.webp" type="image/webp">
@@ -27,33 +27,23 @@
         </ul>
         <div class="flex md:hidden mr-2 sm:mr-4">
           <!-- Mobile menu button -->
-          <button x-on:click="open = !open"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-blue-400 hover:bg-gray-700 focus:outline-none" aria-expanded="false">
+          <button id="mobile-menu-btn"
+            class="inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-blue-400 hover:bg-gray-700 focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
             <span class="sr-only">Open main menu</span>
-            <!-- Icon when menu is closed. -->
-            <!--
-              Heroicon name: menu
-
-              Menu open: "hidden", Menu closed: "block"
-            -->
-            <svg class="h-6 w-6" :class="{ 'hidden': open, 'block': !open }"
-              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <!-- Icon when menu is closed (hamburger). Menu open: hidden, Menu closed: visible -->
+            <svg id="menu-icon-closed" class="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg" style="fill: none; stroke: currentColor;" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <!-- Icon when menu is open. -->
-            <!--
-              Heroicon name: x
-
-              Menu open: "block", Menu closed: "hidden"
-            -->
-            <svg class="h-6 w-6" :class="{ 'hidden': !open, 'block': open }"
-              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <!-- Icon when menu is open (X). Menu open: visible, Menu closed: hidden -->
+            <svg id="menu-icon-open" class="h-6 w-6 hidden"
+              xmlns="http://www.w3.org/2000/svg" style="fill: none; stroke: currentColor;" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
       </div>
-      <div class="lg:hidden" :class="{ 'hidden': !open, 'block': open }">
+      <div id="mobile-menu" class="lg:hidden hidden">
         <div class="pt-2 pb-3 space-y-1">
         {% for link in navLinks %}
 
@@ -64,3 +54,19 @@
         </div>
       </div>
     </nav>
+    <script>
+    (function () {
+      var btn = document.getElementById('mobile-menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      var iconClosed = document.getElementById('menu-icon-closed');
+      var iconOpen = document.getElementById('menu-icon-open');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        menu.classList.toggle('hidden');
+        iconClosed.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden');
+      });
+    })();
+    </script>

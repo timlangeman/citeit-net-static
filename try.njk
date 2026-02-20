@@ -373,7 +373,7 @@ Because we clicked the "<strong>CiteIt blockquote" button</strong>, rather than 
     });
 
     /*  Convert TextArea into TinyMce Editor */
-    tinymce.init({
+    if (typeof tinymce !== 'undefined') tinymce.init({
       selector: '#post_body',
       height: 200,
       toolbar: 'formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | citeit_blockquote | citeit_inline_popup | code',

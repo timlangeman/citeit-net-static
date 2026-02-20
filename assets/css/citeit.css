@@ -206,6 +206,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
     div.sample-articles ul.disc li.active ul li.active::before {
         content: "\00BB";
         margin-right: 1px; /* Space between arrow and text */
+        margin-top: -10px;
         /* If you want it positioned exactly: */
         position: absolute;
         left: -15px;
