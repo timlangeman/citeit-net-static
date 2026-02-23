@@ -1,6 +1,6 @@
 /*jslint this*/
-/*global console, document, jQuery, Map, urlParser, forge_sha256,
-  Set, URL, URLSearchParams, unescape, window */
+/*global console, document, jQuery, urlParser, forge_sha256,
+  TextEncoder, URL, URLSearchParams, window */
 
 /* Quote-Context JS Library
  * https://github.com/CiteIt/citeit-jquery
@@ -34,7 +34,7 @@ const apiBaseUrl = "https://read.citeit.net/quote/sha256/";
 
 // Precompiled regex patterns for better performance
 const REGEX = {
-    domainSplit: /[\/?#]/,
+    domainSplit: /[\/?#]/,  // eslint-disable-line no-useless-escape
     hexadecimal: /^[0-9a-fA-F]+$/,
     protocol: /^https?:\/\//i,
     sha256: /^[0-9a-f]{64}$/i,
@@ -98,7 +98,7 @@ function isValidHttpUrl(string) {
     try {
         const url = new URL(string);
         return (url.protocol === "http:" || url.protocol === "https:");
-    } catch (ignore) {
+    } catch {
         return false;
     }
 }
@@ -124,7 +124,6 @@ function sanitizeUrl(url) {
 function clog(msg) {
     // console.log wrapper, toggle with citeItDebug variable
     if (citeItDebug) {
-        // eslint-disable-next-line no-console
         console.log(msg);
     }
 }
@@ -201,13 +200,17 @@ function quoteHashKey(citingQuote, citingUrl, citedUrl) {
 
 function extractDomain(url) {
     // Extract domain from URL for display purposes
+
+    // Remove prefix if present to show the actual cited domain
+    url = url.replace("https:///", '');
+
     if (!isValidHttpUrl(url)) {
         return "";
     }
     try {
         const urlObj = new URL(url);
         return urlObj.hostname;
-    } catch (ignore) {
+    } catch {
         return "";
     }
 }
@@ -415,7 +418,6 @@ function embedUi(sourceUrl, jsonData, tagType) {
             "'>Expand: Show Video Clip</a></span>"
         ].join("");
 
-        // Secure iframe with sandbox
         embedHtml = [
             "<iframe class='youtube' src='",
             escapeHtml(embedUrl),
@@ -424,8 +426,10 @@ function embedUi(sourceUrl, jsonData, tagType) {
             "' height='",
             height,
             "' frameborder='0' ",
-            "sandbox='allow-scripts allow-same-origin' ",
-            "allowfullscreen='allowfullscreen'></iframe>"
+            "allow='accelerometer; autoplay; clipboard-write; ",
+            "encrypted-media; gyroscope; picture-in-picture; ",
+            "web-share; presentation' ",
+            "allowfullscreen></iframe>"
         ].join("");
     }
 
@@ -453,6 +457,11 @@ function isWordpressPreview(citingUrl) {
 
 function isValidUrl(string) {
     return isValidHttpUrl(string);
+}
+
+function removeMirrorSourceUrl(citedUrl) {
+    // Shown the actual URL being cited, rather than the mirror location 
+    return citedUrl.replace("https:///", '');
 }
 
 // ============ DOM Manipulation ============
@@ -681,9 +690,14 @@ function quoteContextPlugin(collection) {
         }
 
         const tagType = element.tagName.toLowerCase();
-        const hashKey = unescape(encodeURIComponent(
-            quoteHashKey(citingQuote, citingUrl, citedUrl)
-        ));
+        const hashKey = Array.from(
+            new TextEncoder().encode(
+                quoteHashKey(citingQuote, citingUrl, citedUrl)
+            ),
+            function (b) {
+                return String.fromCharCode(b);
+            }
+        ).join("");
         const hashValue = forge_sha256(hashKey);
 
         // Validate computed hash
@@ -739,8 +753,9 @@ function quoteContextPlugin(collection) {
     });
 }
 
-jQuery.fn.quoteContext = function quoteContext() {
+jQuery.fn.quoteContext2 = function quoteContext2() {
     // jQuery plugin entry point, processes each element in the collection
     quoteContextPlugin(this);
     return this;
 };
+jQuery.fn.quoteContext = jQuery.fn.quoteContext2;
