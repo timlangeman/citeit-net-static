@@ -1,56 +1,84 @@
-wget -p -k -E -H -np --adjust-extension http://example.com
 
-Please create a python script named "apply_cite_urls.py" that links quotes using the "cite" attribute of <q> and <blockquote> tags.
+.. We have to conclude without the evidence that it's most likely ..
+https://youtu.be/k5bpeC7Caj0?t=0
 
+<<<<<<< Local Changes
+.. All of the signs point to some type of sabotage ..
+https://youtu.be/UZRzODhLn2Q?t=50
+||||||| Old File
+CiteIt annotates quotes with <q cite="URL"> and <blockquote cite="URL"> tags, such as:
+	  <q cite="https://archive.is/Z87Vj">According to a former de Blasio aide ...  was out of earshot of plainclothes officers.</q>
+=======
 CiteIt annotates quotes with <q cite="URL"> and <blockquote cite="URL"> tags, such as:
 	  <q cite="https://archive.is/Z87Vj">According to a former de Blasio aide ...  was out of earshot of plainclothes officers.</q>
 	  
 	  
 	  
-	  <blockquote cite="https://archive.md/20230216051043/https://www.washingtonpost.com/business/2023/02/09/socialsecurity-cuts-biden-republicans/">Thelife expectancy increased from 61 years in 1935, when Social Security was enacted, to 70 years in 1965, to 77 in 2020, according to the World Bank and Centers for Disease Control and Prevention. That means people are spending more time retiring, and they’re spending more money on health care.</blockuote>
+	  <blockquote cite="https://archive.md/20230216051043/https://archive.ph/soznn">Thelife expectancy increased from 61 years in 1935, when Social Security was enacted, to 70 years in 1965, to 77 in 2020, according to the World Bank and Centers for Disease Control and Prevention. That means people are spending more time retiring, and they’re spending more money on health care.</blockuote>
+>>>>>>> External Changes
 
-	 Please find the <q> and <blockquote> tags in the original page and wrap the quotes in the new page with the <q cite> and <blockquote cite> URLs.
+.. Russia is certainly the most likely suspect ..
+https://youtu.be/lD1BMfGfZcc?t=22
 
-The Original page containing "cite" URLs:
-	https://www.citeit.net/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/	 
-
-The New page that needs to be linked with "cite" URLs:
-	http://localhost:8080/demo/substack/www.columnblog.com/p/washington-post-continues-to-lie/
-
+.. end it, once and for all ..
+https://youtu.be/w_-vck9wfhg?t=26
 
 
-localize_page 
-copy_citeit_scripts.py
-apply_cite_urls.py
+.. pretending they were Jack Ryan in a Tom Clancy novel ..
+https://youtu.be/PqUABFUm5k8?t=110
+
+
+https://youtube.com/watch?v=VD4fMgZmh5Q&feature=shares&t=186
+
+=================================================================================
+=================================================================================
+
+3) ERROR - YouTube Transcriptor API error for video w_-vck9wfhg: This language is not available on this video.
+video   end it, once and for all ..
+https://youtu.be/qKoPA3M7x2o?t=657
+
+
+There are 4 videos that may experience errors, like "This language is not available on this video."
+
+Please test the following URLs to see if they encounter errors, and if they do, what type of error they encounter.
+
+https://youtu.be/KfVdIKaQzW8?t=1247
+https://youtu.be/KfVdIKaQzW8&t=1275
+https://youtu.be/qKoPA3M7x2o?t=657
+https://youtu.be/PqUABFUm5k8?t=110
+
+=================================================================================
+=================================================================================
+
+1) video.   to extortion and intimidation
+transcript found			
+https://youtu.be/KfVdIKaQzW8?t=1247
+
+
+2) video   immediately change course ..
+transcript found
+https://youtu.be/KfVdIKaQzW8&t=1275
+
+
+3) video   end it, once and for all ..
+transcript fixed
+https://youtu.be/w_-vck9wfhg?t=26
+
+
+4) .. we will bring an end to it ..
+No Transcript Found: no text
+https://youtu.be/qKoPA3M7x2o?t=657
+
+
+5) pretending they were jack ryan in a tom clancy novel
+video. https://youtu.be/PqUABFUm5k8?t=110
 
 
 
-
-python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/ \
-http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
+=================================================================================
 
 
-
-
-
-
-
-python3 localize_page.py http://localhost:8080/demo/substack/www.columnblog.com/p/chicago-tribune-has-published-10x/
-    http://localhost:8080/demo/substack/www.racket.news/p/who-blew-up-the-nord-stream-pipelines/ \
-    http://localhost:8080/demo/substack/www.columnblog.com/p/chicago-tribune-has-published-10x/
-
-
-python3 copy_citeit_scripts.py /demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
-
-python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/ \
-http://localhost:8080/demo/substack/www.columnblog.com/p/3-media-tactics-the-right-will-use/
-
-
-
-
-
-
-python3 apply_cite_urls.py https://www.citeit.net/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/ http://localhost:8080/demo/substack/www.kenklippenstein.com/p/biden-takes-swipe-at-campus-protesters-snubbing-youth-support/
+wget -p -k -E -H -np --adjust-extension http://example.com
 
 
 export FLASK_APP=app.py
@@ -59,16 +87,43 @@ python3 -m flask run --host=0.0.0.0 --port=80
 
 
 
+How can I fix the following errors?
+
+npm run build             
+
+> build
+> ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production postcss styles/tailwind.css --o _site/style.css && cleancss _site/style.css -o _site/style.css
+
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] Output conflict: multiple input files are writing to `_site/demo/substack/racket-news/index.html`. Use distinct `permalink` values to resolve this conflict.
+[11ty]   1. ./demo/substack/racket-news/index.html
+[11ty]   2. ./demo/substack/racket-news/index.njk (via DuplicatePermalinkOutputError)
+[11ty] 
+[11ty] Original error stack trace: (Repeated output has been truncated…)
+[11ty]     at TemplateMap.checkForDuplicatePermalinks (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/TemplateMap.js:803:13)
+[11ty]     at TemplateMap.cache (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/TemplateMap.js:488:10)
+[11ty]     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+[11ty]     at async TemplateWriter._createTemplateMap (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/TemplateWriter.js:330:5)
+[11ty]     at async TemplateWriter.generateTemplates (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/TemplateWriter.js:360:5)
+[11ty]     at async TemplateWriter.write (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/TemplateWriter.js:407:23)
+[11ty]     at async Eleventy.executeBuild (/Users/timlangeman/Documents/GitHub/citeit-net-static/node_modules/@11ty/eleventy/src/Eleventy.js:1191:13)
 
 
 
+Eleventy:TemplatePassthroughManager TemplatePassthrough copy finished. Current count: 0 +43ms
+  Eleventy:TemplateData Could not find and/or require package.json for data preprocessing at '/Users/timlangeman/Documents/GitHub/citeit-net-static/demo/substack/package.json' +8ms
+  
+  
 
+You're right that they are from a different version of the file.  
 
-Missing tags:
+Please try again with this version ..  
 
+<<<<<<< Local Changes
+---------------------------------------------------------------
+||||||| Old File
 
-
-
+=======
 
 
 
@@ -160,7 +215,7 @@ https://archive.md/f6h8R
 
 
 “life expectancy increased from 61 years in 1935, when Social Security was enacted, to 70 years in 1965, to 77 in 2020, according to the World Bank and Centers for Disease Control and Prevention. That means people are spending more time retiring, and they’re spending more money on health care.”
-https://archive.md/20230216051043/https://www.washingtonpost.com/business/2023/02/09/socialsecurity-cuts-biden-republicans/
+https://archive.md/20230216051043/https://archive.ph/soznn
 
 
 The argument has been that if people are living longer, they should be working longer. That sounds reasonable on its face, until you remember your middle school algebra and recognize that averages can be easily skewed. The fact is that the increases in longevity have not been shared equally in the population. The highest-income individuals in our society have experienced longevity gains, while the longevity of the middle and lower earners has remained stagnant or even declined. For example, the National Academies of Sciences, Engineering, and Medicine estimates that for women born from 1930 to 1960, life expectancy for those at the bottom of the earnings distribution has declined by four years, while for those at the top of the earnings distribution, it has increased by five years
@@ -196,3 +251,4 @@ https://youtu.be/VVzoZwoU_RY?t=1372
 
 
 
+>>>>>>> External Changes
