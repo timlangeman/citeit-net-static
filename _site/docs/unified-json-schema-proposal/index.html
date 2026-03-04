@@ -1,4 +1,60 @@
-<h1>Unified JSON Schema Proposal v0.5</h1><p>This schema combines two new features into a single update:</p><ol><li><strong>Ellipsis/Gap Expansion</strong> — clickable &quot;...&quot; gaps within quotes that reveal hidden context</li><li><strong>Duplicate Quote Disambiguation</strong> — automatic identification of the correct quote occurrence</li></ol><hr><h2>Design Decisions Summary</h2><table><thead><tr><th>Decision</th><th>Answer</th></tr></thead><tbody><tr><td>Ellipsis indicator in HTML</td><td>Author types literal <code>...</code> in blockquote text</td></tr><tr><td>Hash computation</td><td>From quote text as-written (including <code>...</code>)</td></tr><tr><td>Multiple gaps</td><td>Arbitrary number supported</td></tr><tr><td>Recursive gaps (&gt;1000 chars)</td><td>One level only — hard truncation with &quot;read more&quot; link</td></tr><tr><td>Gap text source</td><td>Always from the cited document</td></tr><tr><td>Backward compatibility</td><td>Not required (system not yet in production)</td></tr><tr><td>UI indicator</td><td><code>...</code> in bright blue, bold on hover</td></tr><tr><td>Disambiguation</td><td>Automatic, no author intervention</td></tr><tr><td>Disambiguation method</td><td>Option 2 — Extended Context Anchors (webservice-computed)</td></tr></tbody></table><hr><h2>Complete JSON Schema</h2><pre><code class="language-json">{
+<h1>Unified JSON Schema Proposal v0.5</h1>
+<p>This schema combines two new features into a single update:</p>
+<ol>
+<li><strong>Ellipsis/Gap Expansion</strong> — clickable &quot;...&quot; gaps within quotes that reveal hidden context</li>
+<li><strong>Duplicate Quote Disambiguation</strong> — automatic identification of the correct quote occurrence</li>
+</ol>
+<hr>
+<h2>Design Decisions Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ellipsis indicator in HTML</td>
+<td>Author types literal <code>...</code> in blockquote text</td>
+</tr>
+<tr>
+<td>Hash computation</td>
+<td>From quote text as-written (including <code>...</code>)</td>
+</tr>
+<tr>
+<td>Multiple gaps</td>
+<td>Arbitrary number supported</td>
+</tr>
+<tr>
+<td>Recursive gaps (&gt;1000 chars)</td>
+<td>One level only — hard truncation with &quot;read more&quot; link</td>
+</tr>
+<tr>
+<td>Gap text source</td>
+<td>Always from the cited document</td>
+</tr>
+<tr>
+<td>Backward compatibility</td>
+<td>Not required (system not yet in production)</td>
+</tr>
+<tr>
+<td>UI indicator</td>
+<td><code>...</code> in bright blue, bold on hover</td>
+</tr>
+<tr>
+<td>Disambiguation</td>
+<td>Automatic, no author intervention</td>
+</tr>
+<tr>
+<td>Disambiguation method</td>
+<td>Option 2 — Extended Context Anchors (webservice-computed)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Complete JSON Schema</h2>
+<pre><code class="language-json">{
   &quot;schema_version&quot;: &quot;0.5&quot;,
 
   &quot;sha256&quot;: &quot;64-char hex hash&quot;,
@@ -42,17 +98,172 @@
   &quot;citing_archive_url&quot;: &quot;&quot;,
   &quot;cited_archive_url&quot;: &quot;&quot;
 }
-</code></pre><hr><h2>Field-by-Field Specification</h2><h3>Existing Fields (modified)</h3><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>schema_version</code></td><td>string</td><td><strong>New.</strong> Always <code>&quot;0.5&quot;</code>. Allows the front-end to detect which schema version a JSON file uses.</td></tr><tr><td><code>sha256</code></td><td>string</td><td>64-char hex SHA256 hash. <strong>Hash computation unchanged</strong> — computed from <code>citing_quote</code> as-written (including any <code>...</code>), citing URL, and cited URL.</td></tr><tr><td><code>hashkey</code></td><td>string</td><td>The raw concatenated string before hashing. Same as before but now <code>citing_quote</code> may contain <code>...</code>.</td></tr><tr><td><code>citing_quote</code></td><td>string</td><td>The quote text as it appears on the citing page, <strong>including literal <code>...</code> for gaps</strong>.</td></tr><tr><td><code>cited_quote</code></td><td>string</td><td>The <strong>full reconstructed quote</strong> as it exists in the cited source, with all gap text restored. This allows verification that the segments are correct.</td></tr><tr><td><code>citing_url</code></td><td>string</td><td>URL of the page containing the quote. Unchanged.</td></tr><tr><td><code>cited_url</code></td><td>string</td><td>URL of the original source. Unchanged.</td></tr><tr><td><code>citing_context_before</code></td><td>string</td><td>~500 chars before the quote on the citing page. Unchanged.</td></tr><tr><td><code>citing_context_after</code></td><td>string</td><td>~500 chars after the quote on the citing page. Unchanged.</td></tr><tr><td><code>cited_context_before</code></td><td>string</td><td>~500 chars before the quote in the cited source. Unchanged.</td></tr><tr><td><code>cited_context_after</code></td><td>string</td><td>~500 chars after the quote in the cited source. Unchanged.</td></tr><tr><td><code>citing_archive_url</code></td><td>string</td><td>Optional archive.org URL. Unchanged.</td></tr><tr><td><code>cited_archive_url</code></td><td>string</td><td>Optional archive.org URL. Unchanged.</td></tr></tbody></table><h3>New Fields — Ellipsis/Gap Feature</h3><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>quote_segments</code></td><td>array</td><td>Ordered array of segment objects representing the quote broken into text and gap parts. Present for all quotes; for quotes without gaps, contains a single text segment.</td></tr></tbody></table><h4>Segment Object — Text Type</h4><pre><code class="language-json">{
+</code></pre>
+<hr>
+<h2>Field-by-Field Specification</h2>
+<h3>Existing Fields (modified)</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schema_version</code></td>
+<td>string</td>
+<td><strong>New.</strong> Always <code>&quot;0.5&quot;</code>. Allows the front-end to detect which schema version a JSON file uses.</td>
+</tr>
+<tr>
+<td><code>sha256</code></td>
+<td>string</td>
+<td>64-char hex SHA256 hash. <strong>Hash computation unchanged</strong> — computed from <code>citing_quote</code> as-written (including any <code>...</code>), citing URL, and cited URL.</td>
+</tr>
+<tr>
+<td><code>hashkey</code></td>
+<td>string</td>
+<td>The raw concatenated string before hashing. Same as before but now <code>citing_quote</code> may contain <code>...</code>.</td>
+</tr>
+<tr>
+<td><code>citing_quote</code></td>
+<td>string</td>
+<td>The quote text as it appears on the citing page, <strong>including literal <code>...</code> for gaps</strong>.</td>
+</tr>
+<tr>
+<td><code>cited_quote</code></td>
+<td>string</td>
+<td>The <strong>full reconstructed quote</strong> as it exists in the cited source, with all gap text restored. This allows verification that the segments are correct.</td>
+</tr>
+<tr>
+<td><code>citing_url</code></td>
+<td>string</td>
+<td>URL of the page containing the quote. Unchanged.</td>
+</tr>
+<tr>
+<td><code>cited_url</code></td>
+<td>string</td>
+<td>URL of the original source. Unchanged.</td>
+</tr>
+<tr>
+<td><code>citing_context_before</code></td>
+<td>string</td>
+<td>~500 chars before the quote on the citing page. Unchanged.</td>
+</tr>
+<tr>
+<td><code>citing_context_after</code></td>
+<td>string</td>
+<td>~500 chars after the quote on the citing page. Unchanged.</td>
+</tr>
+<tr>
+<td><code>cited_context_before</code></td>
+<td>string</td>
+<td>~500 chars before the quote in the cited source. Unchanged.</td>
+</tr>
+<tr>
+<td><code>cited_context_after</code></td>
+<td>string</td>
+<td>~500 chars after the quote in the cited source. Unchanged.</td>
+</tr>
+<tr>
+<td><code>citing_archive_url</code></td>
+<td>string</td>
+<td>Optional archive.org URL. Unchanged.</td>
+</tr>
+<tr>
+<td><code>cited_archive_url</code></td>
+<td>string</td>
+<td>Optional archive.org URL. Unchanged.</td>
+</tr>
+</tbody>
+</table>
+<h3>New Fields — Ellipsis/Gap Feature</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>quote_segments</code></td>
+<td>array</td>
+<td>Ordered array of segment objects representing the quote broken into text and gap parts. Present for all quotes; for quotes without gaps, contains a single text segment.</td>
+</tr>
+</tbody>
+</table>
+<h4>Segment Object — Text Type</h4>
+<pre><code class="language-json">{
   &quot;type&quot;: &quot;text&quot;,
   &quot;text&quot;: &quot;The visible quoted text&quot;
 }
-</code></pre><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code></td><td>string</td><td>Always <code>&quot;text&quot;</code></td></tr><tr><td><code>text</code></td><td>string</td><td>The visible portion of the quote</td></tr></tbody></table><h4>Segment Object — Gap Type</h4><pre><code class="language-json">{
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td>Always <code>&quot;text&quot;</code></td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>string</td>
+<td>The visible portion of the quote</td>
+</tr>
+</tbody>
+</table>
+<h4>Segment Object — Gap Type</h4>
+<pre><code class="language-json">{
   &quot;type&quot;: &quot;gap&quot;,
   &quot;char_count&quot;: 340,
   &quot;hidden_text&quot;: &quot;the omitted text from the cited source&quot;,
   &quot;gap_segments&quot;: null
 }
-</code></pre><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code></td><td>string</td><td>Always <code>&quot;gap&quot;</code></td></tr><tr><td><code>char_count</code></td><td>integer</td><td>Total number of characters omitted from the cited source</td></tr><tr><td><code>hidden_text</code></td><td>string or null</td><td>The omitted text. If <code>char_count &lt;= 1000</code>, this is the full omitted text. If <code>char_count &gt; 1000</code>, this is <code>null</code> and <code>gap_segments</code> is used instead.</td></tr><tr><td><code>gap_segments</code></td><td>array or null</td><td>Only present when <code>char_count &gt; 1000</code>. Contains a nested segment array for the large gap. <code>null</code> when <code>hidden_text</code> is used directly.</td></tr></tbody></table><h4>Large Gap (&gt;1000 chars) — Nested Structure</h4><p>When a gap exceeds 1000 characters, <code>hidden_text</code> is <code>null</code> and <code>gap_segments</code> contains:</p><pre><code class="language-json">{
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td>Always <code>&quot;gap&quot;</code></td>
+</tr>
+<tr>
+<td><code>char_count</code></td>
+<td>integer</td>
+<td>Total number of characters omitted from the cited source</td>
+</tr>
+<tr>
+<td><code>hidden_text</code></td>
+<td>string or null</td>
+<td>The omitted text. If <code>char_count &lt;= 1000</code>, this is the full omitted text. If <code>char_count &gt; 1000</code>, this is <code>null</code> and <code>gap_segments</code> is used instead.</td>
+</tr>
+<tr>
+<td><code>gap_segments</code></td>
+<td>array or null</td>
+<td>Only present when <code>char_count &gt; 1000</code>. Contains a nested segment array for the large gap. <code>null</code> when <code>hidden_text</code> is used directly.</td>
+</tr>
+</tbody>
+</table>
+<h4>Large Gap (&gt;1000 chars) — Nested Structure</h4>
+<p>When a gap exceeds 1000 characters, <code>hidden_text</code> is <code>null</code> and <code>gap_segments</code> contains:</p>
+<pre><code class="language-json">{
   &quot;type&quot;: &quot;gap&quot;,
   &quot;char_count&quot;: 2500,
   &quot;hidden_text&quot;: null,
@@ -72,10 +283,82 @@
     }
   ]
 }
-</code></pre><p>The <code>truncated</code> segment is <strong>not expandable</strong> — it renders as a &quot;read more&quot; link to the cited source.</p><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code></td><td>string</td><td><code>&quot;truncated&quot;</code> — indicates a non-expandable omission</td></tr><tr><td><code>char_count</code></td><td>integer</td><td>Number of characters truncated</td></tr><tr><td><code>read_more_url</code></td><td>string</td><td>URL to the cited source for the user to read the full text</td></tr></tbody></table><h3>New Fields — Disambiguation</h3><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>cited_occurrence</code></td><td>integer</td><td>Which occurrence (1-based) of the quote this is within the cited document. <code>1</code> if the quote is unique.</td></tr><tr><td><code>cited_occurrence_total</code></td><td>integer</td><td>Total number of times this quote appears in the cited document. <code>1</code> if unique.</td></tr><tr><td><code>cited_anchor_before</code></td><td>string</td><td>Short unique text (up to 200 chars) immediately preceding the quote in the cited document. Computed by the webservice to uniquely identify this occurrence.</td></tr><tr><td><code>cited_anchor_after</code></td><td>string</td><td>Short unique text (up to 200 chars) immediately following the quote in the cited document. Computed by the webservice to uniquely identify this occurrence.</td></tr></tbody></table><p><strong>How the webservice uses anchors:</strong></p><ol><li>Fetch the cited document and find all occurrences of the quote text</li><li>If only 1 occurrence: set <code>cited_occurrence = 1</code>, <code>cited_occurrence_total = 1</code>, extract short anchors</li><li>If multiple occurrences: use heuristics to pick the best match (e.g., compare surrounding context with <code>citing_context_before/after</code>), then set the occurrence index and extract unique anchors</li><li>The anchor length starts at 50 chars and extends up to 200 chars until the combination of <code>cited_anchor_before</code> + quote + <code>cited_anchor_after</code> is unique within the document</li></ol><hr><h2>Complete Example — Quote with One Gap</h2><h3>Author's HTML</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://en.wikisource.org/wiki/Pride_and_Prejudice/Chapter_5&quot;&gt;
+</code></pre>
+<p>The <code>truncated</code> segment is <strong>not expandable</strong> — it renders as a &quot;read more&quot; link to the cited source.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;truncated&quot;</code> — indicates a non-expandable omission</td>
+</tr>
+<tr>
+<td><code>char_count</code></td>
+<td>integer</td>
+<td>Number of characters truncated</td>
+</tr>
+<tr>
+<td><code>read_more_url</code></td>
+<td>string</td>
+<td>URL to the cited source for the user to read the full text</td>
+</tr>
+</tbody>
+</table>
+<h3>New Fields — Disambiguation</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cited_occurrence</code></td>
+<td>integer</td>
+<td>Which occurrence (1-based) of the quote this is within the cited document. <code>1</code> if the quote is unique.</td>
+</tr>
+<tr>
+<td><code>cited_occurrence_total</code></td>
+<td>integer</td>
+<td>Total number of times this quote appears in the cited document. <code>1</code> if unique.</td>
+</tr>
+<tr>
+<td><code>cited_anchor_before</code></td>
+<td>string</td>
+<td>Short unique text (up to 200 chars) immediately preceding the quote in the cited document. Computed by the webservice to uniquely identify this occurrence.</td>
+</tr>
+<tr>
+<td><code>cited_anchor_after</code></td>
+<td>string</td>
+<td>Short unique text (up to 200 chars) immediately following the quote in the cited document. Computed by the webservice to uniquely identify this occurrence.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How the webservice uses anchors:</strong></p>
+<ol>
+<li>Fetch the cited document and find all occurrences of the quote text</li>
+<li>If only 1 occurrence: set <code>cited_occurrence = 1</code>, <code>cited_occurrence_total = 1</code>, extract short anchors</li>
+<li>If multiple occurrences: use heuristics to pick the best match (e.g., compare surrounding context with <code>citing_context_before/after</code>), then set the occurrence index and extract unique anchors</li>
+<li>The anchor length starts at 50 chars and extends up to 200 chars until the combination of <code>cited_anchor_before</code> + quote + <code>cited_anchor_after</code> is unique within the document</li>
+</ol>
+<hr>
+<h2>Complete Example — Quote with One Gap</h2>
+<h3>Author's HTML</h3>
+<pre><code class="language-html">&lt;blockquote cite=&quot;https://en.wikisource.org/wiki/Pride_and_Prejudice/Chapter_5&quot;&gt;
   I could easily forgive his pride ... if he had not mortified mine.
 &lt;/blockquote&gt;
-</code></pre><h3>Generated JSON</h3><pre><code class="language-json">{
+</code></pre>
+<h3>Generated JSON</h3>
+<pre><code class="language-json">{
   &quot;schema_version&quot;: &quot;0.5&quot;,
   &quot;sha256&quot;: &quot;a1b2c3d4...&quot;,
   &quot;hashkey&quot;: &quot;Icouldeasilyforgivehispride...ifhehadnotmortifiedmine.|www.example.com/article|en.wikisource.org/wiki/Pride_and_Prejudice/Chapter_5&quot;,
@@ -110,7 +393,10 @@
   &quot;citing_archive_url&quot;: &quot;&quot;,
   &quot;cited_archive_url&quot;: &quot;&quot;
 }
-</code></pre><hr><h2>Complete Example — Quote with Large Gap (&gt;1000 chars)</h2><pre><code class="language-json">{
+</code></pre>
+<hr>
+<h2>Complete Example — Quote with Large Gap (&gt;1000 chars)</h2>
+<pre><code class="language-json">{
   &quot;schema_version&quot;: &quot;0.5&quot;,
 
   &quot;citing_quote&quot;: &quot;In the beginning ... the end.&quot;,
@@ -143,7 +429,11 @@
 
   &quot;...other fields...&quot;
 }
-</code></pre><hr><h2>Complete Example — Quote with No Gaps</h2><p>For a standard quote without ellipses, <code>quote_segments</code> contains a single text segment:</p><pre><code class="language-json">{
+</code></pre>
+<hr>
+<h2>Complete Example — Quote with No Gaps</h2>
+<p>For a standard quote without ellipses, <code>quote_segments</code> contains a single text segment:</p>
+<pre><code class="language-json">{
   &quot;schema_version&quot;: &quot;0.5&quot;,
 
   &quot;citing_quote&quot;: &quot;I could easily forgive his pride, if he had not mortified mine.&quot;,
@@ -160,7 +450,10 @@
 
   &quot;...other fields...&quot;
 }
-</code></pre><hr><h2>Complete Example — Duplicate Quote (3rd of 5 occurrences)</h2><pre><code class="language-json">{
+</code></pre>
+<hr>
+<h2>Complete Example — Duplicate Quote (3rd of 5 occurrences)</h2>
+<pre><code class="language-json">{
   &quot;schema_version&quot;: &quot;0.5&quot;,
 
   &quot;citing_quote&quot;: &quot;To be or not to be&quot;,
@@ -177,9 +470,65 @@
 
   &quot;...other fields...&quot;
 }
-</code></pre><hr><h2>Hash Key Computation (v0.5)</h2><p>The hash is computed identically to before, but <code>citing_quote</code> now includes literal <code>...</code> when present:</p><pre><code>hashkey = escapeQuote(citing_quote) + &quot;|&quot; + urlWithoutProtocol(citing_url) + &quot;|&quot; + urlWithoutProtocol(cited_url)
+</code></pre>
+<hr>
+<h2>Hash Key Computation (v0.5)</h2>
+<p>The hash is computed identically to before, but <code>citing_quote</code> now includes literal <code>...</code> when present:</p>
+<pre><code>hashkey = escapeQuote(citing_quote) + &quot;|&quot; + urlWithoutProtocol(citing_url) + &quot;|&quot; + urlWithoutProtocol(cited_url)
 sha256 = SHA256(UTF8(hashkey))
-</code></pre><p>No change to the hash algorithm. The <code>...</code> in the quote text naturally becomes part of the hash input.</p><hr><h2>Webservice Processing Logic</h2><h3>Step 1: Parse the citing quote</h3><ul><li>Split <code>citing_quote</code> on <code>...</code> (literal three dots) to identify text segments and gap positions</li><li>Handle edge cases: <code>...</code> at start/end of quote, consecutive <code>...</code>, <code>...</code> within legitimate text</li></ul><h3>Step 2: Find the quote in the cited document</h3><ul><li>Fetch the cited document and extract text</li><li>Search for each text segment in order within the cited document</li><li>Use flexible matching: the text segments must appear in order with arbitrary text between them (the gaps)</li></ul><h3>Step 3: Disambiguate (if multiple matches)</h3><ul><li>Count all matching locations</li><li>For each match, extract surrounding context</li><li>Compare with <code>citing_context_before/after</code> to pick the best match</li><li>Compute <code>cited_anchor_before/after</code> — extend from 50 to 200 chars until unique</li></ul><h3>Step 4: Build segments</h3><ul><li>For each gap between text segments, extract the omitted text from the cited document</li><li>If gap <code>char_count &lt;= 1000</code>: store full text in <code>hidden_text</code></li><li>If gap <code>char_count &gt; 1000</code>: set <code>hidden_text = null</code>, populate <code>gap_segments</code> with first 500 chars + truncated + last 500 chars</li></ul><h3>Step 5: Build the full cited_quote</h3><ul><li>Concatenate all text segments with their gap text restored to produce <code>cited_quote</code></li></ul><hr><h2>Front-End Rendering Logic</h2><h3>Rendering quote_segments</h3><ol><li>Iterate over <code>quote_segments</code></li><li>For <code>&quot;text&quot;</code> segments: render as normal escaped HTML</li><li>For <code>&quot;gap&quot;</code> segments:<ul><li>Render a clickable <code>&lt;span class=&quot;citeit-gap&quot;&gt;...&lt;/span&gt;</code> in bright blue</li><li>On hover: bold the <code>...</code></li><li>On click: expand inline to show <code>hidden_text</code> (or <code>gap_segments</code> for large gaps)</li></ul></li><li>For <code>&quot;truncated&quot;</code> segments (inside <code>gap_segments</code>):<ul><li>Render as <code>&lt;span class=&quot;citeit-gap-truncated&quot;&gt;... [1500 chars omitted] &lt;/span&gt;</code> with a &quot;read more&quot; link</li></ul></li></ol><h3>CSS</h3><pre><code class="language-css">.citeit-gap {
+</code></pre>
+<p>No change to the hash algorithm. The <code>...</code> in the quote text naturally becomes part of the hash input.</p>
+<hr>
+<h2>Webservice Processing Logic</h2>
+<h3>Step 1: Parse the citing quote</h3>
+<ul>
+<li>Split <code>citing_quote</code> on <code>...</code> (literal three dots) to identify text segments and gap positions</li>
+<li>Handle edge cases: <code>...</code> at start/end of quote, consecutive <code>...</code>, <code>...</code> within legitimate text</li>
+</ul>
+<h3>Step 2: Find the quote in the cited document</h3>
+<ul>
+<li>Fetch the cited document and extract text</li>
+<li>Search for each text segment in order within the cited document</li>
+<li>Use flexible matching: the text segments must appear in order with arbitrary text between them (the gaps)</li>
+</ul>
+<h3>Step 3: Disambiguate (if multiple matches)</h3>
+<ul>
+<li>Count all matching locations</li>
+<li>For each match, extract surrounding context</li>
+<li>Compare with <code>citing_context_before/after</code> to pick the best match</li>
+<li>Compute <code>cited_anchor_before/after</code> — extend from 50 to 200 chars until unique</li>
+</ul>
+<h3>Step 4: Build segments</h3>
+<ul>
+<li>For each gap between text segments, extract the omitted text from the cited document</li>
+<li>If gap <code>char_count &lt;= 1000</code>: store full text in <code>hidden_text</code></li>
+<li>If gap <code>char_count &gt; 1000</code>: set <code>hidden_text = null</code>, populate <code>gap_segments</code> with first 500 chars + truncated + last 500 chars</li>
+</ul>
+<h3>Step 5: Build the full cited_quote</h3>
+<ul>
+<li>Concatenate all text segments with their gap text restored to produce <code>cited_quote</code></li>
+</ul>
+<hr>
+<h2>Front-End Rendering Logic</h2>
+<h3>Rendering quote_segments</h3>
+<ol>
+<li>Iterate over <code>quote_segments</code></li>
+<li>For <code>&quot;text&quot;</code> segments: render as normal escaped HTML</li>
+<li>For <code>&quot;gap&quot;</code> segments:
+<ul>
+<li>Render a clickable <code>&lt;span class=&quot;citeit-gap&quot;&gt;...&lt;/span&gt;</code> in bright blue</li>
+<li>On hover: bold the <code>...</code></li>
+<li>On click: expand inline to show <code>hidden_text</code> (or <code>gap_segments</code> for large gaps)</li>
+</ul>
+</li>
+<li>For <code>&quot;truncated&quot;</code> segments (inside <code>gap_segments</code>):
+<ul>
+<li>Render as <code>&lt;span class=&quot;citeit-gap-truncated&quot;&gt;... [1500 chars omitted] &lt;/span&gt;</code> with a &quot;read more&quot; link</li>
+</ul>
+</li>
+</ol>
+<h3>CSS</h3>
+<pre><code class="language-css">.citeit-gap {
   color: #0066ff;
   cursor: pointer;
   font-weight: normal;
@@ -196,4 +545,13 @@ sha256 = SHA256(UTF8(hashkey))
   color: #999;
   font-style: italic;
 }
-</code></pre><hr><h2>Migration Notes</h2><ul><li><strong>Version bump</strong>: <code>0.4</code> → <code>0.5</code> in API paths and <code>schema_version</code> field</li><li><strong>All JSON files must be regenerated</strong> — no backward compatibility needed</li><li><strong>New API endpoint path</strong>: <code>https://read.citeit.net/quote/sha256/0.5/{shard}/{sha256}.json</code></li><li><strong>Hash values will change</strong> for quotes that previously had no <code>...</code> — but since the hash algorithm is unchanged and only the quote content determines the hash, existing quotes without <code>...</code> will produce the same hash</li><li>Quotes <strong>with</strong> <code>...</code> are inherently new and won't collide with old data</li></ul>
+</code></pre>
+<hr>
+<h2>Migration Notes</h2>
+<ul>
+<li><strong>Version bump</strong>: <code>0.4</code> → <code>0.5</code> in API paths and <code>schema_version</code> field</li>
+<li><strong>All JSON files must be regenerated</strong> — no backward compatibility needed</li>
+<li><strong>New API endpoint path</strong>: <code>https://read.citeit.net/quote/sha256/0.5/{shard}/{sha256}.json</code></li>
+<li><strong>Hash values will change</strong> for quotes that previously had no <code>...</code> — but since the hash algorithm is unchanged and only the quote content determines the hash, existing quotes without <code>...</code> will produce the same hash</li>
+<li>Quotes <strong>with</strong> <code>...</code> are inherently new and won't collide with old data</li>
+</ul>
