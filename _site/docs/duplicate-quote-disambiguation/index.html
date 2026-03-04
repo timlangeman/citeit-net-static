@@ -1,197 +1,54 @@
-<h1>Duplicate Quote Disambiguation - Design Options</h1>
-<h2>Problem Statement</h2>
-<p>Sometimes a quote appears multiple times within a cited document. The current CiteIt design has no way to specify which occurrence is being cited. The webservice picks the first match (or an arbitrary match), which may return the wrong <code>cited_context_before</code> and <code>cited_context_after</code>.</p>
-<p>This affects both:</p>
-<ul>
-<li><strong>citeit-webservice</strong> (Python): must identify the correct occurrence when computing context</li>
-<li><strong>CiteIt-quote-context.js</strong> (JavaScript): may need to pass disambiguation info to the webservice or use it when validating responses</li>
-</ul>
-<hr>
-<h2>Current Behavior</h2>
-<ol>
-<li>The citing page has: <code>&lt;blockquote cite=&quot;https://example.com/article&quot;&gt;repeated phrase&lt;/blockquote&gt;</code></li>
-<li>The webservice fetches <code>https://example.com/article</code>, searches for <code>&quot;repeated phrase&quot;</code></li>
-<li>It finds the <strong>first</strong> occurrence and returns context around that location</li>
-<li>If the author intended the 3rd occurrence, the context is wrong</li>
-</ol>
-<hr>
-<h2>Option 1: Occurrence Index</h2>
-<p>Add a field specifying which occurrence (1-based) of the quote in the cited document is intended.</p>
-<h3>HTML Usage</h3>
-<pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
+<h1>Duplicate Quote Disambiguation - Design Options</h1><h2>Problem Statement</h2><p>Sometimes a quote appears multiple times within a cited document. The current CiteIt design has no way to specify which occurrence is being cited. The webservice picks the first match (or an arbitrary match), which may return the wrong <code>cited_context_before</code> and <code>cited_context_after</code>.</p><p>This affects both:</p><ul><li><strong>citeit-webservice</strong> (Python): must identify the correct occurrence when computing context</li><li><strong>CiteIt-quote-context.js</strong> (JavaScript): may need to pass disambiguation info to the webservice or use it when validating responses</li></ul><hr><h2>Current Behavior</h2><ol><li>The citing page has: <code>&lt;blockquote cite=&quot;https://example.com/article&quot;&gt;repeated phrase&lt;/blockquote&gt;</code></li><li>The webservice fetches <code>https://example.com/article</code>, searches for <code>&quot;repeated phrase&quot;</code></li><li>It finds the <strong>first</strong> occurrence and returns context around that location</li><li>If the author intended the 3rd occurrence, the context is wrong</li></ol><hr><h2>Option 1: Occurrence Index</h2><p>Add a field specifying which occurrence (1-based) of the quote in the cited document is intended.</p><h3>HTML Usage</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
             data-citeit-occurrence=&quot;3&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Addition</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Addition</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_occurrence&quot;: 3,
   &quot;cited_occurrence_total&quot;: 5
 }
-</code></pre>
-<h3>Hash Key Impact</h3>
-<p>The hash would need to incorporate the occurrence number:
-<code>escapeQuote(citing_quote) + &quot;|&quot; + citing_url + &quot;|&quot; + cited_url + &quot;|&quot; + occurrence</code></p>
-<p>Or: occurrence-0 quotes omit it (backward compatible for single-occurrence quotes).</p>
-<h3>Pros</h3>
-<ul>
-<li>Simple to implement and understand</li>
-<li>Minimal data overhead</li>
-<li>Easy for authors to specify (&quot;I mean the 3rd time this appears&quot;)</li>
-<li>Clean, compact JSON addition</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li><strong>Fragile</strong>: if the cited document is edited and an earlier occurrence is added or removed, the index shifts and all subsequent citations break</li>
-<li>Author must manually count occurrences, which is error-prone</li>
-<li>No way to verify correctness without fetching the full document</li>
-<li>Not self-describing: occurrence &quot;3&quot; tells you nothing about the location</li>
-</ul>
-<hr>
-<h2>Option 2: Extended Context Anchoring</h2>
-<p>Store enough surrounding text from the cited source to uniquely identify the quote location. The webservice would search for the quote + its anchor text together.</p>
-<h3>HTML Usage</h3>
-<pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
+</code></pre><h3>Hash Key Impact</h3><p>The hash would need to incorporate the occurrence number: <code>escapeQuote(citing_quote) + &quot;|&quot; + citing_url + &quot;|&quot; + cited_url + &quot;|&quot; + occurrence</code></p><p>Or: occurrence-0 quotes omit it (backward compatible for single-occurrence quotes).</p><h3>Pros</h3><ul><li>Simple to implement and understand</li><li>Minimal data overhead</li><li>Easy for authors to specify (&quot;I mean the 3rd time this appears&quot;)</li><li>Clean, compact JSON addition</li></ul><h3>Cons</h3><ul><li><strong>Fragile</strong>: if the cited document is edited and an earlier occurrence is added or removed, the index shifts and all subsequent citations break</li><li>Author must manually count occurrences, which is error-prone</li><li>No way to verify correctness without fetching the full document</li><li>Not self-describing: occurrence &quot;3&quot; tells you nothing about the location</li></ul><hr><h2>Option 2: Extended Context Anchoring</h2><p>Store enough surrounding text from the cited source to uniquely identify the quote location. The webservice would search for the quote + its anchor text together.</p><h3>HTML Usage</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
             data-citeit-cited-before=&quot;unique text before the&quot;
             data-citeit-cited-after=&quot;unique text after the&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Addition</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Addition</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_anchor_before&quot;: &quot;unique text that precedes the quote&quot;,
   &quot;cited_anchor_after&quot;: &quot;unique text that follows the quote&quot;,
   &quot;cited_occurrence&quot;: 2,
   &quot;cited_occurrence_total&quot;: 5
 }
-</code></pre>
-<p>The <code>cited_anchor_before/after</code> would be short snippets (e.g., 50-200 chars) — just enough to disambiguate, separate from the larger <code>cited_context_before/after</code> (~500 chars) used for display.</p>
-<h3>Hash Key Impact</h3>
-<p>Anchor text could optionally be included in the hash, or the hash could remain unchanged (with the webservice using anchors only for lookup, not identity).</p>
-<h3>Pros</h3>
-<ul>
-<li><strong>Resilient to edits</strong>: small insertions/deletions elsewhere in the document won't break it, as long as the immediate surroundings are stable</li>
-<li>Self-describing: you can see <em>where</em> in the document the quote is</li>
-<li>The webservice can validate the match by checking surrounding text</li>
-<li>Graceful degradation: if anchors don't match (document changed), the webservice can fall back to best-effort matching</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li>More data for the author to provide (though this could be computed by the webservice on first submission)</li>
-<li>Larger JSON payload (though modest — ~200 extra chars)</li>
-<li>Anchor text itself could change if the cited document is edited near the quote</li>
-</ul>
-<hr>
-<h2>Option 3: Character Offset</h2>
-<p>Store the character position (byte or character offset) where the quote begins in the cited document's extracted text.</p>
-<h3>HTML Usage</h3>
-<pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
+</code></pre><p>The <code>cited_anchor_before/after</code> would be short snippets (e.g., 50-200 chars) — just enough to disambiguate, separate from the larger <code>cited_context_before/after</code> (~500 chars) used for display.</p><h3>Hash Key Impact</h3><p>Anchor text could optionally be included in the hash, or the hash could remain unchanged (with the webservice using anchors only for lookup, not identity).</p><h3>Pros</h3><ul><li><strong>Resilient to edits</strong>: small insertions/deletions elsewhere in the document won't break it, as long as the immediate surroundings are stable</li><li>Self-describing: you can see <em>where</em> in the document the quote is</li><li>The webservice can validate the match by checking surrounding text</li><li>Graceful degradation: if anchors don't match (document changed), the webservice can fall back to best-effort matching</li></ul><h3>Cons</h3><ul><li>More data for the author to provide (though this could be computed by the webservice on first submission)</li><li>Larger JSON payload (though modest — ~200 extra chars)</li><li>Anchor text itself could change if the cited document is edited near the quote</li></ul><hr><h2>Option 3: Character Offset</h2><p>Store the character position (byte or character offset) where the quote begins in the cited document's extracted text.</p><h3>HTML Usage</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;
             data-citeit-offset=&quot;4523&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Addition</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Addition</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_char_offset&quot;: 4523,
   &quot;cited_occurrence&quot;: 2,
   &quot;cited_occurrence_total&quot;: 5
 }
-</code></pre>
-<h3>Hash Key Impact</h3>
-<p>Could include offset in hash, or keep hash unchanged and use offset only for lookup.</p>
-<h3>Pros</h3>
-<ul>
-<li>Precise and unambiguous</li>
-<li>Very compact (single integer)</li>
-<li>Easy for the webservice to compute automatically</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li><strong>Extremely fragile</strong>: any edit to the cited document before the quote shifts the offset, breaking the reference</li>
-<li>Depends on text extraction being deterministic (HTML-to-text conversion can vary)</li>
-<li>Not human-readable or meaningful</li>
-<li>Author can't reasonably specify this manually — must be computed</li>
-</ul>
-<hr>
-<h2>Option 4: W3C Text Fragments (URL-based)</h2>
-<p>Use the <a href="https://wicg.github.io/scroll-to-text-fragment/">Text Fragments</a> spec to encode the quote location in the URL itself: <code>https://example.com/article#:~:text=prefix-,quote,quote,-suffix</code></p>
-<h3>HTML Usage</h3>
-<pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article#:~:text=before%20text-,repeated%20phrase,-after%20text&quot;&gt;
+</code></pre><h3>Hash Key Impact</h3><p>Could include offset in hash, or keep hash unchanged and use offset only for lookup.</p><h3>Pros</h3><ul><li>Precise and unambiguous</li><li>Very compact (single integer)</li><li>Easy for the webservice to compute automatically</li></ul><h3>Cons</h3><ul><li><strong>Extremely fragile</strong>: any edit to the cited document before the quote shifts the offset, breaking the reference</li><li>Depends on text extraction being deterministic (HTML-to-text conversion can vary)</li><li>Not human-readable or meaningful</li><li>Author can't reasonably specify this manually — must be computed</li></ul><hr><h2>Option 4: W3C Text Fragments (URL-based)</h2><p>Use the <a href="https://wicg.github.io/scroll-to-text-fragment/">Text Fragments</a> spec to encode the quote location in the URL itself: <code>https://example.com/article#:~:text=prefix-,quote,quote,-suffix</code></p><h3>HTML Usage</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article#:~:text=before%20text-,repeated%20phrase,-after%20text&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Addition</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Addition</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_url_fragment&quot;: &quot;text=before%20text-,repeated%20phrase,-after%20text&quot;,
   &quot;cited_occurrence&quot;: 2,
   &quot;cited_occurrence_total&quot;: 5
 }
-</code></pre>
-<h3>Hash Key Impact</h3>
-<p>The fragment could be stripped from the URL for hash computation (maintaining backward compat) or included.</p>
-<h3>Pros</h3>
-<ul>
-<li><strong>Web standard</strong>: browsers already support scrolling to text fragments</li>
-<li>Encodes prefix/suffix context for disambiguation directly in the URL</li>
-<li>The <code>cite</code> attribute becomes a deep link that browsers can navigate to the exact location</li>
-<li>No new HTML attributes needed — it's all in the URL</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li>URL encoding makes the <code>cite</code> attribute long and hard to read</li>
-<li>Not all cited pages work well with text fragments (e.g., JavaScript-rendered content)</li>
-<li>The hash key changes if fragments are included in the URL, breaking backward compatibility</li>
-<li>Fragment syntax has character limitations and escaping complexities</li>
-<li>Prefix/suffix in the fragment may duplicate data already in the JSON</li>
-</ul>
-<hr>
-<h2>Option 5: Webservice-Computed Disambiguation (Automatic)</h2>
-<p>The author provides no extra markup. Instead, the <strong>webservice</strong> detects duplicate quotes automatically and stores disambiguation data. If the quote is unique, nothing changes. If duplicates exist, the webservice stores all occurrences or uses <code>cited_context_before/after</code> to pick the best match.</p>
-<h3>HTML Usage (unchanged)</h3>
-<pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;&gt;
+</code></pre><h3>Hash Key Impact</h3><p>The fragment could be stripped from the URL for hash computation (maintaining backward compat) or included.</p><h3>Pros</h3><ul><li><strong>Web standard</strong>: browsers already support scrolling to text fragments</li><li>Encodes prefix/suffix context for disambiguation directly in the URL</li><li>The <code>cite</code> attribute becomes a deep link that browsers can navigate to the exact location</li><li>No new HTML attributes needed — it's all in the URL</li></ul><h3>Cons</h3><ul><li>URL encoding makes the <code>cite</code> attribute long and hard to read</li><li>Not all cited pages work well with text fragments (e.g., JavaScript-rendered content)</li><li>The hash key changes if fragments are included in the URL, breaking backward compatibility</li><li>Fragment syntax has character limitations and escaping complexities</li><li>Prefix/suffix in the fragment may duplicate data already in the JSON</li></ul><hr><h2>Option 5: Webservice-Computed Disambiguation (Automatic)</h2><p>The author provides no extra markup. Instead, the <strong>webservice</strong> detects duplicate quotes automatically and stores disambiguation data. If the quote is unique, nothing changes. If duplicates exist, the webservice stores all occurrences or uses <code>cited_context_before/after</code> to pick the best match.</p><h3>HTML Usage (unchanged)</h3><pre><code class="language-html">&lt;blockquote cite=&quot;https://example.com/article&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Addition</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Addition</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_occurrence&quot;: 2,
   &quot;cited_occurrence_total&quot;: 5,
   &quot;cited_anchor_before&quot;: &quot;automatically extracted unique prefix&quot;,
   &quot;cited_anchor_after&quot;: &quot;automatically extracted unique suffix&quot;
 }
-</code></pre>
-<p>The webservice would:</p>
-<ol>
-<li>Find all occurrences of the quote in the cited document</li>
-<li>For each, extract surrounding context</li>
-<li>Use heuristics to pick the most likely match (e.g., compare <code>citing_context_before/after</code> with the candidate contexts, or pick the first occurrence as default)</li>
-<li>Store the occurrence index and short anchors for future verification</li>
-</ol>
-<h3>Hash Key Impact</h3>
-<p>No change to the hash. Disambiguation is metadata, not identity.</p>
-<h3>Pros</h3>
-<ul>
-<li><strong>Zero author effort</strong>: no new HTML attributes needed</li>
-<li>Backward compatible: existing HTML works unchanged</li>
-<li>Webservice can re-evaluate on re-crawl if the document changes</li>
-<li>Can store all occurrences and let the front-end or a future UI choose</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li>Heuristic matching may pick the wrong occurrence</li>
-<li>No way for the author to explicitly specify which occurrence they mean</li>
-<li>If the webservice guesses wrong, there's no mechanism to correct it without adding author-specified hints</li>
-</ul>
-<hr>
-<h2>Option 6: Hybrid (Recommended for Consideration)</h2>
-<p>Combine automatic webservice detection with optional author hints.</p>
-<h3>HTML Usage</h3>
-<pre><code class="language-html">&lt;!-- Simple case: author provides no hints, webservice auto-detects --&gt;
+</code></pre><p>The webservice would:</p><ol><li>Find all occurrences of the quote in the cited document</li><li>For each, extract surrounding context</li><li>Use heuristics to pick the most likely match (e.g., compare <code>citing_context_before/after</code> with the candidate contexts, or pick the first occurrence as default)</li><li>Store the occurrence index and short anchors for future verification</li></ol><h3>Hash Key Impact</h3><p>No change to the hash. Disambiguation is metadata, not identity.</p><h3>Pros</h3><ul><li><strong>Zero author effort</strong>: no new HTML attributes needed</li><li>Backward compatible: existing HTML works unchanged</li><li>Webservice can re-evaluate on re-crawl if the document changes</li><li>Can store all occurrences and let the front-end or a future UI choose</li></ul><h3>Cons</h3><ul><li>Heuristic matching may pick the wrong occurrence</li><li>No way for the author to explicitly specify which occurrence they mean</li><li>If the webservice guesses wrong, there's no mechanism to correct it without adding author-specified hints</li></ul><hr><h2>Option 6: Hybrid (Recommended for Consideration)</h2><p>Combine automatic webservice detection with optional author hints.</p><h3>HTML Usage</h3><pre><code class="language-html">&lt;!-- Simple case: author provides no hints, webservice auto-detects --&gt;
 &lt;blockquote cite=&quot;https://example.com/article&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
@@ -201,140 +58,11 @@
             data-citeit-cited-before=&quot;unique preceding text&quot;&gt;
   repeated phrase
 &lt;/blockquote&gt;
-</code></pre>
-<h3>JSON Structure</h3>
-<pre><code class="language-json">{
+</code></pre><h3>JSON Structure</h3><pre><code class="language-json">{
   &quot;...existing fields...&quot;,
   &quot;cited_occurrence&quot;: 2,
   &quot;cited_occurrence_total&quot;: 5,
   &quot;cited_anchor_before&quot;: &quot;short unique text before quote in cited doc&quot;,
   &quot;cited_anchor_after&quot;: &quot;short unique text after quote in cited doc&quot;
 }
-</code></pre>
-<h3>Behavior</h3>
-<ol>
-<li>Webservice always counts occurrences and stores <code>cited_occurrence_total</code></li>
-<li>If <code>data-citeit-cited-before</code> is provided, use it to find the correct occurrence</li>
-<li>If not provided, use heuristics (first occurrence, or best-match based on context)</li>
-<li>Always store <code>cited_anchor_before/after</code> (computed by webservice) for future verification and re-matching</li>
-<li>Store <code>cited_occurrence</code> for informational purposes</li>
-</ol>
-<h3>Hash Key Impact</h3>
-<p>Keep hash unchanged. The <code>data-citeit-cited-before</code> hint is used for lookup only, not for identity. This preserves backward compatibility.</p>
-<h3>Pros</h3>
-<ul>
-<li>Works automatically for the common case (unique quotes)</li>
-<li>Authors can disambiguate when needed with a single attribute</li>
-<li>Webservice always stores enough data to re-verify the match</li>
-<li>Fully backward compatible (new fields are additive)</li>
-<li>The anchor data enables future features (e.g., detecting when cited documents change)</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-<li>Slightly more complex implementation than any single approach</li>
-<li>Author-provided hints could become stale if the cited document changes</li>
-</ul>
-<hr>
-<h2>Comparison Summary</h2>
-<table>
-<thead>
-<tr>
-<th>Criteria</th>
-<th>1: Index</th>
-<th>2: Anchors</th>
-<th>3: Offset</th>
-<th>4: Text Frags</th>
-<th>5: Auto</th>
-<th>6: Hybrid</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Author effort</td>
-<td>Low</td>
-<td>Medium</td>
-<td>None*</td>
-<td>Medium</td>
-<td>None</td>
-<td>None/Low</td>
-</tr>
-<tr>
-<td>Resilience to doc edits</td>
-<td>Poor</td>
-<td>Good</td>
-<td>Poor</td>
-<td>Good</td>
-<td>Good</td>
-<td>Good</td>
-</tr>
-<tr>
-<td>Backward compatible (hash)</td>
-<td>No**</td>
-<td>Flexible</td>
-<td>Flexible</td>
-<td>No**</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Backward compatible (HTML)</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Precision</td>
-<td>Exact</td>
-<td>High</td>
-<td>Exact</td>
-<td>High</td>
-<td>Heuristic</td>
-<td>High</td>
-</tr>
-<tr>
-<td>Author can override</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>No</td>
-<td>Yes</td>
-<td>No</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Implementation complexity</td>
-<td>Low</td>
-<td>Medium</td>
-<td>Low</td>
-<td>Medium</td>
-<td>Medium</td>
-<td>Medium</td>
-</tr>
-</tbody>
-</table>
-<p>*Computed by webservice, not author
-**Unless special handling is added for backward compat</p>
-<hr>
-<h2>Questions for You</h2>
-<h3>A. Author Control vs. Automation</h3>
-<p>Do you want authors to be able to explicitly specify which occurrence they mean? Or should the webservice always figure it out automatically?</p>
-<p><strong>Your answer:</strong> The system should automatically perform disambiguation without requiring author intervention.</p>
-<h3>B. Hash Key Compatibility</h3>
-<p>Should the hash key remain unchanged (disambiguation is metadata only), or is it acceptable to change the hash computation (breaking existing lookups)?</p>
-<p><strong>Your answer:</strong> The current hash design can change (breaking existing lookups is acceptable), but once the new design is in place the hash key should remain stable going forward.</p>
-<h3>C. Preferred Approach</h3>
-<p>Which option (or combination) appeals to you most?</p>
-<p><strong>Your answer:</strong> Option 2 (Extended Context Anchors) or Option 4 (W3C Text Fragments). Leaning toward one of these two.</p>
-<h3>D. Interaction with Ellipsis Feature</h3>
-<p>This feature interacts with the ellipsis/gap feature. If a quote has both gaps (ellipses) AND appears multiple times, the disambiguation anchors help confirm we found the right occurrence before computing gap text. Should these two features be designed together as a single JSON schema update?</p>
-<p><strong>Your answer:</strong> Yes, the two features should be designed together as a single JSON schema update.</p>
-<hr>
-<h2>Next Steps</h2>
-<p>Once these questions are answered (along with the ellipsis feature questions), we will:</p>
-<ol>
-<li>Propose a unified JSON schema covering both features</li>
-<li>Modify the citeit-webservice Python code</li>
-<li>Modify the front-end JavaScript</li>
-</ol>
+</code></pre><h3>Behavior</h3><ol><li>Webservice always counts occurrences and stores <code>cited_occurrence_total</code></li><li>If <code>data-citeit-cited-before</code> is provided, use it to find the correct occurrence</li><li>If not provided, use heuristics (first occurrence, or best-match based on context)</li><li>Always store <code>cited_anchor_before/after</code> (computed by webservice) for future verification and re-matching</li><li>Store <code>cited_occurrence</code> for informational purposes</li></ol><h3>Hash Key Impact</h3><p>Keep hash unchanged. The <code>data-citeit-cited-before</code> hint is used for lookup only, not for identity. This preserves backward compatibility.</p><h3>Pros</h3><ul><li>Works automatically for the common case (unique quotes)</li><li>Authors can disambiguate when needed with a single attribute</li><li>Webservice always stores enough data to re-verify the match</li><li>Fully backward compatible (new fields are additive)</li><li>The anchor data enables future features (e.g., detecting when cited documents change)</li></ul><h3>Cons</h3><ul><li>Slightly more complex implementation than any single approach</li><li>Author-provided hints could become stale if the cited document changes</li></ul><hr><h2>Comparison Summary</h2><table><thead><tr><th>Criteria</th><th>1: Index</th><th>2: Anchors</th><th>3: Offset</th><th>4: Text Frags</th><th>5: Auto</th><th>6: Hybrid</th></tr></thead><tbody><tr><td>Author effort</td><td>Low</td><td>Medium</td><td>None*</td><td>Medium</td><td>None</td><td>None/Low</td></tr><tr><td>Resilience to doc edits</td><td>Poor</td><td>Good</td><td>Poor</td><td>Good</td><td>Good</td><td>Good</td></tr><tr><td>Backward compatible (hash)</td><td>No**</td><td>Flexible</td><td>Flexible</td><td>No**</td><td>Yes</td><td>Yes</td></tr><tr><td>Backward compatible (HTML)</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Precision</td><td>Exact</td><td>High</td><td>Exact</td><td>High</td><td>Heuristic</td><td>High</td></tr><tr><td>Author can override</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td>Implementation complexity</td><td>Low</td><td>Medium</td><td>Low</td><td>Medium</td><td>Medium</td><td>Medium</td></tr></tbody></table><p>*Computed by webservice, not author **Unless special handling is added for backward compat</p><hr><h2>Questions for You</h2><h3>A. Author Control vs. Automation</h3><p>Do you want authors to be able to explicitly specify which occurrence they mean? Or should the webservice always figure it out automatically?</p><p><strong>Your answer:</strong> The system should automatically perform disambiguation without requiring author intervention.</p><h3>B. Hash Key Compatibility</h3><p>Should the hash key remain unchanged (disambiguation is metadata only), or is it acceptable to change the hash computation (breaking existing lookups)?</p><p><strong>Your answer:</strong> The current hash design can change (breaking existing lookups is acceptable), but once the new design is in place the hash key should remain stable going forward.</p><h3>C. Preferred Approach</h3><p>Which option (or combination) appeals to you most?</p><p><strong>Your answer:</strong> Option 2 (Extended Context Anchors) or Option 4 (W3C Text Fragments). Leaning toward one of these two.</p><h3>D. Interaction with Ellipsis Feature</h3><p>This feature interacts with the ellipsis/gap feature. If a quote has both gaps (ellipses) AND appears multiple times, the disambiguation anchors help confirm we found the right occurrence before computing gap text. Should these two features be designed together as a single JSON schema update?</p><p><strong>Your answer:</strong> Yes, the two features should be designed together as a single JSON schema update.</p><hr><h2>Next Steps</h2><p>Once these questions are answered (along with the ellipsis feature questions), we will:</p><ol><li>Propose a unified JSON schema covering both features</li><li>Modify the citeit-webservice Python code</li><li>Modify the front-end JavaScript</li></ol>
