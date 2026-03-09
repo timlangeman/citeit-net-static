@@ -80,47 +80,64 @@
     <br />
     <p><a href="/assets/images/tim-langeman-2018-06-18-fullsize.jpg" title="Full-size Image: Tim Langeman (2018-06-18)"><img loading="lazy" class="alignnone underline size-medium wp-image-709" src="/assets/images/tim-langeman-2018-06-18-small.jpg" alt="photo: Tim Langeman" width="227" height="300"></a><br>
     &ndash;<a class="underline" href="https://www.openpolitics.com/tim">Tim Langeman</a> &nbsp;&nbsp; (<a class="underline" href="https://www.openpolitics.com/tim">home page</a>)<br>
-    Akron, PA (USA)</p>
+    Lancaster County, PA (USA)</p>
   </div>
+
+<h2 class="mb-2" style="font-size: 1.9em; font-weight: bold;">Benefits:<h2>
+
+<h3 class="mt-8 mb-4" style="font-size: 1.6em; font-weight: bold;">Writers:</h3>
+<ul class="disc">
+  <li>Earn the <strong>trust of potential subscribers</strong> by dispelling skepticism about source context and creditability</li>
+  <li>Engage readers’ <strong>curiosity</strong> about quoted material — enabling drill down into detail, <strong>without losing readers in separate tabs</strong>
+  <li>Earn the <strong>trust of interviewees</strong> who know their interview quotes will include the full context</li>
+  <li>Writers can use citations to <strong>defend themselves against critics</strong> who question their journalistic credentials or conversely <strong>attack those who cherry-pick their sources</strong></li>
+
+</ul><br />
+
+<h3 class="mb-2" style="font-size: 1.6em; font-weight: bold;">Editors:</h3>
+<ul class="disc">
+  <li>It acts as a built-in <strong>fact-checking tool</strong> that saves the legal/editorial team time.</li>
+</ul><br />
+
+<h3 class="mb-2" style="font-size: 1.6em; font-weight: bold;">Readers:</h3>
+<ul class="disc">
+<li>It transforms a static article into an immersive, high-trust research document.</li>
+<li>In addition to <strong>building trust</strong> and engaging <strong>curiosity</strong>, some citations can also provide <strong>entertainment</strong></li>
+</ul>
+
 
   <!-- FAQ: Frequently Asked Questions -->
   <div id="faq" class="hide"><!--a name="faq"></a-->
-    <h3 class="mt-8 mb-4" style="font-size: 1.6em; font-weight: bold;">FAQ: Frequently Asked Questions</h3>
-    <p><strong>Can you locate the source of <i>any</i> quote</strong></p>
+    <h3 class="mt-8 mb-4" style="font-size: 1.6em; font-weight: bold;">Writer's FAQ: Frequently Asked Questions</h3>
+
+    <p><strong>Can you locate the source of <i>any</i> quote</strong>?</p>
     <ul class="disc"><li><strong>No</strong>, CiteIt only locates the context of quotes whose source has been <strong>identified by the author with a URL</strong>.</li>
-    <li>If an author chooses not to identify a source, CiteIt will not attempt to locate it.</li>
-    </ul>
+      <li>If an author chooses not to identify a source, CiteIt will not attempt to locate it.</li>
+    </ul><br />
 
-    <p class="mt-6"><strong>When</strong> did you begin CiteIt?</p>
+    <p><strong>"How much extra work is this for writers?"</strong></p>
+      <ul class="disc"><li>"If you already have your sources open, it's a simple <strong>copy-paste of the URL</strong>. The system does the heavy lifting of pulling the context."</li>
+    </ul><br />
 
-    <ul class="disc"><li>The idea for CiteIt.net came while I was <a class="underline nonblock" href="https://www.openpolitics.com/articles/ted-nelson-philosophy">writing a profile of Ted Nelson</a>.</li>
-       <li>I started writing an <strong>implementation</strong> in late 2014, with the <!--a class="underline nonblock" href="https://github.com/timlangeman/quote-context/commits/master"-->first GitHub commit<!--/a-->&nbsp;on<strong> Jan 15, 2015</strong>.</li>
-    </ul>
-
-    <p class="mt-6">What <strong>source mediums</strong> can you cite?</p>
-    <ul class="disc">
-        <li>CiteIt is capable of cititing <b>webpages</b> and electronic <b>PDFs</b>. I've written some code to do <b>OCR</b> on <b>scanned PDFs</b>, but it is not available in the current web service yet.</li>
-        <li>CiteIt is capable of reading <b>YouTube transcripts</b> as well as transcripts from the <b><a class="underline nonblock" href="https://www.oyez.org/">Oyez</a> Supreme Court Cases</b>.</li>
-        <li>One limitation of CiteIt is that it is not good at handling <b>Javascript-only websites</b> (such as Twitter) or sites that require javascript support (like the BBC News).  This could be improved in the future.
+    <p><strong>"Does this break the flow of my writing?"</strong></p>
+      <ul class="disc"><li>"It actually cleans it up. Instead of bulky 'according to a PDF from 2022' sentences, you can stay lean in your prose while the 'proof' lives in the interactive layer."</li>
     </ul>
 
     <p class="mt-6">Why is the <strong>context cut off mid-word</strong>?</p>
     <ul class="disc">
         <li>One of the ideas behind CiteIt is that authors should not get to <strong>cherry-pick their quote</strong> or their <strong>quote's context</strong>. As a result, for every quote ..</li>
         <li>CiteIt <strong>gives authors no discretion</strong> over their context and instead pulls the 500 characters of context, cutting off the selection mid-word if necessary.</li>
+    </ul><br />
+ 
+    <h3 class="mt-8 mb-4" style="font-size: 1.6em; font-weight: bold;">Platform FAQ: Frequently Asked Questions</h3>
+    <p class="mt-6"><strong>Does this slow down page load times?</strong></p>
+    <ul class="disc">
+        <li>"CiteIt is designed to be '<strong>lazy-loaded</strong>.' It doesn't fetch the source data until a reader actually clicks or hovers, keeping your site speed lightning-fast."</li>
     </ul>
 
-<!--
-    <p class="mt-6">Is there a <strong>simple code demonstration</strong> of CiteIt I can inspect that is stripped of all the WordPress boilerplate?</p>
-    <ul class="disc"><li>There is a basic <a class="underline nonblock" href="https://pages.citeit.net/sample-code/examples.html">Sample Code GitHub repository with examples</a> of&nbsp; CiteIt.net being used with the web service.</li></ul>
--->
-    
-    <p class="mt-6">What was <strong>Neotext</strong>?</p>
-    <ul class="disc">
-      <li><a class="underline nonblock" href="https://github.com/neotext/">Neotext</a> was the first name I gave to the project that became <strong>CiteIt</strong>.</li>
-      <li><a class="underline nonblock" href="https://www.linkedin.com/in/lynn-schmidt-miller-4a06481a/">Lynn Schmidt Miller</a> suggested the name of &ldquo;CiteIt&rdquo; as a way to relate the project to the well-understood concept of citation.</li>
-      <li>You may see some stray references in the code to <em>Neotext</em>.</li>
-    </ul>
+    <h3 class="mt-8 mb-4" style="font-size: 1.6em; font-weight: bold;">Before CiteIt vs After CiteIt</h3><br />
+    <img src="/assets/images/Platform-Before-After.png" alt="Platform: Before vs After" /><br />
+
 
   </div>
 
@@ -129,7 +146,7 @@
   </div>
 
 
-<div id="privacy-policy">
+<div id="privacy-policy"><br /><br />
 
   <h3 class="mb-2" style="font-size: 1.6em; font-weight: bold;">Privacy Policy</h3>
 
