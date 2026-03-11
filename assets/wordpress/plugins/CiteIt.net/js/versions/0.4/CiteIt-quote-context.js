@@ -34,7 +34,7 @@ const apiBaseUrl = "https://read.citeit.net/quote/sha256/";
 
 // Precompiled regex patterns for better performance
 const REGEX = {
-    domainSplit: /[\/?#]/,  // eslint-disable-line no-useless-escape
+    domainSplit: /[/?#]/,
     hexadecimal: /^[0-9a-fA-F]+$/,
     protocol: /^https?:\/\//i,
     sha256: /^[0-9a-f]{64}$/i,
@@ -202,7 +202,7 @@ function extractDomain(url) {
     // Extract domain from URL for display purposes
 
     // Remove prefix if present to show the actual cited domain
-    url = url.replace("https:///", '');
+    url = url.replace("https:///", "");
 
     if (!isValidHttpUrl(url)) {
         return "";
@@ -247,6 +247,14 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
     // CSP-compliant: use data attributes instead of inline event handlers
     $popup.dialog({
         autoOpen: false,
+        beforeClose: function () {
+            // Pause any playing YouTube video
+            // when dialog is closed (X button, Escape, etc.)
+            const popupId = jQuery(this).attr("id");
+            if (popupId) {
+                pauseVideo(sanitizeId(popupId.replace(/^hidden_/, "")));
+            }
+        },
         closeOnEscape: true,
         closeText: "hide",
         draggable: true,
@@ -272,8 +280,24 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
     return false;
 }
 
+function pauseVideo(sha256) {
+    // Send postMessage to YouTube iframe to pause video playback
+    const safeSha = sanitizeId(sha256);
+    const $player = jQuery("#player_" + safeSha);
+    if ($player.is("iframe")) {
+        $player[0].contentWindow.postMessage(
+            `{"event":"command","func":"pauseVideo","args":""}`,
+            "*"
+        );
+    }
+}
+
 function closePopup(hiddenPopupId) {
-    // Close a popup dialog using jQuery UI
+    // Pause any playing video, then close the popup dialog
+    const sha256 = sanitizeId(String(hiddenPopupId).replace(/^#?hidden_/, ""));
+    if (sha256) {
+        pauseVideo(sha256);
+    }
     jQuery(hiddenPopupId).dialog("close");
 }
 
@@ -306,6 +330,9 @@ function initEventDelegation() {
             if (!sha) {
                 return;
             }
+
+            // Pause any playing YouTube video when a context section is toggled
+            pauseVideo(sha);
 
             const parentDivId = sanitizeId(section + "_" + sha);
             jQuery("#" + parentDivId).toggleClass("rotated180");
@@ -387,7 +414,7 @@ function embedUi(sourceUrl, jsonData, tagType) {
 
         const embedUrl = urlParser.create({
             format: "embed",
-            params: {start: startTime},
+            params: {enablejsapi: 1, start: startTime},
             videoInfo: {
                 id: urlParsed.id,
                 mediaType: "video",
@@ -419,7 +446,9 @@ function embedUi(sourceUrl, jsonData, tagType) {
         ].join("");
 
         embedHtml = [
-            "<iframe class='youtube' src='",
+            "<iframe id='player_",
+            safeSha,
+            "' class='youtube' src='",
             escapeHtml(embedUrl),
             "' width='",
             width,
@@ -459,10 +488,6 @@ function isValidUrl(string) {
     return isValidHttpUrl(string);
 }
 
-function removeMirrorSourceUrl(citedUrl) {
-    // Shown the actual URL being cited, rather than the mirror location 
-    return citedUrl.replace("https:///", '');
-}
 
 // ============ DOM Manipulation ============
 
@@ -700,6 +725,11 @@ function quoteContextPlugin(collection) {
         ).join("");
         const hashValue = forge_sha256(hashKey);
 
+        console.log("-----------------------------------------------------")
+        console.log("citingQuote:", citingQuote);
+        console.log("citingUrl:", citingUrl);
+        console.log("quoteHashKey:", quoteHashKey(citingQuote, citingUrl, citedUrl));
+        
         // Validate computed hash
         if (!isValidSha256(hashValue)) {
             clog("Invalid computed hash");
