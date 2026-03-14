@@ -184,7 +184,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
       font-size: 106%;
       color: orange;
       font-weight: 800;
-      padding: 15px 0px 0 15px !important;
+      padding: 15px 0px 15px 15px !important;
     }
 
     .sample-articles .active{
@@ -401,7 +401,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
       font-size: 110% !important;
       color: orange;
       font-weight: 800;
-      padding: 15px 0px 0 15px !important;
+      padding: 15px 0px 25px 15px !important;
       list-style-type: disc;
     }
 
@@ -411,7 +411,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
 
     .sample-articles .active{
       background-color: rgb(214, 232, 236);
-      padding: 10px;
+      padding: 20px !important;
       font-weight: 600;
     }
     div.sample-articles ul.disc li.active ul li.active {
@@ -420,7 +420,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
         content: "\00BB";
         margin-left: 33px;
         font-weight: 800;
-        padding: 15px 0px 7px 7px !important;
+        padding: 15px 15px 7px 7px !important;
         list-style: none; /* Removes the default bullet */
         position: relative; /* Allows positioning of the arrow */
     }
@@ -438,4 +438,16 @@ div.sample-articles ul.disc li.active ul li.active::before {
     div.sample-articles ul.disc li.active span.title {
         color: #555;
         font-size: 90%;
+    }
+
+
+    .layout_note {
+        background-color: #B0E0E6;
+        padding: 15px 30px !important;
+        margin: 0 25px 25px 25px;
+        font-size: 90%;
+    }
+
+    .red {
+        color: red;
     }

@@ -184,7 +184,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
       font-size: 106%;
       color: orange;
       font-weight: 800;
-      padding: 15px 0px 0 15px !important;
+      padding: 15px 0px 15px 15px !important;
     }
 
     .sample-articles .active{
@@ -401,7 +401,7 @@ div.sample-articles ul.disc li.active ul li.active::before {
       font-size: 110% !important;
       color: orange;
       font-weight: 800;
-      padding: 15px 0px 0 15px !important;
+      padding: 15px 0px 10pxs 15px !important;
       list-style-type: disc;
     }
 

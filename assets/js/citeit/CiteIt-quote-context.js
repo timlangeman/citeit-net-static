@@ -136,12 +136,22 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
 
 
         let is_video = '';
-        const url_cited_domain = filterBadCharacters(json.cited_url.replace('http://','').replace('https://','').replace('www.','').replace('mirror','').split(/[/?#]/)[0]);
         let media_type = 'text';
-        if (url_cited_domain !== 'youtube.com' && url_cited_domain !== 'youtu.be') {
-            is_video = "not_video";
-        } else {
+
+        // Detect YouTube via urlParser (handles youtube.com, youtu.be, m.youtube.com, etc.)
+        const _url_parsed_check = urlParser.parse(cited_url);
+        const _youtube_patterns = [
+            /^https?:\/\/(www\.|m\.)?youtube\.com\//,
+            /^https?:\/\/youtu\.be\//
+        ];
+        if (_url_parsed_check && _url_parsed_check.provider === 'youtube') {
             media_type = 'video';
+        } else if (_youtube_patterns.some(function(p) { return p.test(cited_url); })) {
+            media_type = 'video';
+        } else if (cited_url && cited_url.toLowerCase().split('?')[0].endsWith('.pdf')) {
+            media_type = 'pdf';
+        } else {
+            is_video = "not_video";
         }
 
         // lookup html for video ui and icon
@@ -276,9 +286,10 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             if (media_type === 'video') {
                 const youtube_icon = `<img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}' />`;
                 linkElement.append(youtube_icon);
-            }
-
-            if (media_type === 'text') {
+            } else if (media_type === 'pdf') {
+                const pdf_icon = `<img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF context' title='View Context: PDF' />`;
+                linkElement.append(pdf_icon);
+            } else if (media_type === 'text') {
                 const text_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='text context' title='View Context: Text (no video)' />`;
                 linkElement.append(text_icon);
             }
@@ -352,6 +363,13 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 const youtube_label = `${youtube_icon} <span class='highlight'>&larr;${view_label} </span><br />`;
 
                 blockcite.append(youtube_label);
+
+            } else if (media_type === 'pdf') {
+                const pdf_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF icon' /></a>`;
+                const view_label = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'> Expand to View Context: 500 characters before & after</a>`;
+                const pdf_label = `${pdf_icon} <span class='highlight'>&larr;${view_label} </span><br />`;
+
+                blockcite.append(pdf_label);
 
             } else if (media_type === 'text') {
                 const text_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='Text icon' /></a>`;
@@ -800,7 +818,9 @@ function embedUi(url, json, tag_type) {
     }
 
     embed_ui.url = url;
-    embed_ui.html = '<b>Strong</b>';
+    if (!embed_ui.html) {
+        embed_ui.html = '';
+    }
     embed_ui.json = json;
     return embed_ui;
 }
