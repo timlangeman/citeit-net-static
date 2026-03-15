@@ -198,7 +198,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             }
 
             if (media_type === 'text') {
-                heading = "<b>Text Citation</b>: <img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='Text icon' /> (no video)";
+                heading = "<b>Text Citation</b>: <img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='Text icon' /> (no video)";
             }
             
             const js_popup = `javascript:closePopup('${json.sha256}');`;
@@ -290,7 +290,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 const pdf_icon = `<img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF context' title='View Context: PDF' />`;
                 linkElement.append(pdf_icon);
             } else if (media_type === 'text') {
-                const text_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='text context' title='View Context: Text (no video)' />`;
+                const text_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='text context' title='View Context: Text (no video)' />`;
                 linkElement.append(text_icon);
             }
 
@@ -303,11 +303,6 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
 
             // lookup html for video ui and icon
             embed_ui = embedUi(cited_url, json);
-
-            let title = '';
-            if (media_type === 'videox') {
-                title = `<div id='title_${json.sha256}' class='title'>Loading video ..</div>`;
-            }
 
             const play_video_onclick = `playVideo('${json.sha256}', embed_ui.start_time)`;
             let start_playing_at = '';
@@ -372,7 +367,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 blockcite.append(pdf_label);
 
             } else if (media_type === 'text') {
-                const text_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='27' height='27' alt='Text icon' /></a>`;
+                const text_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' height='40' alt='Text icon' /></a>`;
                 const view_label = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'> Expand to View Context: 500 characters before & after</a>`;
                 const text_label = `${text_icon} <span class='highlight'>&larr;${view_label} </span><br />`;
 
@@ -391,17 +386,17 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             if (json.cited_context_before.length > 0) {
                 let expand_label = '';
                 if (media_type === 'text') {
-                    expand_label = `<br /><a id='quote_arrow_up_${json.sha256}' href="javascript:toggleBlockquote('quote_arrow_up', 'quote_before_${json.sha256}');">Expand to View Context</a>`;
+                    expand_label = `<br /><a id='quote_arrow_up_${json.sha256}' href="javascript:toggleBlockquote('quote_arrow_up', 'quote_before_${json.sha256}');"><br />Expand to View Context</a>`;
                 }
 
                 context_before.before(`<div class='quote_arrows' id='context_up_${json.sha256}'> 
                 <a id='quote_arrow_up_${json.sha256}' href="javascript:toggleBlockquote('quote_arrow_up', 'quote_before_${json.sha256}');">&#9650;</a>${expand_label}${trimDefault(embed_ui.icon)}
-                </div>`
+                </div><br />`
                 );
             }
             if (json.cited_context_after.length > 0) {
                 context_after.after(`<div class='quote_arrows' id='context_down_${json.sha256}'>  
-                <a id='quote_arrow_down_${json.sha256}' href="javascript:toggleBlockquote('quote_arrow_down', 'quote_after_${json.sha256}');">&#9660;</a></div>`);
+                <a id='quote_arrow_down_${json.sha256}' href="javascript:toggleBlockquote('quote_arrow_down', 'quote_after_${json.sha256}');">&#9660;</a></div><br />`);
             }
 
         } // elseif (tag_type === 'blockquote')

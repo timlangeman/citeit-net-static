@@ -280,6 +280,17 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
     return false;
 }
 
+function toggleBothSections(sha256) {
+    // Toggle both cited_context_before and cited_context_after sections
+    const safeSha = sanitizeId(sha256);
+    pauseVideo(safeSha);
+    jQuery("#quote_before_" + safeSha).fadeToggle("slow", "linear");
+    jQuery("#quote_after_" + safeSha).fadeToggle("slow", "linear");
+    setTimeout(function () {
+        jQuery("#player_" + safeSha).attr("title", "");
+    }, 350);
+}
+
 function pauseVideo(sha256) {
     // Send postMessage to YouTube iframe to pause video playback
     const safeSha = sanitizeId(sha256);
@@ -376,6 +387,65 @@ function initEventDelegation() {
 
 // ============ Video Embed Functions ============
 
+function secondsToMinutes(seconds) {
+    // Convert seconds integer to "M min S sec" display string
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return mins + " min " + (secs < 10 ? "0" : "") + secs + " sec";
+}
+
+function detectMediaType(url) {
+    // Returns 'video', 'pdf', or 'text' based on the cited URL
+    if (!url) {
+        return "text";
+    }
+    try {
+        const urlParsed = urlParser.parse(url);
+        if (urlParsed && urlParsed.provider === "youtube") {
+            return "video";
+        }
+    } catch (ignore) {}
+    const youtubePatterns = [
+        /^https?:\/\/(www\.|m\.)?youtube\.com\//,
+        /^https?:\/\/youtu\.be\//
+    ];
+    if (youtubePatterns.some(function (p) { return p.test(url); })) {
+        return "video";
+    }
+    if (url.toLowerCase().split("?")[0].endsWith(".pdf")) {
+        return "pdf";
+    }
+    return "text";
+}
+
+function mediaIcon(mediaType, startTime) {
+    // Returns an <img> icon for the given media type
+    if (mediaType === "video") {
+        const timeLabel = startTime ? " @ " + startTime : "";
+        return [
+            "<img class='youtube-icon'",
+            " src='https://pages.citeit.net/wp-content/plugins/",
+            "CiteIt.net/img/youtube_logo_mini.png'",
+            " width='40' height='27'",
+            " alt='video context'",
+            " title='View Context: Video" + escapeHtml(timeLabel) + "' />"
+        ].join("");
+    }
+    if (mediaType === "pdf") {
+        return [
+            "<img src='https://www.citeit.net/assets/images/pdf-logo.png'",
+            " class='pdf-icon' width='27' height='27'",
+            " alt='PDF context' title='View Context: PDF' />"
+        ].join("");
+    }
+    return [
+        "<img src='/assets/images/text-icon-small.png'",
+        " class='text-icon' width='90' height='90'",
+        " alt='text context'",
+        " title='View Context: Text (no video)' />xxxxxx"
+    ].join("");
+}
+
 function embedUi(sourceUrl, jsonData, tagType) {
     // Currently only supports YouTube, can be extended
     var embedIcon = "";
@@ -436,14 +506,7 @@ function embedUi(sourceUrl, jsonData, tagType) {
         );
 
         // CSP-compliant: use data attributes instead of javascript: URL
-        embedIcon = [
-            "<span class='view_on_youtube'><br />",
-            "<a href='#' data-citeit-toggle='true' ",
-            "data-citeit-section='quote_arrow_up' ",
-            "data-citeit-target='quote_before_",
-            safeSha,
-            "'>Expand: Show Video Clip</a></span>"
-        ].join("");
+        embedIcon = mediaIcon("video", startTime);
 
         embedHtml = [
             "<iframe id='player_",
@@ -462,9 +525,15 @@ function embedUi(sourceUrl, jsonData, tagType) {
         ].join("");
     }
 
+    // If no YouTube icon was set, use text or PDF icon
+    if (!embedIcon) {
+        embedIcon = mediaIcon(detectMediaType(sourceUrl), "");
+    }
+
     return {
         html: embedHtml,
-        icon: embedIcon
+        icon: embedIcon,
+        startTime: startTime
     };
 }
 
@@ -562,10 +631,18 @@ function buildAfterHtml(sha256, contextAfter) {
     ].join("");
 }
 
-function buildArrowUpHtml(sha256, embedIcon) {
+function buildArrowUpHtml(sha256, mediaType) {
     // Build HTML for up arrow to toggle context (XSS-safe)
 
     const safeSha = sanitizeId(sha256);
+
+    let upLabelText = "View Context";
+    if (mediaType === "video") {
+        upLabelText = "View Context: Video";
+    } else if (mediaType === "pdf") {
+        upLabelText = "View Context: PDF";
+    }
+
     return [
         "<div class='quote_arrows up-arrow' ",
         "id='context_up_",
@@ -576,8 +653,14 @@ function buildArrowUpHtml(sha256, embedIcon) {
         "data-citeit-section='quote_arrow_up' ",
         "data-citeit-target='quote_before_",
         safeSha,
-        "'>&#9650;</a> ",
-        trimDefault(embedIcon),
+        "'>&#9650;</a><br /> ",
+        "<a href='#' data-citeit-toggle='true' ",
+        "data-citeit-section='quote_arrow_up' ",
+        "data-citeit-target='quote_before_",
+        safeSha,
+        "'>",
+        escapeHtml(upLabelText),
+        "</a>",
         "</div>"
     ].join("");
 }
@@ -604,7 +687,7 @@ function buildArrowDownHtml(sha256, citedUrl, domain) {
         "data-citeit-section='quote_arrow_down' ",
         "data-citeit-target='quote_after_",
         safeSha,
-        "'>&#9660;</a></div>"
+        "'>&#9660;</a></div><br />"
     ].join("");
 }
 
@@ -648,6 +731,11 @@ function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
             "' />"
         ].join(""));
 
+        // Append media icon (YouTube, PDF, or text) to the link
+        if (curUi.icon) {
+            blockcite.find("a.popup_quote").append(curUi.icon);
+        }
+
     // For blockquotes, insert context and add toggle arrows
     } else if (atTagType === "blockquote") {
         // Build context before and after HTML
@@ -671,13 +759,38 @@ function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
         $after.hide();
 
         if (json.cited_context_before.length > 0) {
-            const arrowUp = buildArrowUpHtml(sha256, curUi.icon);
+            const arrowUp = buildArrowUpHtml(sha256, detectMediaType(atCitedUrl));
             $before.before(arrowUp);
         }
         if (json.cited_context_after.length > 0) {
             const arrowDown = buildArrowDownHtml(sha256, citedUrl, domain);
             $after.after(arrowDown);
         }
+
+        // Append bottom-left icon + label to the blockquote
+        const mediaType = detectMediaType(atCitedUrl);
+        const contextUpId = "context_up_" + sha256;
+        const contextUpHref = "#" + contextUpId;
+        const toggleCall = "toggleBlockquote(\"quote_arrow_up\", \"quote_before_" + sha256 + "\");";
+
+        let bottomIcon = "";
+        let bottomLabelText = "";
+
+        if (mediaType === "video") {
+            bottomIcon = "<img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' />";
+            const timeLabel = curUi.startTime ? " @ " + secondsToMinutes(curUi.startTime) : "";
+            bottomLabelText = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'>View Context: Video" + timeLabel + '</a>';
+        } else if (mediaType === "pdf") {
+            bottomIcon = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'> <img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF icon' /></a>";
+            bottomLabelText = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'> Expand to View Context: 500 charachters before & after</a>";
+        } else {
+            bottomIcon = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='Text icon' />";
+            bottomLabelText = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'> Expand to View Context: 500 charachters before &amp; after</a>";
+        }
+
+        const bottomIconLink = "<a href='" + contextUpHref + "' onclick='" + toggleCall + "'>" + bottomIcon + "</a>";
+        const bottomViewLink = "<a href='" + contextUpHref + "' onclick='" + toggleCall + "'> " + (bottomLabelText) + "</a>";
+        blockcite.append(bottomIconLink + " <span class='highlight'>" + bottomViewLink + " </span><br />");
     }
 }
 
@@ -689,7 +802,7 @@ function quoteContextPlugin(collection) {
     // Initialize event delegation once
     initEventDelegation();
 
-    collection.each(function processQuote(ignore, element) {
+    collection.each(function processQuote(_ignore, element) {
         const blockcite = jQuery(element);
         const citedUrl = blockcite.attr("cite");
 

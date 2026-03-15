@@ -198,7 +198,7 @@ jQuery.fn.quoteContext = function() {
                             context_before.before("<div class='quote_arrows up-arrow' id='context_up_" + data.sha256 + "'> \
                             <a id='quote_arrow_up_" + data.sha256 + "' \
                                 href=\"javascript:toggleQuote('quote_arrow_up', 'quote_before_" + data.sha256 + "');\">&#9650;</a> " + trimDefault(embed_ui.icon) +
-                                "</div>"
+                                "</div><br />"
                             );
                         }
                         if (data.cited_context_after.length > 0) {
@@ -206,7 +206,7 @@ jQuery.fn.quoteContext = function() {
                             <div class='citeit_source'><span class='source'>source: </span> \
                             <a class='citeit_source_domain' href='" + cited_url + "'>" + extractDomain(cited_url) + "</a></div> \
                             <a class='down_arrow' id='quote_arrow_down_" + data.sha256 + "'> \
-                            href=\"javascript:toggleQuote('quote_arrow_down', 'quote_after_" + data.sha256 + "');\">&#9660;</a></div>");
+                            href=\"javascript:toggleQuote('quote_arrow_down', 'quote_after_" + data.sha256 + "');\">&#9660;</a></div><br />");
                         }
 
                     } // elseif (tag_type === 'blockquote')
