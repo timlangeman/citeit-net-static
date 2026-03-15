@@ -440,9 +440,9 @@ function mediaIcon(mediaType, startTime) {
     }
     return [
         "<img src='/assets/images/text-icon-small.png'",
-        " class='text-icon' width='90' height='90'",
+        " class='text-icon' width='40' height='40'",
         " alt='text context'",
-        " title='View Context: Text (no video)' />xxxxxx"
+        " title='View Context: Text (no video)' />"
     ].join("");
 }
 
