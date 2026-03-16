@@ -842,7 +842,8 @@ function quoteContextPlugin(collection) {
         console.log("citingQuote:", citingQuote);
         console.log("citingUrl:", citingUrl);
         console.log("quoteHashKey:", quoteHashKey(citingQuote, citingUrl, citedUrl));
-        
+        console.log("sha256:", hashValue);
+
         // Validate computed hash
         if (!isValidSha256(hashValue)) {
             clog("Invalid computed hash");
