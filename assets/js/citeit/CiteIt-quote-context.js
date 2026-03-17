@@ -284,7 +284,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             const linkElement = blockcite.find('a.q-tag');
 
             if (media_type === 'video') {
-                const youtube_icon = `<img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}' />`;
+                const youtube_icon = `<img class='youtube-icon' src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}' />`;
                 linkElement.append(youtube_icon);
             } else if (media_type === 'pdf') {
                 const pdf_icon = `<img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF context' title='View Context: PDF' />`;
@@ -353,7 +353,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
             );
 
             if (media_type === 'video') {
-                const youtube_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' /></a>`;
+                const youtube_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img class='youtube-icon' src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' /></a>`;
                 const view_label = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'> View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}</a>`;
                 const youtube_label = `${youtube_icon} <span class='highlight'>&larr;${view_label} </span><br />`;
 

@@ -424,8 +424,7 @@ function mediaIcon(mediaType, startTime) {
         const timeLabel = startTime ? " @ " + startTime : "";
         return [
             "<img class='youtube-icon'",
-            " src='https://pages.citeit.net/wp-content/plugins/",
-            "CiteIt.net/img/youtube_logo_mini.png'",
+            " src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png'",
             " width='40' height='27'",
             " alt='video context'",
             " title='View Context: Video" + escapeHtml(timeLabel) + "' />"
@@ -777,7 +776,7 @@ function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
         let bottomLabelText = "";
 
         if (mediaType === "video") {
-            bottomIcon = "<img class='youtube-icon' src='https://pages.citeit.net/wp-content/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' />";
+            bottomIcon = "<img class='youtube-icon' src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' />";
             const timeLabel = curUi.startTime ? " @ " + secondsToMinutes(curUi.startTime) : "";
             bottomLabelText = "<a href='" + "#context_up_" + json.sha256 + "' onclick='toggleBothSections(`quote_arrow_up`,`quote_before_" + json.sha256 + "`);'>View Context: Video" + timeLabel + '</a>';
         } else if (mediaType === "pdf") {
