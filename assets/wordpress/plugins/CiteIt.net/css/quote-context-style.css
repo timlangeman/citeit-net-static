@@ -19,7 +19,7 @@ div.ui-dialog-content {
 }
 
 span.lookfor_quote, span.contextual_quote {
-	background-color: #d6e8ec;
+	background-color: #d6e8ec !important;
 }
 
 
@@ -29,18 +29,39 @@ span.blockquote {
 
 /* Inline Popup */
 div.source_url {
-	margin-top: -20px;
-	float: right;
+	margin-top: 0px !important;
+	float: left;
 }
+
 
 div.quote_arrows a, a.citeit_source_domain {
 	color: #0ebfe9;
 	border: 0px;
 }
 
+/*
 q, q a, span.q, {
 	color: #333;
-	background-color: #d6e8ec;	
+	background-color: #d6e8ec;
+}
+*/
+
+
+
+/* Highlight active quote */
+q a.active, span.q,  q a.active:visited {
+	background-color: #f8ff75;	  /* TODO: Color choice:  #a9f0a3 | #f8ff75  */
+    font-weight: 800;
+    text-decoration: underline !important;
+    text-decoration-color: red !important;
+    text-decoration-style: double !important;
+	/* text-decoration-thickness: 7px; */
+    /* border-width: 0px 0 0px 6px !important; */
+}
+
+a.q-tip {
+m	color: red !important;
+	background-color: green !important;
 }
 
 q, q a, span.q {
@@ -48,11 +69,19 @@ q, q a, span.q {
 	text-decoration: none;
 	border-bottom: 0px dotted;
 	background-color: #d6e8ec;
+	/* TODO: text-decoration-color: rgb(255,105,25) !important;  */
 }
+
+q.tag.active {
+    background-color: orange;
+}
+
 
 q a:hover {
 	text-decoration: underline;
+	/* TODO: text-decoration-color: rgb(255,105,25) !important; */
 	border-bottom: 3px solid;
+	background-color: #d6e8ec !important;	
 }
 
 
@@ -60,8 +89,51 @@ q {
     quotes: "" "" "" "";
 }
 
+
+
+.highslide-maincontent.ui-dialog-content.ui-widget-content {
+	width: 90% !important;
+	font-size: 85% !important;
+}
+
+.ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix.ui-draggable-handle {
+	background-color: #0ebfe9;
+	margin: -5px;
+	padding: 7px 0 7px 10px;
+}
+
+
+.ui-widget.ui-widget-content {
+	border: 2px solid #c7dcdf;
+	font-size: 95%;
+}
+
+
+highslide-maincontent ui-dialog-content ui-widget-content {
+  background-color: #f6fdff;
+  margin-right:5%;
+  width: 90%;	/* Substack-WordPress: 95% / 90% */
+
+}
+
+div.highslide-maincontent a.source_label {
+  color: #000;
+  margin: 0 0 2px -5px;
+  text-decoration: none;
+  display: block;
+}
+
+
+div.context {
+	margin-top: 7px;
+	border-left-color: #121BFA !important;
+	border-left-style: solid;
+	border-left-width: 4px;
+}
+
 span.q-tag-highlight, .highlight {
 	background-color: #f8ff75;
+	color: #333;
 }
 
 div.highlight {
@@ -70,17 +142,27 @@ div.highlight {
 	font-size: 115%;
 }
 
+span.highlight_light {
+	background-color: #e6ec72;
+}
+
+
+.source_domain {
+ 	display: block;
+	clear: left;
+}
+
 div.citeit_source {
 	float: right;
-	margin-right: 2%;
-	margin-top: 0px;
+	margin-right: 10%;
+	margin-top: -40px;
 	font-size: 85%;
 }
 
 span.citeit_source_label {
 	padding-right: 7px;
 	padding-left: 10px;
-  color: #999;
+	color: #999;
 }
 
 /* jQuery Demo Style */
@@ -90,12 +172,12 @@ div#demo_content {
 }
 
 .ui-draggable .ui-dialog-titlebar {
-	font-size: 14px;
-	font-weight: 0;
+	font-size: 100%;
+	font-weight: 800;
 }
 
 .ui-dialog-content {
-	font-size: 14px;
+	font-size: 90%;
 }
 
 /* Position Demo */
@@ -107,7 +189,7 @@ div#demo_content {
 }
 
 div.highslide-maincontent{
-	font-size: 12px;
+	font-size: 85%;
 }
 
 div.highslide-maincontent a{
@@ -123,7 +205,7 @@ div.highslide-maincontent a{
 div.quote_arrows {
 	text-align: center;
 	color: #0ebfe9;
-	font-size: 16px;
+	font-size: 105%;
 	line-height: 1.5;
 	margin-bottom: 10px;
 }
@@ -143,18 +225,33 @@ div.quote_context {
 }
 
 blockquote.quote_context {
-	color: #999;
+	color: #777;
 	border: 1px solid 1px solid #cdcdc;
 	background-color: #eef3f5;
-	padding: 20px 30px 25px 35px;
+	padding: 20px 35px 25px 35px;
 	margin: 0 30px 5px 30px;
 }
 
+div.context {
+	background-color: #eef3f5;
+	color: #777;
+	padding: 20px 20px 5px 20px;
+	margin-bottom: 20px;
+}
+
+blockquote.quote_text p {
+	/* background-color: #f8ff75; */
+
+}
+
 blockquote.quote_text {
+	border-left-color: #121BFA !important;
+	border-left-style: solid !important;
+	border-left-width: 4px !important;
 	color: #333;
 	border: 1px solid #d8e7f2;
-	background-color: #d6e8ec;
-	padding: 25px 30px 25px 30px;
+	background-color: #d6e8ec !important;
+	padding: 15px 30px 5px 30px;
 	margin: 0 0 15px 0;
 	quotes: "\201c" "\201d" "\2018" "\2019";
 }
@@ -174,20 +271,188 @@ blockquote.quote_text:after {
 	margin-left: -10px;
 }
 
+blockquote.quote_text a span.highlight {
+	margin-left: 5px;
+    padding-right: 2px;
+}
+
 blockquote::before {
 	/*  content: "";	  remove quote symbol: "\201C" */
+}
+
+
+.video-container {
+	position: relative;
+	/* padding-bottom: 56.25%; */
+	padding-bottom: 50%;
+	width: 100%;
+	height: auto;
+    margin: 2% 0% 2% 1%;
+}
+
+
+blockquote.quote_context div.video-container iframe {
+  width: 93%;
+
+}
+
+div.title {
+  float: left;
+  color: #121BFA !important;
+  font-weight: 800;
+  margin-top: 5px;
+}
+
+.play-buttons {
+  float: right;
+  padding-bottom: 5px;
+  q-tagmargin-top: -15px !important;
+}
+
+
+/******************** BEGIN: TOOLTIP ***********
+
+Credit: https://www.w3schools.com/css/css_tooltip.asp
+
+************/
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  z-index: 19999999;
+  padding: 0 5px
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 19999999;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  z-index: 19999999;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.ui-tooltip {
+  z-index: 19999999;
+}
+
+/******************** END: TOOLTIP ***********************/
+
+
+.context_block {
+  clear: left;
+  padding: 15px 0 15px 0;
+}
+
+.not_video {
+    display: none;
+}
+
+
+.video_without_context {
+  font-size:110%;
+  font-weight: 800;
+  color: #777;
+
+}
+
+.start_playing {
+  margin: 3px 0px 10px 0px;
+  float: left;
+  clear: left; 
+  text-align: left;
+  font-size: 85%;
+}
+
+.starts_at {
+  color: blue;
+}
+
+h4.without_transcript {
+  color: red;
+  clear: left;
+  font-size: 105%;
+  margin-top:0px;
+}
+
+
+h3.context_found, h3.no-context-found {
+  font-size: 150%;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  float: left;
+  clear: left;
+}
+
+div.context {
+  clear: left;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 98%;
+  height: 100%;
+}
+
+.blockquote_video {
+	margin: auto:auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 div.source_info {
   background-color: #eee;
   border: #999 solid 1px;
-  margin: 35px -11px 0px -11px;
+  margin: 45px -11px 0px -11px;
   padding: 20px;
 
 }
 div.read_more {
   margin-top:25px;
   margin-bottom: 0px;
+}
+
+a.close {
+  background-color: #121BFA !important;
+  color: white;
+  font-weight: 800;
+  padding: 13px 15px 15px 15px;
+  text-decoration: underline;
+  float: right;
+  margin-top: -10px;
+  margin-right: 7px;
+}
+
+a.close:link {
+  background-color: ##121BFA !important;
+  color: white;
+  text-decoration: underline;
 }
 
 
@@ -199,7 +464,6 @@ a.inline_source {
 a.rotated180{
   display: block;
   transform: rotate(180deg);
-  margin-bottom: -25px;
 
   /* Safari */
   -webkit-transform: rotate(180deg);
@@ -215,66 +479,46 @@ a.rotated180{
 
 }
 
-#nav_footer {
-	padding-bottom:150px
-}
 
 /* Blockquote Video: YouTube */
 iframe.youtube {
   margin-top: 10px;
 }
 
-.start_video {
-	float: none;
-	font-size: 75% !important;
-	margin-bottom: 7px !important;
-}
-
-.start_playing {
-	clear: right;
-	float: none;
-}
-
-.transcript_contents {
-	clear: left;
-}
-
 .youtube-icon {
-	display: inline !important;
-	margin-bottom: -7px !important;
-  }
-  
-  .text-icon {
-	display: inline !important;
-	margin-bottom: -5px !important;
-  }
-  
-  a.citeit-q {
-	padding-right: 5px;
-  }
-  
-  .q-tooltip.highight {
-	margin-top: -24px !important;
-	padding-right: 5px;
-	background-color: #f8ff75;
-  }
-  
-  .note_num {
-	display: none;  /* hide for now */
-  }
-  
-  .citeit_tooltip {
-	background-color: #f8ff75;  /* rgb(14, 191, 233); */
-	font-weight: 400;
-	color: #333;
-	border: 3px solid #fcfee1 !important;
-  }
-  
-  .video-contatiner iframe.notooltip {
-	color: red;
-  }
+  display: inline !important;
+  margin-bottom: -7px !important;
+}
 
+.text-icon {
+  display: inline !important;
+  margin-bottom: -5px !important;
+}
 
+a.citeit-q {
+  padding-right: 5px;
+}
+
+.q-tooltip.highight {
+  margin-top: -24px !important;
+  padding-right: 5px;
+  background-color: #f8ff75;
+}
+
+.note_num {
+  display: none;  /* hide for now */
+}
+
+.citeit_tooltip {
+  background-color: #f8ff75;  /* rgb(14, 191, 233); */
+  font-weight: 400;
+  color: #333;
+  border: 3px solid #fcfee1 !important;
+}
+
+.video-contatiner iframe.notooltip {
+  color: red;
+}
 
 /******* Tooltip Credit: https://www.w3schools.com/howto/howto_css_tooltip.asp **********/
 
@@ -289,6 +533,25 @@ iframe.youtube {
 span.context_header {
   color: #999;
   font-weight: 800;
+
+}
+
+.hide_blockquote {
+  float: right !important;
+  background-color: blue !important;
+  color: #fff; 
+  padding: 5px 7px;
+  font-size: 90%
+}
+
+.hide_blockquote a {
+  color: #fff;
+  text_decoration: none;
+}
+
+.hide_blockquote a:hover {
+  color: #fff;
+  text_decoration: underline;
 }
 
 .tooltip_icon {
@@ -340,105 +603,200 @@ span.context_header {
   opacity: 1;
 }
 
-
-ul#footer > li {
-	display: inline-block;
-	margin-bottom: 30px;
-	width: 9%;
-	*display: inline;
-	/* this fix is needed for IE7- */
-
- }
-
-
-/* ============ v0.5: Ellipsis Gap Expansion Styles ============ */
-
-/* Clickable ellipsis indicator -- bright blue, bold on hover */
-span.citeit-gap {
-    color: #0066ff;
-    cursor: pointer;
-    font-weight: normal;
-    padding: 0 2px;
-    font-size: 120%;
-    letter-spacing: 2px;
+/* Increase Popup Font-size */
+.highslide-maincontent .width_800 .ui-dialog-content .ui-widget-content,
+.highslide-maincontent .width_700 .ui-dialog-content .ui-widget-content,
+.highslide-maincontent .width_640 .ui-dialog-content .ui-widget-content,
+.highslide-maincontent .width_755 .ui-dialog-content .ui-widget-content {
+   font-size: 170%;
 }
 
-span.citeit-gap:hover {
-    color: #0044cc;
-    font-weight: bold;
-    text-decoration: underline;
+.highslide-maincontent .width_400 .ui-dialog-content .ui-widget-content {
+   font-size: 140%;
 }
 
-/* Expanded gap content */
-span.citeit-gap-content {
-    color: #555;
-    background-color: #f0f8ff;
-    padding: 2px 4px;
-    border-left: 3px solid #0066ff;
-    margin: 0 2px;
+
+
+/* Twitter blockquote box */
+
+.twitter_main {
+  border-radius: 25px !important;
+  border-width: 2px !important;
+  border-color: #ccc !important;
+  border-style: solid; 
+  
+  padding-left: 16px !important;
+  font-size: 110%;
+  width: 93%;
+  padding-top: 20px; 
+  max-width: 540px;
 }
 
-/* Truncated section within a large gap (>1000 chars) */
-span.citeit-truncated {
-    color: #999;
-    font-style: italic;
-    font-size: 90%;
+.twitter_blockquote {
+  background-color: #F8F3D2;
+  border-radius: 25px;
+  border-width: 2px !important;
+  border-color: #ccc!important;
+  border-style: solid;
+  margin: 0px 15px;
+  padding: 25px;
+  width: 93%;
+  max-width: 540px;
+  margin-top: 20px;
 }
 
-span.citeit-truncated a {
-    color: #0066ff;
-    text-decoration: underline;
+/
+*********** Phone-specific Styles *************/
+
+@media only screen and (min-height: 1200px) {
+
+	.highslide-maincontent {
+		font-size: 19px !important;
+	}
+
 }
 
-/* ============ End v0.5 Styles ============ */
+@media only screen and (max-width: 1020px) {
 
-/*********** Tablet & Low Res-specific Styles *************/
+	.highslide-maincontent {
+		font-size: 95% !important;
+	}
+
+}
+
 @media only screen and (max-width: 768px) {
 
 	div.quote_arrows a {
-		font-size: 110%;						/* make it larger: to select on phone screen */
+		font-size: 150%;						/* make it larger: to select on phone screen */
 		border: 0px;
 	}
 	span.view_on_youtube {
-		font-size: 65%;
+		font-size: 85%;
+		background-color: #f8ff75;
 	}
-/*
+
 	iframe.youtube {
 		width: 320px;
 		height: 270px;
 	}
-*/
+
 	blockquote.quote_context {
 		color: #999;
 		border: 1px solid 1px solid #cdcdc;
 		background-color: #eef3f5;
-		padding: 20px 20px 25px 20px;
+		padding: 20px 30px 25px 20px;
 		margin: 0 25px 5px 25px;
 	}
+
+	div.highslide-maincontent{
+		font-size: 90%;
+	}
+
+	.ytp-cued-thumbnail-overlay-image {
+	  width: 320px;
+	  height: 270px;
+	}
+
+
+	.highslide-maincontent {
+		font-size: 90% !important;
+	}
+
+
 }
 
-/*********** Phone-specific Styles *************/
 @media only screen and (max-width: 480px) {
 
 	div.highslide-maincontent{
-		font-size: 14px;
-	}
-	
-	div.source_url {
-	  font-size: 110%;
+		font-size: 90px;
 	}
 
-	ul#footer > li {
-		display: list-item;
-		list-style: disc;
-		margin-left: 80px;
-		width: 80%;
-		text-align:left;
+	div.source_url {
+	  font-size: 120%;
+      clear: left;
+      margin-top:5px;
+	}
+
+	.ytp-cued-thumbnail-overlay-image {
+	  width: 320px;
+	  height: 270px;
 	}
 
 }
 
+@media only screen and (max-width: 300px) {
+	.ui-dialog .ui-dialog-content {
+	   margin-left: 10px;
+	}
+
+}
+
+/******************** CSS Play buttons ********************/
 
 
+.player-buttons {
+  height: 35px;
+  padding: 0px 2px;
+}
 
+div.center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+
+#control {
+  position: absolute;
+  bottom: 10px;
+  width: 20px;
+  height: 20px;
+  right: 10px;
+  cursor: pointer;
+
+  .border {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #41fff5;
+    border-radius: 20px;
+  }
+
+  &.is--playing .border {
+    border-top: none;
+    border-bottom: none;
+    animation: spin 1.5s ease-in-out infinite;
+  }
+
+  .play {
+    position: absolute;
+    top: 6px;
+    left: 9px;
+    box-sizing: border-box;
+    height: 7px;
+    width: 5px;
+
+    border-color: transparent transparent transparent #41fff5;
+    transition: 100ms all ease;
+    will-change: border-width;
+    cursor: pointer;
+
+    // play state
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+  }
+  &.is--playing .play {
+    border-style: double;
+    border-width: 0px 0 0px 6px;
+    transform: translate(-1px, 1px);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 

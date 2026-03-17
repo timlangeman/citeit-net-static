@@ -14,6 +14,15 @@ div.ui-dialog, div.ui-widget {
 	z-index: 999999;
 }
 
+div.ui-dialog {
+	position: fixed !important;
+	top: 0 !important;
+	bottom: 0 !important;
+	height: fit-content !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+}
+
 div.ui-dialog-content {
 	line-height: 150%;
 }
@@ -713,6 +722,20 @@ span.context_header {
 
 }
 
+@media only screen and (max-height: 1200px) {
+
+	.ui-dialog {
+		max-height: 85vh !important;
+		overflow-y: auto !important;
+	}
+
+	.ui-dialog-content {
+		max-height: 70vh !important;
+		overflow-y: auto !important;
+	}
+
+}
+
 @media only screen and (max-width: 1020px) {
 
 	.highslide-maincontent {
@@ -765,7 +788,7 @@ span.context_header {
 @media only screen and (max-width: 480px) {
 
 	div.highslide-maincontent{
-		font-size: 90px;
+		font-size: 90%;
 	}
 
 	div.source_url {
