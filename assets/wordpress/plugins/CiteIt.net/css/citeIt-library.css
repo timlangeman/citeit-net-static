@@ -78,6 +78,7 @@ q, q a, span.q {
 	text-decoration: none;
 	border-bottom: 0px dotted;
 	background-color: #d6e8ec;
+	transition: background-color 1s ease;
 	/* TODO: text-decoration-color: rgb(255,105,25) !important;  */
 }
 

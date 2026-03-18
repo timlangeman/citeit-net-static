@@ -287,7 +287,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 const youtube_icon = `<img class='youtube-icon' src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' title='View Context: Video @ ${seconds_to_minutes(embed_ui.start_time)}' />`;
                 linkElement.append(youtube_icon);
             } else if (media_type === 'pdf') {
-                const pdf_icon = `<img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF context' title='View Context: PDF' />`;
+                const pdf_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='PDF context' title='View Context: PDF' />`;
                 linkElement.append(pdf_icon);
             } else if (media_type === 'text') {
                 const text_icon = `<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='text context' title='View Context: Text (no video)' />`;
@@ -360,7 +360,7 @@ function addQuoteToDom(tag_type, json, cited_url, blockcite) {
                 blockcite.append(youtube_label);
 
             } else if (media_type === 'pdf') {
-                const pdf_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/pdf-logo.png' class='pdf-icon' width='27' height='27' alt='PDF icon' /></a>`;
+                const pdf_icon = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'><img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='PDF icon' /></a>`;
                 const view_label = `<a href='#context_up_${json.sha256}' onclick='toggleBlockquote("quote_arrow_up", "quote_before_${json.sha256}");'> Expand to View Context: 500 characters before & after</a>`;
                 const pdf_label = `${pdf_icon} <span class='highlight'>&larr;${view_label} </span><br />`;
 

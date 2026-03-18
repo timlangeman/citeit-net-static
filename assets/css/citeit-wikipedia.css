@@ -84,9 +84,9 @@
     }
 
     .text-icon {
-        margin-bottom: 4px !important;
-        height: 16px;
-        width: 16px;
+        margin-bottom: -6px !important;  /* 4px
+        height: 27px; /* 16px; */
+        width: 27px; /* 16px; *
     }
 
     .youtube-icon {
