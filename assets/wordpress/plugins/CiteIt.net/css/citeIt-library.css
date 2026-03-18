@@ -726,12 +726,12 @@ span.context_header {
 @media only screen and (max-height: 1200px) {
 
 	.ui-dialog {
-		max-height: 85vh !important;
+		max-height: 90vh !important;
 		overflow-y: auto !important;
 	}
 
 	.ui-dialog-content {
-		max-height: 70vh !important;
+		max-height: 85vh !important;
 		overflow-y: auto !important;
 	}
 
