@@ -282,7 +282,15 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
             effect: "scale"
         },
         title: "Quote Context by CiteIt.net",
-        width: dialogWidth
+        width: dialogWidth,
+        open: function () {
+            // Scroll dialog content to top so video embed is visible first
+            const $content = jQuery(this);
+            $content.scrollTop(0);
+            setTimeout(function () {
+                $content.scrollTop(0);
+            }, 420); // after open animation completes
+        }
     }).addClass("dialogue_box").dialog("open").blur();
 
     return false;
