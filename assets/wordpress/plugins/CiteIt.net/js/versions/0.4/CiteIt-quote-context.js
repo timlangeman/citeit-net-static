@@ -98,7 +98,7 @@ function isValidHttpUrl(string) {
     try {
         const url = new URL(string);
         return (url.protocol === "http:" || url.protocol === "https:");
-    } catch {
+    } catch (ignore) {
         return false;
     }
 }
@@ -210,7 +210,7 @@ function extractDomain(url) {
     try {
         const urlObj = new URL(url);
         return urlObj.hostname;
-    } catch {
+    } catch (ignore) {
         return "";
     }
 }
@@ -251,6 +251,7 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
     // CSP-compliant: use data attributes instead of inline event handlers
     $popup.dialog({
         autoOpen: false,
+        autoResize: true,
         beforeClose: function () {
             // Pause any playing YouTube video
             // when dialog is closed (X button, Escape, etc.)
@@ -273,7 +274,7 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
         draggable: true,
         hide: {
             duration: 400,
-            effect: "scale"
+            effect: "size"
         },
         modal: false,
         open: function () {
