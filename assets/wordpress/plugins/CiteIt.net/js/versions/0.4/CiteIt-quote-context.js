@@ -1,6 +1,6 @@
 /*jslint this*/
 /*global console, document, jQuery, urlParser, forge_sha256,
-  TextEncoder, URL, URLSearchParams, window */
+  TextEncoder, URL, URLSearchParams, window, setTimeout */
 
 /* Quote-Context JS Library
  * https://github.com/CiteIt/citeit-jquery
@@ -34,7 +34,7 @@ const apiBaseUrl = "https://read.citeit.net/quote/sha256/";
 
 // Precompiled regex patterns for better performance
 const REGEX = {
-    domainSplit: /[/?#]/,
+    domainSplit: /[\/?#]/,
     hexadecimal: /^[0-9a-fA-F]+$/,
     protocol: /^https?:\/\//i,
     sha256: /^[0-9a-f]{64}$/i,
@@ -240,7 +240,7 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
 
     // Highlight the quote link while the popup is open
     const sha256ForHighlight = safeId.replace(/^hidden_/, "");
-    jQuery('a#link_' + sha256ForHighlight).addClass('active');
+    jQuery("a#link_" + sha256ForHighlight).addClass("active");
     const dialogWidth = popupWidth || 375;
     const windowOrTag = (
         window.screen.availWidth < 700
@@ -256,10 +256,15 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
             // when dialog is closed (X button, Escape, etc.)
             const popupId = jQuery(this).attr("id");
             if (popupId) {
-                const closingSha256 = sanitizeId(popupId.replace(/^hidden_/, ""));
+                const closingSha256 = sanitizeId(
+                    popupId.replace(/^hidden_/, "")
+                );
                 pauseVideo(closingSha256);
                 setTimeout(function () {
-                    jQuery('a#link_' + closingSha256).removeClass('active', 1000);
+                    jQuery("a#link_" + closingSha256).removeClass(
+                        "active",
+                        1000
+                    );
                 }, 1500);
             }
         },
@@ -271,6 +276,14 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
             effect: "scale"
         },
         modal: false,
+        open: function () {
+            // Scroll dialog content to top so video embed is visible first
+            const $content = jQuery(this);
+            $content.scrollTop(0);
+            setTimeout(function () {
+                $content.scrollTop(0);
+            }, 420); // after open animation completes
+        },
         position: {
             at: "center center-200",
             collision: "fit",
@@ -282,15 +295,7 @@ function expandPopup(tag, hiddenPopupId, popupWidth) {
             effect: "scale"
         },
         title: "Quote Context by CiteIt.net",
-        width: dialogWidth,
-        open: function () {
-            // Scroll dialog content to top so video embed is visible first
-            const $content = jQuery(this);
-            $content.scrollTop(0);
-            setTimeout(function () {
-                $content.scrollTop(0);
-            }, 420); // after open animation completes
-        }
+        width: dialogWidth
     }).addClass("dialogue_box").dialog("open").blur();
 
     return false;
@@ -329,7 +334,7 @@ function closePopup(hiddenPopupId) {
 
     /* Fade out yellow highlight after close */
     setTimeout(function () {
-        jQuery('a#link_' + sha256).removeClass('active', 1000);
+        jQuery("a#link_" + sha256).removeClass("active", 1000);
     }, 1500);
 }
 
@@ -411,7 +416,9 @@ function initEventDelegation() {
         "[data-citeit-toggle-both]",
         function handleToggleBoth(e) {
             e.preventDefault();
-            const sha = sanitizeId(jQuery(this).attr("data-citeit-toggle-both"));
+            const sha = sanitizeId(
+                jQuery(this).attr("data-citeit-toggle-both")
+            );
             if (sha) {
                 toggleBothSections(sha);
             }
@@ -425,7 +432,11 @@ function secondsToMinutes(seconds) {
     // Convert seconds integer to "M min S sec" display string
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return mins + " min " + (secs < 10 ? "0" : "") + secs + " sec";
+    return mins + " min " + (
+        secs < 10
+        ? "0"
+        : ""
+    ) + secs + " sec";
 }
 
 function detectMediaType(url) {
@@ -443,7 +454,9 @@ function detectMediaType(url) {
         /^https?:\/\/(www\.|m\.)?youtube\.com\//,
         /^https?:\/\/youtu\.be\//
     ];
-    if (youtubePatterns.some(function (p) { return p.test(url); })) {
+    if (youtubePatterns.some(function (p) {
+        return p.test(url);
+    })) {
         return "video";
     }
     if (url.toLowerCase().split("?")[0].endsWith(".pdf")) {
@@ -455,10 +468,15 @@ function detectMediaType(url) {
 function mediaIcon(mediaType, startTime) {
     // Returns an <img> icon for the given media type
     if (mediaType === "video") {
-        const timeLabel = startTime ? " @ " + startTime : "";
+        const timeLabel = (
+            startTime
+            ? " @ " + startTime
+            : ""
+        );
         return [
             "<img class='youtube-icon'",
-            " src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png'",
+            " src='/assets/wordpress/plugins/CiteIt.net/img/",
+            "youtube_logo_mini.png'",
             " width='40' height='27'",
             " alt='video context'",
             " title='View Context: Video" + escapeHtml(timeLabel) + "' />"
@@ -466,7 +484,8 @@ function mediaIcon(mediaType, startTime) {
     }
     if (mediaType === "pdf") {
         return [
-            "<img src='https://www.citeit.net/assets/images/text-icon-small.png'",
+            "<img src='https://www.citeit.net/assets/images/",
+            "text-icon-small.png'",
             " class='text-icon' width='50' height='50'",
             " alt='PDF context' title='View Context: PDF' />"
         ].join("");
@@ -566,7 +585,7 @@ function embedUi(sourceUrl, jsonData, tagType) {
     return {
         html: embedHtml,
         icon: embedIcon,
-        startTime: startTime
+        startTime: (startTime || "")
     };
 }
 
@@ -669,7 +688,7 @@ function buildArrowUpHtml(sha256, mediaType) {
 
     const safeSha = sanitizeId(sha256);
 
-    let upLabelText = "View Context";
+    var upLabelText = "View Context";
     if (mediaType === "video") {
         upLabelText = "View Context: Video";
     } else if (mediaType === "pdf") {
@@ -794,7 +813,10 @@ function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
         $after.hide();
 
         if (json.cited_context_before.length > 0) {
-            const arrowUp = buildArrowUpHtml(sha256, detectMediaType(atCitedUrl));
+            const arrowUp = buildArrowUpHtml(
+                sha256,
+                detectMediaType(atCitedUrl)
+            );
             $before.before(arrowUp);
         }
         if (json.cited_context_after.length > 0) {
@@ -805,24 +827,57 @@ function addQuoteToDom(atTagType, json, atCitedUrl, blockcite) {
         // Append bottom-left icon + label to the blockquote
         const mediaType = detectMediaType(atCitedUrl);
         const contextUpHref = "#context_up_" + sha256;
-        let bottomIcon = "";
-        let bottomLabelText = "";
+        const toggleAttr = "data-citeit-toggle-both='" + sha256 + "'";
+        var bottomIcon = "";
+        var bottomLabelText = "";
 
         if (mediaType === "video") {
-            const timeLabel = curUi.startTime ? " @ " + secondsToMinutes(curUi.startTime) : "";
-            bottomIcon = "<img class='youtube-icon' src='/assets/wordpress/plugins/CiteIt.net/img/youtube_logo_mini.png' width='40' height='27' alt='video context' />";
-            bottomLabelText = "← View Context: Video" + escapeHtml(timeLabel);
+            const timeLabel = (
+                curUi.startTime
+                ? " @ " + secondsToMinutes(curUi.startTime)
+                : ""
+            );
+            bottomIcon = [
+                "<img class='youtube-icon'",
+                " src='/assets/wordpress/plugins/CiteIt.net/img/",
+                "youtube_logo_mini.png'",
+                " width='40' height='27' alt='video context' />"
+            ].join("");
+            bottomLabelText = (
+                "\u2190 View Context: Video" + escapeHtml(timeLabel)
+            );
         } else if (mediaType === "pdf") {
-            bottomIcon = "<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='PDF icon' /> ";
-            bottomLabelText = "← View Context: PDF";
+            bottomIcon = [
+                "<img src='https://www.citeit.net/assets/images/",
+                "text-icon-small.png'",
+                " class='text-icon' width='50' height='50' alt='PDF icon' />"
+            ].join("");
+            bottomLabelText = "\u2190 View Context: PDF";
         } else {
-            bottomIcon = "<img src='https://www.citeit.net/assets/images/text-icon-small.png' class='text-icon' width='50' height='50' alt='Text icon' />";
+            bottomIcon = [
+                "<img src='https://www.citeit.net/assets/images/",
+                "text-icon-small.png'",
+                " class='text-icon' width='50' height='50' alt='Text icon' />"
+            ].join("");
             bottomLabelText = "View Context";
         }
 
-        const iconLink = "<a href='" + contextUpHref + "' data-citeit-toggle-both='" + sha256 + "'>" + bottomIcon + "</a>";
-        const viewLink = "<a href='" + contextUpHref + "' data-citeit-toggle-both='" + sha256 + "'>" + bottomLabelText + "</a>";
-        blockcite.append(iconLink + " <span class='highlight'>" + viewLink + "</span><br />");
+        const iconLink = [
+            "<a href='", contextUpHref, "' ", toggleAttr, ">",
+            bottomIcon,
+            "</a>"
+        ].join("");
+        const viewLink = [
+            "<a href='", contextUpHref, "' ", toggleAttr, ">",
+            bottomLabelText,
+            "</a>"
+        ].join("");
+        blockcite.append(
+            iconLink
+            + " <span class='highlight'>"
+            + viewLink
+            + "</span><br />"
+        );
     }
 }
 
@@ -834,7 +889,7 @@ function quoteContextPlugin(collection) {
     // Initialize event delegation once
     initEventDelegation();
 
-    collection.each(function processQuote(_ignore, element) {
+    collection.each(function processQuote(ignore, element) {
         const blockcite = jQuery(element);
         const citedUrl = blockcite.attr("cite");
 
@@ -870,10 +925,13 @@ function quoteContextPlugin(collection) {
         ).join("");
         const hashValue = forge_sha256(hashKey);
 
-        console.log("-----------------------------------------------------")
+        console.log("-----------------------------------------------------");
         console.log("citingQuote:", citingQuote);
         console.log("citingUrl:", citingUrl);
-        console.log("quoteHashKey:", quoteHashKey(citingQuote, citingUrl, citedUrl));
+        console.log(
+            "quoteHashKey:",
+            quoteHashKey(citingQuote, citingUrl, citedUrl)
+        );
         console.log("sha256:", hashValue);
 
         // Validate computed hash
