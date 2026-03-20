@@ -1,0 +1,20 @@
+{
+    "esversion": 10,
+    "strict": "global",
+    "validthis": true,
+    "laxbreak": true,
+    "globals": {
+        "Set": true,
+        "Map": true,
+        "console": true,
+        "document": true,
+        "jQuery": true,
+        "urlParser": true,
+        "forge_sha256": true,
+        "TextEncoder": true,
+        "URL": true,
+        "URLSearchParams": true,
+        "window": true,
+        "setTimeout": true
+    }
+}
