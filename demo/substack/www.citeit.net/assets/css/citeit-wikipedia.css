@@ -60,6 +60,11 @@
 		font-size: 75%;
 	}
 
+    div.highlight_start {
+        background-color: yellow; 
+        border: 1px solid #f8ff75;
+    }
+
     blockquote.quote_text:before, blockquote.quote_text:after {
         font-size: 175%;
     }

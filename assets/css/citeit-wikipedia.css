@@ -60,6 +60,17 @@
 		font-size: 75%;
 	}
 
+    div.highlight_start {
+        background-color: yellow; 
+        border: 1px solid #f8ff75;
+        padding: 3px 3px 1px 5px;
+    }
+
+    span.quote {
+        background-color: rgb(214, 232, 236);
+    }
+
+
     blockquote.quote_text:before, blockquote.quote_text:after {
         font-size: 175%;
     }
