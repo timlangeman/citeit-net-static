@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="/assets/css/organictabs.css" type="text/css" media="all" />
+
+<div id="page-tabs">
+  <ul class="nav">
+    <li class="nav-one"><a href="/about/"{% if page.url == '/about/' %} class="current"{% endif %}>Why CiteIt?</a></li>
+    <li class="nav-two"><a href="/about/faq/"{% if page.url == '/about/faq/' %} class="current"{% endif %}>Frequently Asked Questions</a></li>
+    <li class="nav-three"><a href="/about/privacy-policy/"{% if page.url == '/about/privacy-policy/' %} class="current"{% endif %}>Privacy Policy</a></li>
+    <li class="nav-four"><a href="/about/terms-of-service/"{% if page.url == '/about/terms-of-service/' %} class="current"{% endif %}>Terms of Service</a></li>
+  </ul>
