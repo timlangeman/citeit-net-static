@@ -1,0 +1,120 @@
+QUOTE[0]: ">Even from a purely, purely numbers perspective, you have to look at this again,"
+FULL_QUOTE: >Even from a purely, purely numbers perspective, you have to look at this again,
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.86
+MATCH_METHOD: word_overlap
+
+QUOTE[1]: ">The story is not just deals specifically, but if you look at all the AI data..."
+FULL_QUOTE: >The story is not just deals specifically, but if you look at all the AI data centers and all that growth that's coming in the next few years, where's most of that capital coming from?
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.89
+MATCH_METHOD: word_overlap
+
+QUOTE[2]: ">A lot of it is coming from the Gulf. And if the Gulf--not politically, but e..."
+FULL_QUOTE: >A lot of it is coming from the Gulf. And if the Gulf--not politically, but even just from a financial perspective--cannot commit that, what's the knock on effects on those companies and the U.S. economy? I don't think anyone has done that math, but there is something there absolutely.
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.73
+MATCH_METHOD: word_overlap
+
+QUOTE[3]: ">are fine, those guys are huge, they can afford it, but what about the next l..."
+FULL_QUOTE: >are fine, those guys are huge, they can afford it, but what about the next level?
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.81
+MATCH_METHOD: word_overlap
+
+QUOTE[4]: ">A number of Gulf countries have begun an internal review to determine whethe..."
+FULL_QUOTE: >A number of Gulf countries have begun an internal review to determine whether force majeure clauses can be invoked in current contracts, while also reviewing current and future investment commitments in order to alleviate some of the anticipated economic strain from the current war,
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[5]: ">Especially if the war and related expenses continue at the same pace."
+FULL_QUOTE: >Especially if the war and related expenses continue at the same pace.
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.83
+MATCH_METHOD: word_overlap
+
+QUOTE[6]: ">Just mathematically, it will have to happen,"
+FULL_QUOTE: >Just mathematically, it will have to happen,
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.86
+MATCH_METHOD: word_overlap
+
+QUOTE[7]: ">I don't think it will be obvious, I don't think it will be messaged that way..."
+FULL_QUOTE: >I don't think it will be obvious, I don't think it will be messaged that way. But I think it will just happen. And then as things build up again, then people are gonna wonder, if it's the same people that are involved now or later, you're gonna question, are they gonna do the same thing again? Are they gonna think about diversifying? That's the question.
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.73
+MATCH_METHOD: word_overlap
+
+QUOTE[8]: ">just won't be able to do the scale they were committed to."
+FULL_QUOTE: >just won't be able to do the scale they were committed to.
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.92
+MATCH_METHOD: word_overlap
+
+QUOTE[9]: ">It's not a Qatar decision. It's not a Saudi-UAE decision. It's a Saudi decis..."
+FULL_QUOTE: >It's not a Qatar decision. It's not a Saudi-UAE decision. It's a Saudi decision, because all three countries have to commit for the deal to make sense, unless you can find other investors from Asia,
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.80
+MATCH_METHOD: word_overlap
+
+QUOTE[10]: "If Saudi goes in, Qatar will follow. If Saudi doesn't go in, Qatar won't foll..."
+FULL_QUOTE: If Saudi goes in, Qatar will follow. If Saudi doesn't go in, Qatar won't follow, they'll just delay, delay, delay, and see what happens. Everyone can still say, 'No, no, we're committed, we're committed.' And there's a million ways, if this continues another month, you could force majeure, you could do whatever.
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.73
+MATCH_METHOD: word_overlap
+
+QUOTE[11]: ">A short time ago we were together and he looked at me and he said, 'You know..."
+FULL_QUOTE: >A short time ago we were together and he looked at me and he said, 'You know, one year ago you were a dead country. Now, you're the hottest country anywhere in the world,
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.76
+MATCH_METHOD: word_overlap
+
+QUOTE[12]: ">He didn't think this was going to happen. He didn't think he'd be kissing my..."
+FULL_QUOTE: >He didn't think this was going to happen. He didn't think he'd be kissing my ass, he really didn't. He thought it'd be just another American president that was a loser with a country that was going downhill, but now he has to be nice to me. You tell him he better be nice to me, he's gotta be.
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.78
+MATCH_METHOD: word_overlap
+
+QUOTE[13]: ">Maybe we can get a couple or three of those princes in uniform,"
+FULL_QUOTE: >Maybe we can get a couple or three of those princes in uniform,
+SOURCE: https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+MATCH_SCORE: 0.77
+MATCH_METHOD: word_overlap
+
+QUOTE[14]: "Got any kids in special forces? Let's line up those royal families and see ho..."
+FULL_QUOTE: Got any kids in special forces? Let's line up those royal families and see how big they're talking.
+SOURCE: UNMATCHED
+MATCH_SCORE: 0.00
+MATCH_METHOD: none
+
+QUOTE[15]: ">Look, that thing that happened a couple days ago is not a small thing. I mea..."
+FULL_QUOTE: >Look, that thing that happened a couple days ago is not a small thing. I mean, we know MBS. That was a pretty insulting move. I don't know if the word's 'petty,' but he'd be willing to move drastically based on emotions,
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.74
+MATCH_METHOD: word_overlap
+
+QUOTE[16]: ">The knock on effects are tremendous, because who will supply the LNG and the..."
+FULL_QUOTE: >The knock on effects are tremendous, because who will supply the LNG and the gas to Europe the next few years? It's the U.S. But who also needs that gas to grow the data centers? It's the U.S. So something has to give.
+SOURCE: https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/
+MATCH_SCORE: 0.79
+MATCH_METHOD: word_overlap
+
+QUOTE[17]: "not as affected by this war as people may think, their spot prices went up, t..."
+FULL_QUOTE: not as affected by this war as people may think, their spot prices went up, they, logistically, they're the hub for everything now,
+SOURCE: UNMATCHED
+MATCH_SCORE: 0.00
+MATCH_METHOD: none
+
+QUOTE[18]: ">It's making up the difference."
+FULL_QUOTE: >It's making up the difference.
+SOURCE: https://restofworld.org/2026/gulf-war-aws-data-center-attack-ai-investment-risk/
+MATCH_SCORE: 0.80
+MATCH_METHOD: word_overlap
+
+QUOTE[19]: "If you think about who's really incentivized to deescalate right now, not man..."
+FULL_QUOTE: If you think about who's really incentivized to deescalate right now, not many. Iran's happy for this to continue. Israel's happy for it to continue. U.S. doesn't seem to care. It doesn't affect them. And you have China, China maybe doesn't want it but Russia is benefitting like more than anybody. So it's really Qatar that needs to just deescalate for their own security. Kuwait's fucked. Bahrain's fucked, but they're not really players.
+SOURCE: UNMATCHED
+MATCH_SCORE: 0.00
+MATCH_METHOD: none
+

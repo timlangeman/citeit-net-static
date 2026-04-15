@@ -1,0 +1,278 @@
+VISION 2030 & ECONOMY
+PIF Cuts Spending 15% and Pivots to AI as Vision 2030 Rebuilds
+HOUSE OF SAUD
+by Mohammed Omar
+ March 28, 2026
+April 7, 2026
+PIF unveils new five-year strategy cutting capital spending 15% while HUMAIN lands first US customer. Eight IPOs planned for 2026 as Vision 2030 restructures.
+March 28, 2026
+
+MIAMI — Saudi Arabia’s Public Investment Fund unveiled plans for a new five-year strategy at the FII PRIORITY Miami summit on March 26-27, cutting capital spending by approximately 15 percent and redirecting investment toward artificial intelligence infrastructure, pharmaceuticals, renewables, and a pipeline of eight initial public offerings planned for 2026.
+
+CONFLICT PULSE
+IRAN–US WAR
+Live conflict timeline
+→
+DAY
+41
+since Feb 28
+CASUALTIES
+13,260+
+5 nations
+BRENT CRUDE ● LIVE
+$96.58
+▲ 34% from $72
+HORMUZ STRAIT
+RESTRICTED
+94% traffic drop
+SHIPS HIT
+16
+since Day 1
+
+The announcement marks the clearest signal yet that Vision 2030 is not stalled but restructuring around revenue-generating assets and private-sector partnerships. PIF Governor Yasir Al-Rumayyan told the 1,500 attendees in Miami that the fund is moving away from the equity-heavy, self-funded model that defined its first decade. “In the past, we tried to bring Saudi to the world,” Al-Rumayyan said, according to Saudi Gazette. “Now we are in a stage where we want to bring the world to Saudi.”
+
+Table of Contents
+
+PIF’s New Five-Year Strategy Shifts From Megaprojects to Monetisation
+What Does the HUMAIN-Turing Partnership Mean for Saudi AI Exports?
+Eight IPOs in 2026 Signal a Fund That Needs Cash Flow
+Trojena Contracts Die as AI Deals Close
+Is the Saudi Stock Market Pricing In a Permanent Pivot?
+Background and Context
+Frequently Asked Questions
+PIF’s New Five-Year Strategy Shifts From Megaprojects to Monetisation
+
+The new strategy, which Al-Rumayyan said would be formally released “in the coming few weeks,” represents PIF’s second major recalibration since 2016. The first phase, running from 2021 to 2025, deployed capital at unprecedented speed across more than 100 portfolio companies and over 50 development entities linked to giga-projects, according to AGBI. The result was a sovereign wealth fund that grew from roughly SR600 billion to nearly SR4 trillion in assets, according to Investment Minister Khalid Al-Falih, but one whose cash reserves fell to approximately $15 billion by late 2024 — their lowest level since 2020, AGBI reported.
+
+The correction is already underway. A PIF board meeting in December 2024 approved a minimum 20 percent reduction in spending across the portfolio, with some project budgets slashed by as much as 60 percent, according to people familiar with the fund’s finances cited by AGBI. The new five-year strategy, running through 2030, will formalise a further 15 percent capital spending reduction while shifting priority sectors toward data centres, pharmaceuticals, and renewable energy.
+
+Al-Rumayyan framed the pivot not as retreat but as maturation. “The initial thought was that we should do the whole thing ourselves,” he told the Miami audience, according to AGBI. “Maybe the initial work that we’ve accomplished [was the creation of the] foundations for others to come and work with us.” He cited partnerships already established with BlackRock, Franklin Templeton, Microsoft, Google, and Oracle as evidence of the new model, per Saudi Gazette.
+
+THE HOS DAILY BRIEF
+
+The Middle East briefing 3,000+ readers start their day with.
+
+One email. Every weekday morning. Free.
+
+Get the Daily Brief →
+PIF’s new five-year strategy redirects capital from concrete megaprojects to digital infrastructure. HUMAIN’s three-to-six-gigawatt compute target would require $90 to $300 billion in data centre investment — rivalling the combined annual spend of Microsoft and Google. Photo: BalticServers.com / CC BY-SA 3.0
+
+Finance Minister Mohammed Al-Jadaan reinforced the message with a sobering note on the regional context. “What we saw in the last few weeks is an impact beyond what we have seen even post-COVID,” Al-Jadaan told the summit, according to Asharq Al-Awsat. “We really need to make sure we resolve the conflict very quickly.” He described the Saudi economy as “resilient and able to manage crises” but acknowledged that prolonged conflict would carry serious consequences for the worldwide economy.
+
+The summit’s carefully curated image of Saudi economic confidence was shattered when Trump used the FII stage to publicly declare that MBS was “kissing my ass” — an extraordinary humiliation delivered on a platform Saudi Arabia had built to project sovereign strength and equal partnership with Washington.
+
+The strategic shift also reflects a reordering of PIF’s domestic priorities. Al-Falih confirmed that Expo 2030 and the 2034 FIFA World Cup are now the kingdom’s top protected investment channels, with capital being redirected toward the infrastructure, logistics, and healthcare zones required to host both events, according to Saudi Gazette. NEOM, The Line, and other speculative giga-projects have been pushed down the priority list.
+
+What Does the HUMAIN-Turing Partnership Mean for Saudi AI Exports?
+
+HUMAIN, the PIF-backed company that serves as Saudi Arabia’s primary vehicle for full-stack AI capabilities, announced at the Miami summit that it had signed a strategic partnership with US-based Turing to build the world’s first enterprise AI Agent Marketplace on HUMAIN’s ONE platform. Turing will also serve as HUMAIN’s first American commercial customer, according to a joint press release distributed via BusinessWire on March 26.
+
+The marketplace is designed to function as an enterprise operating system where businesses can discover, deploy, and scale AI agents across functions including human resources, finance, legal, operations, and procurement, according to Intelligent CIO. The model replaces traditional software subscriptions with AI agents that autonomously execute workflows across business operations.
+
+“The future enterprise will not be built around standalone software applications, but around intelligent agents that work alongside humans,” Tareq Amin, CEO of HUMAIN, said in the joint announcement, per BusinessWire. Jonathan Siddharth, CEO and co-founder of Turing, added: “Superintelligence should not remain abstract. It should deliver productivity and unleash humanity’s untapped potential.”
+
+VIEW FULL TRACKER →
+
+Under the agreement, developers and AI builders worldwide will be able to publish and monetise their own agents through the marketplace, combining HUMAIN’s compute infrastructure with Turing’s model evaluation and enterprise deployment expertise, according to Intelligent CIO.
+
+VIEW FULL DASHBOARD →
+
+Al-Falih provided scale for the kingdom’s AI ambitions at the summit. HUMAIN’s capacity development targets three to six gigawatts of compute power, with each gigawatt representing $30 to $50 billion in global investment flowing through partnerships, he told Saudi Gazette. “We are still at the beginning of artificial intelligence,” Al-Falih said, noting that the sector requires “investments of trillions at the global level.”
+
+The deal’s timing is deliberate. Saudi Arabia declared 2026 the Year of Artificial Intelligence, and the Turing partnership allows Riyadh to claim something no other Gulf state can: a US enterprise customer for Saudi-built AI infrastructure. The kingdom has moved from importing Silicon Valley talent to exporting AI platforms — a distinction that matters when the pitch to foreign investors is no longer about construction contracts but about technology infrastructure.
+
+Eight IPOs in 2026 Signal a Fund That Needs Cash Flow
+
+PIF has earmarked as many as eight companies for IPOs on the Saudi Exchange (Tadawul) in 2026, according to Argaam and Semafor. The pipeline includes ArcelorMittal Tubular Products Jubail, a joint venture with the Luxembourg-based steel giant specialising in energy-sector tubular products; Sela Entertainment, a ticketing and events management company established in 1997 and later acquired by PIF; Saudi Global Ports, which operates key terminals at King Abdulaziz Port in Dammam in partnership with Singapore’s PSA International; Alkhorayef Petroleum; and CloudKitchens, according to Argaam.
+
+Richard Attias & Associates and district cooling firm Saudi Tabreed are also working toward listings, with ArcelorMittal Jubail reported to have engaged Moelis & Co. as an adviser, per AGBI. The companies span energy services, logistics, entertainment, food technology, and cooling infrastructure — a cross-section of the non-oil economy that PIF spent the past five years constructing.
+
+The listings serve a dual purpose. They generate cash for a fund that burned through reserves during the giga-project construction spree, and they deepen the Tadawul’s pool of investable companies at a moment when the exchange needs liquidity. The PIF’s broader portfolio restructuring has already seen the fund cut its US-listed equity holdings from $19.4 billion at the end of Q3 2025 to $12.9 billion by the close of Q4 2025 — their lowest level since Q4 2020 and down from a record high of $56.6 billion in Q4 2021, according to Arab News and SEC filings. The fund fully divested its stake in Take-Two Interactive during the quarter and now holds US positions in just five companies, including Lucid Group, Electronic Arts, and Uber Technologies, per Argaam.
+
+Riyadh’s King Abdullah Financial District at sunset, with the 302-metre Kingdom Tower on the right. The Tadawul All Share Index has fallen 13.88 percent year-on-year to 10,365 points — its lowest since October 2023 — creating headwinds for PIF’s planned eight IPOs. Photo: B.alotaby / CC BY-SA 4.0
+
+No final decisions on timing have been made, and each offering remains contingent on market conditions, sources familiar with the plans told Semafor. That caveat matters: several recent Saudi IPOs have seen shares fall below their offer price, and secondary offerings have also struggled, per AGBI. A war economy and a declining stock index create headwinds for even well-structured listings.
+
+The logic, though, extends beyond any single quarter. Over half of the National Investment Strategy’s SR12 trillion targets have been achieved since its October 2022 launch, and investment now constitutes roughly 30 percent of total Saudi GDP — or more than 40 percent excluding oil, according to Al-Falih’s remarks to Saudi Gazette. Eight IPOs would convert some of that accumulated capital formation into publicly tradable equity, creating a feedback loop between PIF’s portfolio and the Tadawul’s depth.
+
+Trojena Contracts Die as AI Deals Close
+
+The week that HUMAIN signed its first American customer was the same week that NEOM terminated billions of dollars in contracts for its Trojena mountain resort. Eversendai, the structural steel contractor for Trojena’s ski village, confirmed on March 25 that its contract had been terminated effective March 26, according to AGBI. Italian contractor Webuild announced the cancellation of its contract to build three dams for Trojena’s artificial lake, with the termination taking effect on March 29 and a remaining backlog of 2.8 billion euros ($3.2 billion), per Dezeen and AGBI.
+
+The Trojena cancellations were not unexpected. Work on the project was approximately 30 percent complete, but the resort had already lost the 2029 Asian Winter Games to Almaty, Kazakhstan, removing its marquee deadline. Eversendai suggested the ongoing conflict between Iran, the United States, and Israel played a role in the cancellation, according to Dezeen.
+
+The juxtaposition captures the full scope of Vision 2030’s recalibration. The programme that once defined itself by audacious construction projects — a ski resort in the desert, a 170-kilometre glass-walled city, an entertainment island — is now defined by what it is choosing to build next and what it is willing to abandon. Data centres generate recurring revenue. Ski villages in a war zone do not.
+
+NEOM’s broader status remains mixed. Oxagon, the industrial port city, continues construction, and Sindalah, the luxury island resort, is nearing completion. But the giga-projects are no longer the centrepiece of the Saudi pitch to international investors. The full scope of the restructuring — with Oxagon transferred to Aramco, Trojena to the Ministry of Sport, and Sindalah to Red Sea Global — amounts to a systematic dismemberment of NEOM that leaves only a rump entity and a green hydrogen plant. At FII Miami, the conversation was about AI compute capacity, pharmaceutical manufacturing, and renewable energy partnerships — not glass pyramids.
+
+Is the Saudi Stock Market Pricing In a Permanent Pivot?
+
+The Tadawul All Share Index (TASI) fell to 10,365 points in March 2026, its lowest level since October 2023 and a 13.88 percent decline year-on-year, according to Trading Economics. The index dropped 1.68 percent in the last four weeks alone. The decline reflects a convergence of pressures: the Iran war, the Aramco operational crisis that took two million barrels per day offline, the Strait of Hormuz closure, and a broad risk-off retreat by foreign and institutional investors from Gulf markets.
+
+PIF’s eight planned IPOs face this market directly. A fund that needs to monetise built assets through public listings must contend with an exchange that has shed nearly 14 percent of its value in twelve months. Al-Rumayyan acknowledged the challenge implicitly, describing PIF as “a long-term, patient investor” that measures returns “not in quarters, but in decades,” per Saudi Gazette.
+
+Josh Harris, founder of 26North and a speaker at the Miami summit, captured the broader investor mood. “In today’s environment, you have to move very slowly, stay focused on high-quality assets,” Harris told the conference, according to Asharq Al-Awsat. That caution applies to anyone considering a Saudi IPO subscription in the current climate.
+
+The underlying economic data provides some support for the longer view. Overall Saudi GDP grew 4.8 percent year-on-year in Q3 2025, with the non-oil sector expanding 4.3 percent annually over the same period, according to Saudi Gazette. Non-oil GDP growth reached 4.9 percent for full-year 2025, per official data. Saudi foreign direct investment grew 24 percent to $31.7 billion in 2024, surpassing Vision 2030 targets, according to Arab News. The diversification that Vision 2030 promised is producing measurable results even as the stock market reflects wartime anxiety.
+
+Saudi Aramco’s own AI adoption offered a concrete example at the summit. The state oil company has used artificial intelligence to achieve a roughly 20 percent reduction in drilling costs and a 30 percent improvement in delivery efficiency, Al-Rumayyan told the Miami audience, according to Asharq Al-Awsat. “We see AI as a tool,” he said. “The end product is what our companies deliver, cutting costs and improving efficiency.”
+
+Yie-Hsin Hung, president of State Street Investment Management, reinforced the AI investment thesis from the institutional perspective. “AI enables mass customisation at scale at much lower cost,” Hung told the summit, per Asharq Al-Awsat. For PIF, the argument is that the same technology driving efficiency gains at Aramco can be packaged and exported via platforms such as HUMAIN ONE — turning an internal cost-cutting tool into an exportable product.
+
+Background and Context
+
+PIF’s transformation from a passive domestic holding company into one of the world’s most active sovereign wealth funds began in 2016, when Crown Prince Mohammed bin Salman placed it at the centre of Vision 2030. The fund now ranks as the world’s fifth-largest sovereign wealth fund with assets exceeding $1.15 trillion, according to Arab News and Global SWF, trailing only Norway’s Government Pension Fund Global ($2.04 trillion), China’s State Administration of Foreign Exchange ($1.69 trillion), China Investment Corporation ($1.56 trillion), and Abu Dhabi Investment Authority.
+
+The FII PRIORITY Miami summit, now in its fourth edition, has become PIF’s primary venue for engaging American and international investors. The 2026 edition featured US President Donald Trump as headline speaker, according to FII Institute. The summit’s theme, “Capital in Motion,” reflected the fund’s new emphasis on partnership-driven deployment rather than unilateral spending.
+
+The regional context cannot be separated from the investment strategy. Aramco shut four supergiant offshore oil fields in March as production fell from approximately 10.9 million barrels per day in February to roughly 8 million barrels per day by mid-month, according to Maritime Executive and Reuters. PIF’s US equity portfolio shrank by $6.5 billion in a single quarter. The Eastern Province faced drone attacks while the fund’s executives pitched AI deals in Florida.
+
+The kingdom’s broader wartime economic adjustments extend beyond PIF. Saudi Arabia has opened a 1,700-kilometre rail corridor to Jordan to reduce dependence on maritime routes vulnerable to the Hormuz closure and Houthi threats in the Red Sea. Mining investments through Ma’aden are accelerating as the kingdom seeks revenue streams that do not transit chokepoints. The pattern is consistent: every new capital allocation moves away from oil-dependent, logistics-vulnerable assets and toward domestic production, digital infrastructure, and overland trade.
+
+That dual reality — wartime disruption at home, commercial diplomacy abroad — defines the current phase of Saudi economic policy. The kingdom cannot control the war’s duration, but it can control where the next tranche of sovereign capital goes. The FII Miami announcement suggests it is going toward assets that generate returns regardless of whether tankers can transit the Strait of Hormuz.
+
+The Fontainebleau Miami Beach, venue of the FII PRIORITY Miami 2026 summit. Now in its fourth edition, the conference has become PIF’s primary platform for courting American and international investors — a deliberate choice to hold the pitch 7,000 miles from the war zone. Photo: InvadingInvader / CC BY 4.0
+Frequently Asked Questions
+When will PIF’s new five-year strategy be formally published?
+
+Al-Rumayyan said the strategy would be released “in the coming few weeks” from the March 26-27 summit date. AGBI reported that the strategy was initially signalled at the PIF Private Sector Forum in February 2026, with the formal release expected in spring 2026. The strategy will run through 2030 and will replace the 2021-2025 investment framework that governed the giga-project construction phase.
+
+How large is HUMAIN’s planned compute infrastructure?
+
+At full build-out, HUMAIN’s three-to-six-gigawatt target would represent $90 to $300 billion in total infrastructure spending — one of the largest AI compute commitments outside the United States and China. By comparison, Microsoft’s total global data centre investment in 2024 was approximately $55 billion. The scale positions Saudi Arabia not merely as an AI adopter but as a potential exporter of compute capacity to markets across the Middle East, Africa, and South Asia.
+
+Which PIF companies are closest to an IPO?
+
+ArcelorMittal Tubular Products Jubail appears to be furthest along, having reportedly engaged Moelis & Co. as an adviser, according to AGBI. Sela Entertainment and Saudi Global Ports are also considered near-term candidates. However, all eight planned listings remain subject to market conditions, and the TASI’s 13.88 percent year-on-year decline may delay timelines for offerings that require strong investor appetite.
+
+Has PIF completely abandoned giga-projects?
+
+PIF has not abandoned giga-projects but has applied a revenue test to each one. Projects tied to immovable deadlines — Expo 2030 venues, FIFA 2034 stadiums and transport links — are now fully protected. Projects that generate industrial or logistics revenue, such as Oxagon’s port facilities, also continue. The projects being cut share a common trait: they were prestige-driven with no clear path to recurring income. The shift suggests future PIF construction spending will require a business case, not just an architectural render. The one-month war balance sheet details how the conflict gave PIF political cover to cancel $5 billion in failing contracts while pivoting toward AI and data centers.
+
+What is HUMAIN ONE and how does the AI Agent Marketplace work?
+
+HUMAIN ONE functions as an enterprise AI operating system where organisations browse and deploy specialised AI agents — for procurement, legal review, financial analysis — in much the same way that companies currently purchase apps from cloud marketplaces. The commercial model generates revenue for HUMAIN on every transaction, giving PIF a recurring-income AI asset rather than a one-time infrastructure cost. If adoption scales, the marketplace could become the first sovereign-backed AI platform competing with commercial offerings from Microsoft Azure and Amazon Web Services. For a deeper analysis of the formal 2026-2030 strategy document — including the $41 billion construction cut and the full architecture of PIF’s Hormuz-immune pivot — see the House of Saud editorial on the strategy.
+
+MOST READ TODAY
+1
+IRGC Drones Hit Kuwait Oil and Water Infrastructure Hours After Ceasefire
+2
+3,200 Ships and 20,000 Seafarers Trapped in Gulf Waters: The Legal Void Iran Engineered at Hormuz
+3
+The IRGC Commands Iran Alone Tonight. No One Else Can.
+4
+The War Didn't Kill The Line. It Revealed The Line Was Already Dead.
+5
+Saudi Arabia's 894-Intercept Count Masks a Stockpile Running Dry
+6
+Iran Is Not Blockading Hormuz — It Is Franchising It
+7
+The IRGC Published a Mine Chart for Hormuz. It Is Not a Navigation Update.
+8
+Was the Iran War Caused by AI Psychosis?
+9
+Iran Orders a Halt It Cannot Enforce and a War It Will Not End
+10
+Iran Allowed 15 Ships Through Hormuz on Day One — The Strait Carried 138 Per Day Before the War
+MOST READ THIS MONTH
+1
+Trump Humiliates MBS on a Saudi Stage and Exposes the Alliance
+2
+Iran Is Not Blockading Hormuz — It Is Franchising It
+3
+Was the Iran War Caused by AI Psychosis?
+4
+Iran Demands $2 Million Per Ship to Cross the Strait of Hormuz
+5
+MBS and Netanyahu Are Fighting Over Trump — and MBS Is Winning
+6
+Iran Wants Oman to Co-Administer the Strait of Hormuz — Before the War Ends
+7
+Iran's IRGC Military Council Seizes De Facto Control of Government as Pezeshkian Is Cut Off From Supreme Leader
+8
+MBS Bought an Insurance Policy, Not a Warplane
+9
+Iran War Update: Day 34 — Trump Sets April 6 Deadline as Hormuz Blockade Tightens
+10
+Pakistan's Mediation Collapse Leaves Saudi Arabia Without a Diplomatic Off-Ramp Before Trump's April 6 Deadline
+
+ 
+
+Hajj 2026 Under Ceasefire: Saudi Arabia’s April 18 Permit Cordon Creates a Deadline MBS Cannot Defer
+April 9, 2026
+April 9, 2026
+NATO Asked for Hormuz Plans Within Days but Has No Ships to Send
+April 9, 2026
+April 9, 2026
+Operation Eternal Darkness — Israel’s Calculated Massacre in Lebanon Hours After the Ceasefire
+April 9, 2026
+April 9, 2026
+Goldman’s $90 Brent Forecast Rests on an LNG Assumption Hormuz Day 2 Data Already Destroyed
+April 9, 2026
+April 9, 2026
+The IRGC Published a Mine Chart for Hormuz. It Is Not a Navigation Update.
+April 9, 2026
+April 9, 2026
+Sky Sabre Defends Saudi Skies at 8 km — the Missiles Strike at 40
+April 9, 2026
+April 9, 2026
+UAE Demands Iran Reparations. Saudi Arabia Says Nothing.
+April 9, 2026
+April 9, 2026
+Ghalibaf Arrived at Islamabad Already Holding the Exit
+April 9, 2026
+April 9, 2026
+White House Walks Back Trump Hormuz Toll Proposal With Three Contradictory Statements
+April 9, 2026
+April 9, 2026
+Iran Blocked Chinese Tankers at Hormuz on April 9 — The Ceasefire and the Strait Are Two Separate Negotiations
+April 9, 2026
+April 9, 2026
+PREVIOUS STORY
+Six Armies, Zero Integration — The GCC's Collective Defense Failure
+NEXT STORY
+MBS Has Absorbed 600 Strikes and Still Won't Fire Back
+Latest from Vision 2030 & Economy
+The War Didn’t Kill The Line. It Revealed The Line Was Already Dead.
+
+PIF's 2026-2030 strategy formally suspends The Line, slashes construction spending by $41 billion, and makes Humain
+
+MBS Published His Postwar Economy on the Day the War Got Worse
+
+PIF cuts capex 15%, suspends The Line, pivots to HUMAIN AI and Expo 2030. The strategy
+
+Saudi Non-Oil PMI Collapses to 48.8 — Vision 2030 Was Downstream of Hormuz
+
+Saudi Arabia's non-oil PMI collapsed to 48.8 in March 2026, breaking a 66-month expansion streak and
+
+Saudi Arabia’s Alcohol Reform Is Proceeding Into Empty Hotels
+
+Saudi Arabia's alcohol liberalization was built for foreign guests. The Iran war removed them. The political
+
+Saudi Arabia’s $5 Billion Bet on the Company Iran Wants to Destroy
+
+Saudi Arabia's PIF is negotiating a $5 billion anchor stake in SpaceX's record $75 billion IPO.
+
+Iran War
+Defence
+Geopolitics
+Economy
+Energy
+Royal Family
+Travel
+House of Saud
+
+Authoritative intelligence on Saudi Arabia’s power structure, economy, defence, and geopolitics.
+
+COMPANY
+About
+Press
+Contact
+LEGAL
+Privacy Policy
+Terms of Service
+Cookie Policy
+© 2026 House of Saud. All rights reserved.
+Privacy
+Terms
+Sitemap

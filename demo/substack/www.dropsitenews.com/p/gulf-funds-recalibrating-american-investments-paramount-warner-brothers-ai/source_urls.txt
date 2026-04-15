@@ -1,0 +1,13 @@
+# Source URLs for: https://www.dropsitenews.com/p/gulf-funds-recalibrating-american-investments-paramount-warner-brothers-ai
+#
+# Add one URL per line — these are the pages the article quotes from.
+# Lines starting with # are ignored.  Blank lines are ignored.
+#
+# Example:
+# https://www.nytimes.com/2026/01/01/example.html
+# https://bsky.app/profile/user.bsky.social/post/abc123
+# https://x.com/user/status/1234567890
+
+# --- auto-detected ---
+# auto-detected (a[href] smart-quoted text)
+https://houseofsaud.com/pif-five-year-strategy-humain-ai-fii-miami/

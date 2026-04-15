@@ -1,0 +1,120 @@
+Skip to content
+Reporting Global Tech Stories
+GlobalPolitics
+
+IDEAS
+
+The Gulf was Silicon Valley’s bet on the future. Trump has put it in the crosshairs
+
+The same choke points that made the Gulf the world’s energy crossroads now threaten its role as the nerve center of the AI age.
+
+By BOBBY GHOSH
+
+Bobby Ghosh is a geopolitics analyst and commentator, formerly of Time magazine and Bloomberg.
+
+23 MARCH 2026
+Rest of World/iStock
+IDEAS
+The Gulf was Silicon Valley’s bet on the future. Trump has put it in the crosshairs
+By BOBBY GHOSH
+>
+IDEAS
+Arguments, opinions and essays from a global perspective.
+
+Wars have always targeted the infrastructure of their age. Medieval armies burned granaries. Modern ones target communications and energy installations.
+
+The Iranian regime has been true to historical form. Under attack by the U.S. and Israel, it has been striking back at the oil and gas infrastructure of its Gulf neighbors, and has closed the Strait of Hormuz — the choke point through which a fifth of the world’s oil supply normally flows. The energy markets understand this kind of damage; they have priced it in for decades.
+
+But Iran has clearly read the new playbook.
+
+When its drones struck three Amazon Web Services data centers in the United Arab Emirates and Bahrain on March 1 — the first confirmed military attack on a hyperscale cloud provider in history — Tehran was not lashing out blindly. It was making a calculated statement about the 21st century’s most valuable infrastructure.
+
+The message was simple, and it landed: The cloud has an address, and that address can burn.
+
+The cloud has an address, and that address can burn.
+
+The oil markets have been watching Hormuz. Far fewer eyes have been on the server halls. But these deserve more attention, because the implications of their destruction extend far beyond Amazon’s repair bills or the disrupted banking apps and stalled delivery platforms that left residents of Dubai and Abu Dhabi momentarily paralyzed.
+
+Iran’s drones didn’t just strike a set of server farms, they struck an assumption — the foundational premise on which the U.S. and Silicon Valley had constructed one of the most ambitious technology partnerships in history.
+
+That assumption was stability. And Washington is the one that shattered it.
+
+Over the past two years, a remarkable convergence has taken shape between the Gulf and the global artificial intelligence industry. The numbers alone are staggering: Microsoft committed $15 billion to the UAE by 2029; Amazon pledged $5 billion for an AI hub in Riyadh; Nvidia partnered with Saudi Arabia’s state-backed Humain to supply up to 600,000 graphics processing units; OpenAI, Oracle, and Abu Dhabi’s G42 announced Stargate UAE, a planned 5-gigawatt campus in Abu Dhabi that would be the largest AI facility outside the U.S.
+
+When President Donald Trump toured the region last May and came home with $2.2 trillion in investment pledges, it felt like the capstone of a new geopolitical architecture.
+
+The logic was compelling. The Gulf sits at the geographic crossroads of Europe, Asia, and Africa, making it a natural hub for data traffic serving billions of people across three continents. It has abundant energy in comparison to America’s own grid, which is struggling to power the AI buildout at home.
+
+The region has sovereign wealth funds of staggering depth and ambition to match: The UAE’s MGX had joined OpenAI and SoftBank on the $500 billion Stargate project; Saudi Arabia’s Public Investment Fund had committed tens of billions to global AI ventures.
+
+The deal looked good for everyone. Silicon Valley got energy, capital, and market access. The Gulf got chips, cloud infrastructure, and a fast-track to economic diversification beyond oil.
+
+Then Trump decided to go to war with Iran, and the whole elegant architecture met a drone.
+
+The most damning thing about what has happened is not that the risk was unforeseeable. It is that it was foreseen — and ignored.
+
+Analysts at the Center for Strategic and International Studies had warned explicitly that in previous Middle Eastern conflicts, adversaries targeted pipelines and refineries. In the compute era, they argued in a paper published just weeks before the war, the same logic would apply to data centers and fiber choke points.
+
+The question was not whether this would happen, but when.
+
+Washington’s response was to build a security framework designed to keep Nvidia chips out of Chinese hands, not Iranian missiles out of server halls.
+
+The deal looked good for everyone. Then Trump decided to go to war with Iran.
+
+The Pax Silica initiative, launched as recently as January, brought the UAE and Qatar into a U.S.-led effort focused on semiconductor supply chains and export controls. It said nothing about the kinetic defense of the physical infrastructure those chips would power.
+
+“U.S. government and industry leaders have prioritized expansion over kinetic risk mitigation,” Sam Zabin, a fellow at CSIS, told Rest of World. Ali Bakir, an assistant professor of international affairs at Qatar University, was more direct: “The security frameworks underpinning the U.S.-UAE AI partnership appear to have focused on supply chain control and geopolitical alignment, not on physical defense during high-intensity conflict.”
+
+It was, to put it charitably, a significant oversight. Washington spent years worrying about the wrong threat in the wrong direction.
+
+The physical damage so far is serious but recoverable. Amazon’s UAE region lost two of its three availability zones when multiple data centers went down simultaneously — a scenario its redundancy architecture was explicitly not designed to handle. Banks, payment platforms, and enterprise software went dark. AWS has advised customers to migrate workloads away from the region, and is rebuilding. That is fixable, in time.
+
+What is harder to fix is the digital geography of the Gulf.
+
+Seventeen submarine cables pass through the Red Sea, carrying the majority of data traffic between Europe, Asia, and Africa. Additional cables run through the Strait of Hormuz. When a cable breaks in peacetime, repair ships arrive within weeks. In an active war zone, they cannot safely operate at all.
+
+The sovereign wealth question deserves more careful analysis than the most alarming headlines suggest.
+
+These are not small funds that can be depleted by a few weeks of conflict. The Abu Dhabi Investment Authority and Mubadala are designed, as economist Brett Rowley has noted, to “withstand volatility rather than respond to it.”
+
+Saudi Arabia’s Public Investment Fund, turbocharged by oil revenues that have climbed sharply since the Strait of Hormuz was threatened, may actually find itself with more capital to deploy, not less — though analysts note it has already signaled a 15% cut in capital spending as it reassesses its priorities.
+
+The more plausible risk is not a wholesale reversal of Gulf AI investment, but a cooling. Several major data center projects in the UAE are already reportedly under review. Companies that had been preparing to break ground are instead asking what war-risk insurance looks like, and discovering, to their dismay, that standard commercial policies exclude acts of war.
+
+The Gulf states — Saudi Arabia, the UAE, Qatar — have so far defended their own territory with remarkable effectiveness, intercepting hundreds of Iranian missiles and drones over a single weekend.
+
+“The region remains attractive to companies in terms of capital from sovereign wealth funds, government buy-in, available energy, and its role as a gateway to markets in the global south,” Tess deBlanc-Knowles, senior director at the Atlantic Council, told CNBC. Governments across the Gulf, she said, would be racing to reassure U.S. companies and hold them to their commitments.
+
+India is the most obvious beneficiary of uncertainty in the Gulf — closer in latency than Europe, rapidly expanding its data center capacity, and connected to the Gulf by existing submarine cable routes. Northern Europe and Southeast Asia will also see accelerated interest.
+
+But these are complements to the Gulf, not replacements. The sunk costs in already operational Gulf facilities, the power contracts, the land agreements, the fiber connectivity — none of that moves easily. Hyperscalers will not abandon what they have built.
+
+The deeper question is what happens to what has not yet been built.
+
+Bobby Ghosh is a geopolitics analyst and commentator, formerly of Time magazine and Bloomberg.
+Read more stories
+GLOBAL DISPATCH
+Chinese entrepreneurs should go global before they go viral
+
+The Meta-Manus deal holds lessons for U.S. investors and Chinese founders alike.
+
+By VIOLA ZHOU
+FEATURES
+A Mexican surveillance giant you’ve never heard of is now watching the U.S. border
+
+Grupo Seguritech quietly built a $1.27 billion surveillance empire. Now it's expanding into the U.S. and across Latin America.
+
+By JOSÉ OLIVARES
+IN FRAME
+Winners of the 2026 Photo Contest
+
+Photographers all over the world submitted images showcasing unique views of technology.
+
+By KATE BUBACZ and MUNIRA MUTAHER
+ABOUT US
+PRIVACY POLICY
+PLATFORMS
+NEWSLETTER
+DONATE
+CONTACT
+© 2026 REST OF WORLD

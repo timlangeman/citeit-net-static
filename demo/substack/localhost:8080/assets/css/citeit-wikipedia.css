@@ -1,0 +1,397 @@
+
+    q {
+        quotes: "" "" "" "";
+    }
+
+    q, q a, span.q {
+        color: #333;
+        text-decoration: none;
+        border-bottom: 0px dotted;
+        background-color: #d6e8ec;
+    }
+
+    q a:visited {
+        color: #333;
+        background-color: #d6e8ec;
+        text-decoration: none;
+    }
+
+    q a:hover {
+        color: #333;
+        background-color: #d6e8ec;
+        text-decoration: #0645ad underline;
+    }
+
+    div.quote_arrows a,  a.citeit_source_domain {
+        color: #0ebfe9;
+    }
+
+    /* wiki markup */
+    div#citeit_video {
+        background-color: #eee;
+        padding-bottom: 30px;
+    }
+
+    div#citeit_vide h2 {
+        font-size: 125%;
+    }
+
+    div.highlight {
+        background-color: #FFFDD0; /* cream */
+        font-size: 135%;
+        margin-bottom: 30px;
+		padding: 10px;
+        border: 1px solid #f8ff75;
+    }
+
+	div.highlight h2 {
+		font-size: 105%;
+	}
+
+	div.highlight h3 {
+		font-size: 95%;
+	}
+
+	div.highlight h4 {
+		font-size: 85%;
+	}
+
+	div.highlight ul {
+		font-size: 75%;
+	}
+
+    div.highlight_start {
+        background-color: yellow; 
+        border: 1px solid #f8ff75;
+        padding: 3px 3px 1px 5px;
+    }
+
+    span.quote {
+        background-color: rgb(214, 232, 236);
+    }
+
+
+    blockquote.quote_text:before, blockquote.quote_text:after {
+        font-size: 175%;
+    }
+
+    h4.notice {
+        margin-top:-5px;
+        color: #999;
+    }
+
+    span.lookfor_quote {
+        background-color: #d6e8ec;
+    }
+
+    a.underline {
+        text-decoration: underline;
+    }
+
+    .double_underline {
+        text-decoration-line: underline;
+        text-decoration-style: double;
+        font-style: italic;
+    }
+
+    .text-icon {
+        margin-bottom: -6px !important;  /* 4px
+        height: 27px; /* 16px; */
+        width: 27px; /* 16px; *
+    }
+
+    .youtube-icon {
+        display: inline !important;
+        margin: -7px 2px -5px 7px !important;
+    }
+      
+
+    /*********************************************** Classify Citation Errors based on Type ****************************************/
+
+
+    /*** Source Document is a PDF image that needs to be scanned with OCR ***/
+    .citeit-pdf-scanned, .citeit-pdf-scanned a, .citeit-pdf-scanned a:visited {
+        background-color: #fff; 
+        color: #000;
+    }
+
+
+x    /* Matches should prioritize quotes whose source is in quotation marks */
+    /* Matches text but displays the quote rather than the original in popup 
+		 Example: 			"[i]s at its heart a family issue"
+		 Wikipedia article: 	https://en.wikipedia.org/wiki/Hillary_Clinton
+    */
+
+x    /*** Non-Matched Examples 
+        Wikipedia artcie: Hillary Clinton
+        "possible that hostile actors gained access to Secretary Clinton's personal email account"
+    ***/
+
+	/*** Matches except for punctuation changes: Eample: quoted text ends in a comma, but Wikipedia quote uses a period ***/
+	.citeit-punctuation-change, q.citeit-punctuation-change a, .citeit-punctuation-change a:visited {
+        background-color: #fff;  /* #ff99ff;*/
+        color: #000;
+	}
+
+	/*** Incorrect or Extra Text in Quoted text returned 
+		Returned Quote: " a cong "
+		Source Quote:   "a con,"
+		Wikipedia Article: Hillary Clinton
+
+ 		Example: "I have not in cloud d every detail from my conversations with the President"
+		Wikipedia article: Donald Trump
+
+	****/
+
+
+	/*** Error in Returned Text ***
+		Quote: 	  Clinton asserted President Trump's 2018 budget proposal was "a con" for underfunding domestic programs
+		Returned: Clinton called Mr. Trump's 2018 budget proposal " a cong " which she said would underfund public education
+		Wikipedia: Hillary Clinton
+	***/
+	.citeit-error-quote-returned, .citeit-error-quote-returned a, .citeit-error-quote-returned a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Slight character errors in Surrounding Context 
+		Example: "adding that her mother Dorothy "made sure I learned [these] words from our Methodist faith"
+		Wikipedia Article: Hillary
+	***/
+	.citeit-error-quote-context-edges, .citeit-error-quote-context-edges a, .citeit-error-quote-context-edges a:visited  {
+        background-color: #fff; 
+        color: #000;
+	}
+
+    /*** Error of Unknow Type:    ***/
+    .citeit-error-unknown, .citeit-error-unknown a, .citeit-error-unknown a:visited {
+        background-color: #fff; /* #ff99ff;*/
+        color: #000;
+	}
+
+	/*** Soure URL returns 404 error ***/
+	.citeit-error-404, .citeit-error-404 a, .citeit-error-404 a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Quote not found in first footnote, but in second or subsequent footnote 
+		Wikipedia Article: https://en.wikipedia.org/wiki/Hillary_Clinton
+		Quote: "In July 2016, she "committed" to introducing a U.S. constitutional amendment"
+
+		1st Source: not found
+		1st Source URL: http://www.cnn.com/2016/07/16/politics/hillary-clinton-campaign-finance/
+
+		2nd Source:	Hillary Clinton committed Saturday
+		2nd Source URL: https://www.politico.com/story/2016/07/hillary-clinton-citizens-united-225658
+	*/
+	.citeit-nth-footnote, .citeit-nth-footnote a, .citeit-nth-footnote a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Source is YouTube URL ***/
+	.youtube-video, .youtube-video a, .youtube-video a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/* Wikipedia Image Legend
+		Example: "Fact-checkers from The Washington Post,[839] the Toronto Star,[840] and CNN[841] compiled data on 'false or misleading claims' (orange background), and 'false claims' (violet foreground), respectively."
+
+		Wikipedia article: Donald Trump
+	*/
+	.wiki-legend, .wiki-legend a, .wiki-legend a:visited{
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Internal Wikipedia Note:
+		Example: "imaginary discussions"
+		Wikipedia Article: Hiilary Clinton
+	***/
+	.wiki-note, q.wiki-note a, .wiki-note a:visited{
+        background-color: #fff; 
+        color: #000;
+	}
+	
+	/*** Wikipedia Source Record Contains Multiple Sources 
+		Example:  Calabresi, Massimo (November 7, 2011). "Hillary Clinton and the Rise of Smart Power". Time. pp. 26â€“31. 
+ 				  See also "TIME magazine editor explains Hillary Clinton's 'smart power'". CNN. October 28, 2011.
+	***/
+	.wiki-multiple-source, q.wiki-multiple-source a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** An auotmated bot would likely pull an inappropriate match ***/
+	.citeit-automation-error, .citeit-automation-error a, .citeit-automation-error a:visited {
+		/* should we return multiple matches and return them all to editor or reader? */
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** The Source is referred to by a short name which referrences the section: "References cited ***/
+	.citeit-reference-short-name, .citeit-reference-short-name a, .citeit-reference-short-name a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Match is not found because Quoted text writes number out as text rather than numbers */
+	.citeit-numbers-written-out, q.citeit-numbers-written-out a, q.citeit-numbers-written-out a:visited  {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** Quote text needed to be replaced from source ***/
+	.citeit-text-from-source, .citeit-text-from-source a, .citeit-text-from-source a:visited  {
+        background-color: #fff; 
+        color: #000;
+	}
+
+	/*** A later match (2nd or 3rd) would be preferrable ****/
+	.citeit-later-match, .citeit-later-match a, q.citeit-later-match a:visited {
+        background-color: #fff; 
+        color: #000;
+	}
+
+    /*** A word is added to the quote using brackets: 
+		Example:  "[although] "we did not find clear evidence that Secretary Clinton or her colleagues intended to violate laws "
+		Wikipedia Article: https://en.wikipedia.org/wiki/Hillary_Clinton#cite_note-355
+	***/
+    .citeit-feature-added-word, .citeit-feature-added-word a, .citeit-feature-added-word a:visited {
+        background-color: #fff; /* #ff99ff;*/
+        color: #000;
+    }
+
+    /*** A word is added??? to the quote using brackets: ***/
+    .citeit-feature-ommitted-word, .citeit-feature-ommitted-word a, .citeit-feature-ommitted-word a:visited {
+        background-color: #fff; /* #ff99ff;*/
+        color: #000;
+    }
+
+	/*** The original source includes text that is not in the citing quote
+		Quote: "Let me repeat what I have repeated for many months now, I never received nor sent any material that was marked classified."
+		Original: "Let me just repeat what I have repeated for many months now," she said in the interview on "Meet the Press." "I never received nor sent any material that was marked classified"
+
+		Wikipedia Article: https://en.wikipedia.org/wiki/Hillary_Clinton
+		Original URL: https://abcnews.go.com/Politics/fbi-investigation-sheds-light-hillary-clintons-past-email/story?id=40350589
+	 ***/
+	.citeit-ommit-text-from-source, .citeit-ommit-text-from-source a, .citeit-ommit-text-from-source a:visited {
+        background-color: #fff;
+        color: #000;
+	}
+
+    /*** Quote is interrupted by ellipses and then later continued 
+		Quote: "There has never been a better time in history to be born a woman ... this data shows just how far we still have to go."
+
+		Wikipedia Article: https://en.wikipedia.org/wiki/Hillary_Clinton
+	***/
+    .citeit-feature-elipses, .citeit-feature-elipses a, citeit-feature-elipses a:visited {
+        background-color: #fff; /* #ff99ff;*/
+        color: #000;
+    }
+
+    /*** Although Quotation Marks are Used, the Quote is a Title or Term, not a quote. 
+         TODO: remove CiteIt link from quote so normal link is visible  
+
+		Examples: "filegate", "Hillary Doctrine", "regulating Wall Street"
+		Wikipedia article: https://en.wikipedia.org/wiki/Hillary_Clinton
+    ***/
+    .citeit-non-quote, .citeit-non-quote a, .citeit-non-quote a:visited {
+        background-color: #fff; /* #996600;*/
+        color: #000;
+    }
+
+    /*** Publication that is not available Online without a ISBN ***/
+    .citeit-offline-no-isbn, .citeit-offline-no-isbn a:visited  {
+        background-color: #fff; /* #3366ff */
+        color: #000;
+    }
+
+    /*** A Book that is not available Online ***/
+    .citeit-offline-isbn, .citeit-offline-isbn a, .citeit-offline-isbn a:visited  {
+        background-color: #fff; /* #3366ff */
+        color: #000;
+    }
+
+    /*** Document requires a subscription ***/
+    .citeit-paywall, .citeit-paywall a, .citeit-paywall a:visited {
+        background-color: #fff; /* #666699; */
+        color: #000;
+    }
+
+    /*** Academic document requires a subscription ***/
+    .citeit-edu, q.citeit-edu a, .citeit-edu a:visited  {
+        background-color: #fff; /* #6600cc; */
+        color: #000;
+    }
+
+    /*** Twitter generates its HTML using javascript, which I hope a future version of CiteIt can handle ***/
+    .citeit-twitter, .citeit-twitter a, .citeit-twitter a:visited {
+        background-color:  #fff; /* #3366ff; */
+        color: #000;
+    }
+
+    /*** Source is available to borrow electronically through Archive.org ***/
+    .citeit-archive-org-borrow, .citeit-archive-org-borrow a, .citeit-archive-org-borrow a:visited  {
+        background-color: #fff; /* #6699ff; */
+        color: #000;
+    }
+
+    /*** Archive.org generates its HTML using javascript, which I hope a future version of CiteIt can handle ***/
+    .citeit-archive-org, .citeit-archive-org a, .citeit-archive-org a:visited  {
+        background-color: #fff; /* #33ccff; */
+        color: #000;
+    }
+
+    /*** A Match is found, but no Context is Returned ***/
+    .citeit-no-context, .citeit-no-context a, .citeit-no-context a:visited {
+        background-color: #fff; /* #ff6600; */
+        color: #000;
+    }
+
+    /*** An Alternative Source is uses Instead because it provides Better Context.  Requires creating a new Footnote ***/
+    .citeit-better-link, .citeit-better-link a, .citeit-better-link a:visited {
+        /* background-color:  green; */
+    }
+
+    /*** The Quote was not found in the Cited Sourcee ***/
+    .citeit-no-match, .citeit-no-match a, .citeit-no-match a:visited {
+        background-color:  #fff; /* #cc0000; */
+        color: #000;
+    }
+
+    /*** Context or Quote Match is Returned, but Incorrect ***/
+    .citeit-error-context, .citeit-error-context a, .citeit-error-context a:visited {
+        background-color: #fff; /* #ff3399; */
+        color: #000;
+    }
+
+    /*** The Citation is a Quote of a Quote, without the original Context ***/
+    .citeit-naked-quote, .citeit-naked-quote a, .citeit-naked-quote a:visited {
+        Background-color:  #fff; /* #3366FF; */
+    }
+
+
+    div.show_errors {
+        float: right;
+        padding: 5px;
+        background-color: blue;
+        color: white;	    
+    }
+
+    div.show_errors a, div.show_errors a:visited {
+        color: white;	    
+        text-decoration: underline; 
+    }
+
+    /*** Error: no context found, but displays background-color anyway: add class('citeit-no-match') ****
+
+        Example: "difficult and exciting adventure"
+        Wikipedia article: Hillary Clinton
+
+
+        Example: "I have not in cloud d every detail from my conversations with the President"
+	    Wikipedia article: Donald Trump
+    ****/
