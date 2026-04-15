@@ -32,6 +32,240 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import urlparse
+
+
+# ---------------------------------------------------------------------------
+# CDN / tracking domain exclusion list (used by auto_detect_source_urls)
+# ---------------------------------------------------------------------------
+
+CDN_TRACKING_DOMAINS = frozenset([
+    "substackcdn.com",
+    "substack.com",
+    "googleapis.com",
+    "googletagmanager.com",
+    "google-analytics.com",
+    "googleadservices.com",
+    "googlesyndication.com",
+    "doubleclick.net",
+    "gstatic.com",
+    "beehiiv.com",
+    "cloudflare.com",
+    "cloudflareinsights.com",
+    "jsdelivr.net",
+    "unpkg.com",
+    "cdnjs.cloudflare.com",
+    "gravatar.com",
+    "wp.com",
+    "wordpress.com",
+    "disqus.com",
+    "disquscdn.com",
+    "stripe.com",
+    "plausible.io",
+    "segment.com",
+    "intercomcdn.com",
+    "givebutter.com",
+])
+
+_SMART_QUOTE_CHARS = frozenset("\u201c\u201d\u2018\u2019")
+_BARE_URL_RE = re.compile(r"https?://[^\s<>\"']+")
+
+# Anchor inserted by run_inject_citeit — <div id="citeit-urls"> follows it
+_CITEIT_FOOTER_COMMENT = "<!-- ################ Begin: CiteIt.net Dependencies"
+_CITEIT_URLS_DIV_RE = re.compile(
+    r'<div id=["\']citeit-urls["\'][^>]*>(.*?)</div>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+
+# ---------------------------------------------------------------------------
+# Auto-detection of source URLs from HTML
+# ---------------------------------------------------------------------------
+
+def _is_cdn_url(parsed_url, article_domain):
+    """Return True if URL should be excluded (CDN, tracker, or same domain)."""
+    domain = parsed_url.netloc.lower()
+    bare_article = article_domain.lower().lstrip("www.")
+    bare_domain = domain.lstrip("www.")
+    if bare_domain == bare_article:
+        return True
+    for cdn in CDN_TRACKING_DOMAINS:
+        if bare_domain == cdn or bare_domain.endswith("." + cdn):
+            return True
+    return False
+
+
+def auto_detect_source_urls(html_file, article_domain):
+    """
+    Scan html_file for source URLs within <div id="entry">.
+
+    Extracts (in priority order):
+      1. <q cite="URL">          — cite attribute
+      2. <blockquote cite="URL"> — cite attribute
+      3. <a href="URL">          — only when link text contains smart quotes
+      4. Bare https?:// URLs     — visible text nodes only (not script/style)
+
+    Filters out CDN/tracking domains and the article's own domain.
+    Returns list of (url, label) tuples in discovery order, deduplicated.
+    """
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        print("  Warning: beautifulsoup4 not installed; skipping auto-detect.")
+        print("  Install with: pip install beautifulsoup4")
+        return []
+
+    with open(html_file, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Use article body only — tightest scope, excludes nav/header/footer noise.
+    # Priority: div.body.markup (Substack) → <article> → div#entry → <body>
+    container = (
+        soup.find("div", class_="body markup")
+        or soup.find("article")
+        or soup.find("div", id="entry")
+        or soup.find("body")
+        or soup
+    )
+
+    seen = set()
+    results = []
+
+    def add(raw_url, label):
+        raw_url = raw_url.strip().rstrip(".,;:)\"'")
+        if not raw_url or raw_url.startswith("#"):
+            return
+        try:
+            parsed = urlparse(raw_url)
+        except Exception:
+            return
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            return
+        if _is_cdn_url(parsed, article_domain):
+            return
+        if raw_url not in seen:
+            seen.add(raw_url)
+            results.append((raw_url, label))
+
+    # 1 & 2: cite attributes on <q> and <blockquote>
+    for tag in container.find_all(["q", "blockquote"]):
+        cite = tag.get("cite", "").strip()
+        if cite:
+            add(cite, tag.name + "[cite]")
+
+    # 3: all <a href> directly inside the article body container
+    for a in container.find_all("a", href=True):
+        text = a.get_text()
+        label = (
+            "a[href] smart-quoted text"
+            if any(c in text for c in _SMART_QUOTE_CHARS)
+            else "a[href] inline citation"
+        )
+        add(a["href"], label)
+
+    # 4: bare URLs in visible text nodes (skip <script> / <style>)
+    for text_node in container.find_all(string=True):
+        parent_name = getattr(text_node.parent, "name", "")
+        if parent_name in ("script", "style"):
+            continue
+        for raw_url in _BARE_URL_RE.findall(text_node):
+            add(raw_url, "bare URL in text")
+
+    return results
+
+
+def load_source_urls_from_html(html_file):
+    """
+    Read source URLs from <div id="citeit-urls"> in the HTML file.
+
+    Returns a list of URL strings (one per non-blank, non-comment line).
+    Returns an empty list if the div is absent.
+    """
+    with open(html_file, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    m = _CITEIT_URLS_DIV_RE.search(html)
+    if not m:
+        return []
+
+    urls = []
+    for line in m.group(1).splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            try:
+                parsed = urlparse(line)
+                if parsed.scheme in ("http", "https") and parsed.netloc:
+                    urls.append(line)
+            except Exception:
+                pass
+    return urls
+
+
+def write_citeit_urls_div(html_file, detected_urls):
+    """
+    Insert or update <div id="citeit-urls"> in html_file.
+
+    Location: immediately after the '<!-- #### Begin: CiteIt.net Dependencies'
+    comment and before <div id='citeit_container'>.
+
+    On update, merges new URLs with any already present (preserves existing,
+    appends new ones with '# auto-detected' comment).
+    """
+    with open(html_file, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    # Collect URLs already in the div (if present)
+    existing_match = _CITEIT_URLS_DIV_RE.search(html)
+    existing_urls = []
+    if existing_match:
+        for line in existing_match.group(1).splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                existing_urls.append(line)
+
+    existing_set = set(existing_urls)
+    new_urls = [u for u in detected_urls if u not in existing_set]
+    all_urls = existing_urls + new_urls
+
+    # Build the div content
+    lines = []
+    for u in existing_urls:
+        lines.append("\t" + u)
+    if new_urls:
+        lines.append("\t# auto-detected")
+        for u in new_urls:
+            lines.append("\t" + u)
+    inner = "\n".join(lines)
+    div_html = f'\t<div id="citeit-urls">\n{inner}\n\t</div>\n'
+
+    if existing_match:
+        # Replace the existing div
+        html = html[:existing_match.start()] + div_html + html[existing_match.end():]
+    else:
+        # Insert after the Begin: CiteIt.net Dependencies comment line
+        anchor_pos = html.find(_CITEIT_FOOTER_COMMENT)
+        if anchor_pos == -1:
+            # Fallback: insert just before citeit_container
+            anchor = "<div id='citeit_container'>"
+            anchor_pos = html.find(anchor)
+            if anchor_pos == -1:
+                print("  Warning: could not find insertion point for citeit-urls div")
+                return
+        else:
+            # Advance to end of that comment line
+            eol = html.find("\n", anchor_pos)
+            anchor_pos = eol + 1 if eol != -1 else anchor_pos
+
+        html = html[:anchor_pos] + div_html + html[anchor_pos:]
+
+    with open(html_file, "w", encoding="utf-8") as f:
+        f.write(html)
+
+    added = len(new_urls)
+    total = len(all_urls)
+    print(f"  citeit-urls div: {total} URL(s) total, {added} newly added")
 
 
 # ---------------------------------------------------------------------------
