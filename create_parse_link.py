@@ -7,7 +7,7 @@ End-to-end pipeline for a Substack (or any) article URL:
   1. Download  — wget -p -k <url> into demo/substack/
   2. Rename    — move the downloaded file to <slug>/index.html
   3. Localize  — download remote assets and rewrite references for offline use
-  4. Match     — map smart-quoted passages to source URLs
+  4. Match     — map smart-quoted passages to source URLs*9
   5. Annotate  — wrap matched passages with <q cite="url">...</q>
   6. CiteIt    — inject jQuery/CiteIt header+footer deps; add data-citeit-citing-url
 
@@ -45,6 +45,7 @@ import subprocess
 import sys
 import time
 from urllib.parse import urlparse
+
 
 # ---------------------------------------------------------------------------
 # CiteIt dependency blocks injected in Step 6

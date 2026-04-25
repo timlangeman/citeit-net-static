@@ -82,16 +82,39 @@ _CITEIT_URLS_DIV_RE = re.compile(
 # Auto-detection of source URLs from HTML
 # ---------------------------------------------------------------------------
 
-def _is_cdn_url(parsed_url, article_domain):
-    """Return True if URL should be excluded (CDN, tracker, or same domain)."""
+def _is_cdn_url(parsed_url, article_domain, article_path=""):
+    """Return True if URL should be excluded (CDN, tracker, or same-page link).
+
+    Same-domain links to *other* articles are kept — only the exact article
+    URL (and its /comments, share, utm variants) is excluded.
+    PDF API links (/api/v1/file/...) are also excluded.
+    """
     domain = parsed_url.netloc.lower()
-    bare_article = article_domain.lower().lstrip("www.")
     bare_domain = domain.lstrip("www.")
-    if bare_domain == bare_article:
-        return True
+
+    # Exclude CDN / tracking domains
     for cdn in CDN_TRACKING_DOMAINS:
         if bare_domain == cdn or bare_domain.endswith("." + cdn):
             return True
+
+    # Exclude Substack API file links (not useful as sources)
+    path = parsed_url.path.lower()
+    if "/api/v1/file/" in path:
+        return True
+
+    # Exclude links that point back to the same article
+    # (comments, share UTM variants, anchor-only)
+    if article_path:
+        bare_article_path = article_path.rstrip("/")
+        link_path = parsed_url.path.rstrip("/")
+        same_domain = bare_domain == article_domain.lower().lstrip("www.")
+        if same_domain and (
+            link_path == bare_article_path
+            or link_path == bare_article_path + "/comments"
+            or parsed_url.query  # utm_source=substack etc.
+        ):
+            return True
+
     return False
 
 
@@ -130,6 +153,16 @@ def auto_detect_source_urls(html_file, article_domain):
         or soup
     )
 
+    # Derive the article's own path for same-page exclusion
+    # e.g. html_file = ".../p/luigi-inspired-arsonist-threatened/index.html"
+    # → article_path = "/p/luigi-inspired-arsonist-threatened"
+    parts = html_file.replace("\\", "/").split("/")
+    try:
+        p_idx = parts.index("p")
+        article_path = "/p/" + parts[p_idx + 1]
+    except (ValueError, IndexError):
+        article_path = ""
+
     seen = set()
     results = []
 
@@ -143,7 +176,7 @@ def auto_detect_source_urls(html_file, article_domain):
             return
         if parsed.scheme not in ("http", "https") or not parsed.netloc:
             return
-        if _is_cdn_url(parsed, article_domain):
+        if _is_cdn_url(parsed, article_domain, article_path):
             return
         if raw_url not in seen:
             seen.add(raw_url)
@@ -314,6 +347,10 @@ def strip_html_tags(s):
 def normalize_for_match(s):
     """Aggressively normalize text for fuzzy matching."""
     s = strip_html_tags(s)
+    # Expand editorial bracket-replacements: [T]hey → They, [S]hould → Should
+    s = re.sub(r"\[([A-Za-z])\]", r"\1", s)
+    # Strip editorial annotations: [unintelligible], [sic], [inaudible] → space
+    s = re.sub(r"\[[^\]]{1,30}\]", " ", s)
     s = s.lower()
     s = re.sub(r"[^\w\s]", "", s)
     s = re.sub(r"\s+", " ", s).strip()
@@ -426,6 +463,20 @@ def render_with_playwright(url, timeout=30000):
         return None
 
 
+def _find_local_pdf_txt(pdf_url):
+    """Return path to a local .txt companion for a PDF URL, or None.
+
+    Looks for <project_root>/<url_path_without_extension>.txt
+    e.g. https://www.citeit.net/assets/pdf/foo.pdf
+         → <root>/assets/pdf/foo.txt
+    """
+    project_root = _find_project_root()
+    parsed = urlparse(pdf_url)
+    local_path = parsed.path.lstrip("/")
+    local_txt = os.path.join(project_root, os.path.splitext(local_path)[0] + ".txt")
+    return local_txt if os.path.isfile(local_txt) else None
+
+
 def fetch_source_text(url, cache_dir):
     """Fetch a source URL and extract its plain text content.
 
@@ -435,9 +486,14 @@ def fetch_source_text(url, cache_dir):
     Caches rendered text to avoid re-downloading on subsequent runs.
     Returns (plain_text, fetched_url) or (None, None).
     """
-    # Check if it's a PDF — skip
+    # Check if it's a PDF — try local .txt companion first
     if url.lower().endswith(".pdf"):
-        print("    Skipping PDF source")
+        local_txt = _find_local_pdf_txt(url)
+        if local_txt:
+            print(f"    Using local .txt companion: {os.path.basename(local_txt)}")
+            with open(local_txt, "r", encoding="utf-8", errors="replace") as f:
+                return f.read(), url
+        print("    Skipping PDF source (no local .txt companion found)")
         return None, None
 
     # Check cache

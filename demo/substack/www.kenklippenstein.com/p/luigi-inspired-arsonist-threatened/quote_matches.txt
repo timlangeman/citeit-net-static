@@ -1,0 +1,114 @@
+QUOTE[0]: "Our Way of Life,"
+FULL_QUOTE: Our Way of Life,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[1]: "Our Way of Life,"
+FULL_QUOTE: Our Way of Life,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[2]: "Our Way of Life,"
+FULL_QUOTE: Our Way of Life,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[3]: "Our Way of Life,"
+FULL_QUOTE: Our Way of Life,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[4]: "All you had to do was pay us enough to live,"
+FULL_QUOTE: All you had to do was pay us enough to live,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[5]: "[T]hey had it coming … fucking eight hours, six days … stuck paying rent on a..."
+FULL_QUOTE: [T]hey had it coming … fucking eight hours, six days … stuck paying rent on a bullshit ass apartment that I can't afford to fucking live … pedophiles out here fucking children, profiting off … fucking wars.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[6]: "compared himself to Luigi Mangione"
+FULL_QUOTE: compared himself to Luigi Mangione
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: word_overlap
+
+QUOTE[7]: "the 2024 assassination of a senior healthcare executive"
+FULL_QUOTE: the 2024 assassination of a senior healthcare executive
+SOURCE: https://www.kenklippenstein.com/p/trumps-nspm-7-labels-common-beliefs
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[8]: "[S]hould have paid us enough to fucking live."
+FULL_QUOTE: [S]hould have paid us enough to fucking live.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[9]: "1% is a fucking joke."
+FULL_QUOTE: 1% is a fucking joke.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[10]: "If you're not going to pay us enough to fucking live or afford to live, at le..."
+FULL_QUOTE: If you're not going to pay us enough to fucking live or afford to live, at least pay us enough not to do this shit.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[11]: "Billionaires profiting off of war ..."
+FULL_QUOTE: Billionaires profiting off of war ...
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[12]: "All you had to do was pay us enough to live. Pay us more of the value WE brin..."
+FULL_QUOTE: All you had to do was pay us enough to live. Pay us more of the value WE bring. Not corporate. Didn't see the share holders picking up a shift.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[13]: "[T]hey had it coming … fucking eight hours, six days, [unintelligible] stuck ..."
+FULL_QUOTE: [T]hey had it coming … fucking eight hours, six days, [unintelligible] stuck paying rent on a bullshit ass apartment that I can't afford to fucking live … pedophiles out here fucking children, profiting off [unintelligible] fucking wars.
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[14]: "our way of life,"
+FULL_QUOTE: our way of life,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.75
+MATCH_METHOD: word_overlap
+
+QUOTE[15]: "Look, America is founded on free enterprise and capitalism. Anyone who attack..."
+FULL_QUOTE: Look, America is founded on free enterprise and capitalism. Anyone who attacks our values, our way of life, our system, which provides the best goods and services to the most people, we're gonna come after aggressively.
+SOURCE: UNMATCHED
+MATCH_SCORE: 0.00
+MATCH_METHOD: none
+
+QUOTE[16]: "class-based or economic grievances."
+FULL_QUOTE: class-based or economic grievances.
+SOURCE: https://www.kenklippenstein.com/p/leaked-doc-homeland-securitys-domestic
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
+QUOTE[17]: "Arson, to me, is a real head scratcher; I do not understand that somebody who..."
+FULL_QUOTE: Arson, to me, is a real head scratcher; I do not understand that somebody who is suspected of arson does something where they get no value out of it,
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 0.83
+MATCH_METHOD: word_overlap
+
+QUOTE[18]: "These bitches dirt cheap"
+FULL_QUOTE: These bitches dirt cheap
+SOURCE: https://www.citeit.net/assets/pdf/Chamel-Abdulkarim-Indictment.pdf
+MATCH_SCORE: 1.00
+MATCH_METHOD: normalized_substring
+
